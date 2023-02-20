@@ -3,13 +3,17 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.4.33213.308
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDK.Core", "NDK.Core\NDK.Core.csproj", "{8A22980C-E4FF-48BF-A065-08FCF21059BA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NDK.Core", "NDK.Core\NDK.Core.csproj", "{8A22980C-E4FF-48BF-A065-08FCF21059BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDK.Auth", "NDK.AUTH\NDK.Auth.csproj", "{1BB7DE8F-BBEB-48A4-A90D-85BBA19FFEDA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NDK.Auth", "NDK.AUTH\NDK.Auth.csproj", "{1BB7DE8F-BBEB-48A4-A90D-85BBA19FFEDA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDK.PublicAuth", "NDK.PublicAUTH\NDK.PublicAuth.csproj", "{0EFA1016-A489-4B6B-9F49-F6ECE35F01AA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NDK.PublicAuth", "NDK.PublicAUTH\NDK.PublicAuth.csproj", "{0EFA1016-A489-4B6B-9F49-F6ECE35F01AA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDK.Database", "NDK.Database\NDK.Database.csproj", "{4A109BA6-2122-449B-B907-0C0A4AA373C2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NDK.Database", "NDK.Database\NDK.Database.csproj", "{4A109BA6-2122-449B-B907-0C0A4AA373C2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDK.Query", "NDK.Query\NDK.Query.csproj", "{A62F2E3B-6BE0-4DC1-AB63-399C9555B0CB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDK.QueryAnalyser", "NDK.QueryAnalyser\NDK.QueryAnalyser.csproj", "{2FEE886E-1808-41C5-8CD4-99EE3B0AB21E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,14 @@ Global
 		{4A109BA6-2122-449B-B907-0C0A4AA373C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4A109BA6-2122-449B-B907-0C0A4AA373C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4A109BA6-2122-449B-B907-0C0A4AA373C2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A62F2E3B-6BE0-4DC1-AB63-399C9555B0CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A62F2E3B-6BE0-4DC1-AB63-399C9555B0CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A62F2E3B-6BE0-4DC1-AB63-399C9555B0CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A62F2E3B-6BE0-4DC1-AB63-399C9555B0CB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FEE886E-1808-41C5-8CD4-99EE3B0AB21E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FEE886E-1808-41C5-8CD4-99EE3B0AB21E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FEE886E-1808-41C5-8CD4-99EE3B0AB21E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FEE886E-1808-41C5-8CD4-99EE3B0AB21E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

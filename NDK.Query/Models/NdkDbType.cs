@@ -1,4 +1,4 @@
-﻿namespace NDK.Database.Models
+﻿namespace NDK.Query.Models
 {
     public enum NdkDbType
     {

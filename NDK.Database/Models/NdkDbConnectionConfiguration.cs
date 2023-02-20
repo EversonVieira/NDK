@@ -1,4 +1,4 @@
-﻿namespace Nedesk.Database.Models
+﻿namespace NDK.Database.Models
 {
     public class NdkDbConnectionConfiguration
     {

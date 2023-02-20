@@ -1,14 +1,14 @@
 ﻿using MySql.Data.MySqlClient;
-using Nedesk.Database.Interfaces;
-using Nedesk.Database.Models;
+using NDK.Database.Interfaces;
+using NDK.Database.Models;
 using System.Data.Common;
 using System.Data.SqlClient;
 
-namespace Nedesk.Database.Factories
+namespace NDK.Database.Factories
 {
     public class NdkDbConnectionFactory : INdkDbConnectionFactory
     {
-        private NdkDbConnectionConfiguration _configuration;
+        public NdkDbConnectionConfiguration _configuration { get; set; };
 
         public NdkDbConnectionFactory(NdkDbConnectionConfiguration configuration)
         {

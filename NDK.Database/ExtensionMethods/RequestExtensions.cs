@@ -1,6 +1,6 @@
 ﻿using Dapper;
 using NDK.Core.Models;
-using Nedesk.Database.Models;
+using NDK.Database.Models;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -8,14 +8,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Nedesk.Database.ExtensionMethods
+namespace NDK.Database.ExtensionMethods
 {
     public static class RequestExtensions
     {
 
         public static (string query, DynamicParameters parameters) GetRequestData(this NdkRequest request, string query, NdkDbConnectionConfiguration configuration)
         {
-            return (request.GetRequestSql(query,configuration).ToString(),
+            return (request.GetRequestSql(query, configuration).ToString(),
                     request.GetParameters(configuration));
         }
 
@@ -37,7 +37,7 @@ namespace Nedesk.Database.ExtensionMethods
 
             if (request.FiltersGroup.Any())
             {
-                foreach(var fg in request.FiltersGroup)
+                foreach (var fg in request.FiltersGroup)
                 {
                     parameters.AddDynamicParams(GetParametersByFilterGroup(fg, alias));
                 }
@@ -62,7 +62,7 @@ namespace Nedesk.Database.ExtensionMethods
 
             if (group.InternalGroups.Any())
             {
-                foreach(var g in group.InternalGroups)
+                foreach (var g in group.InternalGroups)
                 {
                     parameters.AddDynamicParams(GetParametersByFilterGroup(g, alias));
                 }
@@ -122,8 +122,8 @@ namespace Nedesk.Database.ExtensionMethods
                     NdkDbType.MYSQL => " LIMIT (@Page * @ItemsPerPage),@ItemsPerPage ",
                     NdkDbType.SQLSERVER => " OFFSET @ItemsPerPage ROWS FETCH NEXT (@Page * @ItemsPerPage) ",
                     _ => throw new NotSupportedException()
-                });;
-                
+                }); ;
+
             }
 
 

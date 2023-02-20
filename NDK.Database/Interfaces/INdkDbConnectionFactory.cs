@@ -1,6 +1,6 @@
 ﻿using System.Data.Common;
 
-namespace Nedesk.Database.Interfaces
+namespace NDK.Database.Interfaces
 {
     public interface INdkDbConnectionFactory
     {

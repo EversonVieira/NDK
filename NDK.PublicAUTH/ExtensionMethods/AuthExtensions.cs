@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using NDK.PublicAuth.Handlers;
 using NDK.PublicAuth.Interfaces;
 
-namespace NDK.Auth.ExtensionMethods
+namespace NDK.PublicAuth.ExtensionMethods
 {
     public static class AuthExtensions
     {
