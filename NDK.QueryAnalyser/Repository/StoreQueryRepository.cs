@@ -1,27 +1,17 @@
 ﻿using Dapper;
 using NDK.Core.Models;
 using NDK.Database.ExtensionMethods;
-using NDK.Database.Interfaces;
-using NDK.Database.Models;
+using NDK.QueryAnalyser.Handlers;
 using NDK.QueryAnalyser.Models;
-using Org.BouncyCastle.Asn1.X509;
-using System;
-using System.Collections.Generic;
-using System.Data.Common;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NDK.QueryAnalyser.Repository
 {
     public class StoreQueryRepository
     {
-        private INdkDbConnectionFactory _connectionFactory;
-        private NdkDbConnectionConfiguration _connectionConfiguration;
-        public StoreQueryRepository(INdkDbConnectionFactory dbConnectionFactory, NdkDbConnectionConfiguration connectionConfiguration) 
+        private SqlAnalyserConnectionHandler _sqlAnalyserConnectionFactory;
+        public StoreQueryRepository(SqlAnalyserConnectionHandler sqlAnalyserConnectionFactory) 
         { 
-            _connectionFactory = dbConnectionFactory;
-            _connectionConfiguration = connectionConfiguration;
+            _sqlAnalyserConnectionFactory = sqlAnalyserConnectionFactory;
         }
 
         public static string INSERT =
@@ -34,7 +24,7 @@ namespace NDK.QueryAnalyser.Repository
 
         public async Task Insert(StoreQuery storeQuery)
         {
-            using (var conn = _connectionFactory.GetDbConnection())
+            using (var conn = _sqlAnalyserConnectionFactory.GetDbConnection())
             {
                 conn.Open();
                 
@@ -47,11 +37,11 @@ namespace NDK.QueryAnalyser.Repository
             List<StoreQuery> result = new List<StoreQuery>();
 
 
-            using (var conn = _connectionFactory.GetDbConnection())
+            using (var conn = _sqlAnalyserConnectionFactory.GetDbConnection())
             {
                 conn.Open();
 
-                var data = request.GetRequestData(SELECT, _connectionConfiguration);
+                var data = request.GetRequestData(SELECT, _sqlAnalyserConnectionFactory._configuration);
                 string command = data.query;
 
                 result = (await conn.QueryAsync<StoreQuery>(command,data.parameters)).ToList();

@@ -1,16 +1,15 @@
 ﻿using MySql.Data.MySqlClient;
-using NDK.Database.Interfaces;
 using NDK.Database.Models;
 using System.Data.Common;
 using System.Data.SqlClient;
 
-namespace NDK.Database.Factories
+namespace NDK.Database.Handlers
 {
-    public class NdkDbConnectionFactory : INdkDbConnectionFactory
+    public class NdkDbConnectionHandler
     {
-        public NdkDbConnectionConfiguration _configuration { get; set; };
+        public NdkDbConnectionConfiguration _configuration { get; set; }
 
-        public NdkDbConnectionFactory(NdkDbConnectionConfiguration configuration)
+        public NdkDbConnectionHandler(NdkDbConnectionConfiguration configuration)
         {
             _configuration = configuration;
         }
@@ -26,4 +25,5 @@ namespace NDK.Database.Factories
             };
         }
     }
+
 }
