@@ -9,7 +9,7 @@ namespace NDK.Core.ExtensionMethods
 {
     public static class IPersistableExtensions
     {
-        public static void RefineStringData(this IPersistable obj)
+        public static void RefineString(this IPersistable obj)
         {
             var properties = obj.GetType().GetProperties();
 
@@ -23,7 +23,7 @@ namespace NDK.Core.ExtensionMethods
             }
         }
 
-        public static void RefineDateData(this IPersistable obj, string startDateAlias, string endDateAlias) 
+        public static void RefineDate(this IPersistable obj, string startDateAlias, string endDateAlias) 
         {
             var properties = obj.GetType().GetProperties();
 
