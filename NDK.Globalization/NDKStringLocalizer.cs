@@ -5,23 +5,35 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Resources;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace NDK.Globalization
 {
-    public class NDKStringLocalizer : IStringLocalizer
+    public class NdkStringLocalizerOptions
+    {
+        public NdkStringLocalizerOptions(string? resourcesPath)
+        {
+            ResourcesPath = resourcesPath;
+        }
+
+        public string? ResourcesPath { get; set; }
+    }
+
+    public class NDKStringLocalizer : IStringLocalizer, INDKStringLocalizer
     {
 
         private string? _resourceName;
-        private string? _assembly;
         private readonly IDistributedCache _cache;
-        private readonly JsonSerializer _serializer = new JsonSerializer();
+        private readonly JsonSerializer _serializer;
+        private readonly NdkStringLocalizerOptions _options;
 
-        public NDKStringLocalizer(IDistributedCache cache, string defaultResourcePath)
+        public NDKStringLocalizer(IDistributedCache cache, NdkStringLocalizerOptions options)
         {
             _cache = cache;
-            _resourceName = defaultResourcePath;
+            _options = options;
+            _serializer = new JsonSerializer();
         }
 
         public LocalizedString this[string name]
@@ -52,47 +64,41 @@ namespace NDK.Globalization
         public void SetResource(string resourceName, string assembly)
         {
             _resourceName = resourceName;
-            _assembly = assembly;
         }
 
         private string? GetString(string key)
         {
-            if (string.IsNullOrWhiteSpace(_resourceName) || string.IsNullOrWhiteSpace(_assembly))
+            if (string.IsNullOrWhiteSpace(_resourceName) )
             {
                 throw new InvalidOperationException("Provide a ResourceName and/or the target assembly");
             }
 
+            string cacheKey = $"{_resourceName}_locale_{Thread.CurrentThread.CurrentCulture.Name}_{key}";
 
-            var assembly = Assembly.LoadFrom(_assembly);
+            string? cacheValue = _cache.GetString(cacheKey);
+            if (!string.IsNullOrEmpty(cacheValue)) return cacheValue;
 
-            if (assembly is null)
+
+            string path = $@"{_options.ResourcesPath}\{_resourceName}.{Thread.CurrentThread.CurrentCulture.Name}.json";
+
+            if (!File.Exists(path))
             {
-                throw new InvalidOperationException("Couldn't find the provided assembly");
+                return default(string?);
             }
-
-            using (Stream? stream = assembly.GetManifestResourceStream($"{_resourceName}.{Thread.CurrentThread.CurrentCulture.Name}"))
+            
+            using (StreamReader? reader = new StreamReader(path))
             {
-                if (stream == null)
-                {
-                    return default(string?);
-                }
-
-                string cacheKey = $"{_assembly}_{_resourceName}_locale_{Thread.CurrentThread.CurrentCulture.Name}_{key}";
-                string? cacheValue = _cache.GetString(cacheKey);
-                if (!string.IsNullOrEmpty(cacheValue)) return cacheValue;
-
-                using (StreamReader reader = new StreamReader(stream))
-                {
-                    string? result = GetValueFromJSON(key,reader);
-
-                    if (!string.IsNullOrEmpty(result))
-                    {
-                        _cache.SetString(cacheKey, result);
-                    }
-
-                    return result;
-                }
+                
                
+                string? result = GetValueFromJSON(key, reader);
+
+                if (!string.IsNullOrEmpty(result))
+                {
+                    _cache.SetString(cacheKey, result);
+                }
+
+                return result;
+
             }
         }
 
