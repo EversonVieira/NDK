@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,29 +12,26 @@ using System.Threading.Tasks;
 
 namespace NDK.Globalization
 {
-    public class NdkStringLocalizerOptions
+
+    public class NDKWasmStringLocalizerOptions
     {
-        public NdkStringLocalizerOptions(string? resourcesPath)
+        public string ResourceFile { get; set; }
+
+        public NDKWasmStringLocalizerOptions(string resourceFile)
         {
-            ResourcesPath = resourcesPath;
+            ResourceFile = resourceFile;
         }
-
-        public string? ResourcesPath { get; set; }
     }
-
-    public class NDKStringLocalizer : IStringLocalizer, INDKStringLocalizer
+    public class NDKClientStringLocalizer : IStringLocalizer, INDKStringLocalizer
     {
 
         private string? _resourceName;
-        private readonly IDistributedCache _cache;
         private readonly JsonSerializer _serializer;
-        private readonly NdkStringLocalizerOptions _options;
-
-        public NDKStringLocalizer(IDistributedCache cache, NdkStringLocalizerOptions options)
+        private readonly NDKWasmStringLocalizerOptions _options;
+        public NDKClientStringLocalizer(NDKWasmStringLocalizerOptions options)
         {
-            _cache = cache;
-            _options = options;
             _serializer = new JsonSerializer();
+            _options = options;
         }
 
         public LocalizedString this[string name]
@@ -61,44 +59,35 @@ namespace NDK.Globalization
         }
 
 
-        public void SetResource(string resourceName)
+        public void SetResource( string resourceName)
         {
             _resourceName = resourceName;
         }
 
-        private string? GetString(string key)
+
+        private string GetString(string key)
         {
             if (string.IsNullOrWhiteSpace(_resourceName) )
             {
                 throw new InvalidOperationException("Provide a ResourceName and/or the target assembly");
             }
+            
+            Assembly? assembly = Assembly.GetEntryAssembly(); 
 
-            string cacheKey = $"{_resourceName}_locale_{Thread.CurrentThread.CurrentCulture.Name}_{key}";
+            var resourceManager = new ResourceManager(_options.ResourceFile, assembly);
 
-            string? cacheValue = _cache.GetString(cacheKey);
-            if (!string.IsNullOrEmpty(cacheValue)) return cacheValue;
+            string filePath = $"{_resourceName}.{Thread.CurrentThread.CurrentCulture.Name}";
+            var file = resourceManager.GetObject(filePath) as byte[];
 
-
-            string path = $@"{_options.ResourcesPath}\{_resourceName}.{Thread.CurrentThread.CurrentCulture.Name}.json";
-
-            if (!File.Exists(path))
+            if (file == null)
             {
                 return default(string?);
             }
             
-            using (StreamReader? reader = new StreamReader(path))
+            using (StreamReader? reader = new StreamReader(new MemoryStream(file)))
             {
-                
-               
                 string? result = GetValueFromJSON(key, reader);
-
-                if (!string.IsNullOrEmpty(result))
-                {
-                    _cache.SetString(cacheKey, result);
-                }
-
                 return result;
-
             }
         }
 
@@ -118,6 +107,4 @@ namespace NDK.Globalization
             }
         }
     }
-
-
 }
