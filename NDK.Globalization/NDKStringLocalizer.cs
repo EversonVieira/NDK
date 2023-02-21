@@ -70,7 +70,7 @@ namespace NDK.Globalization
                 throw new InvalidOperationException("Couldn't find the provided assembly");
             }
 
-            using (Stream? stream = assembly.GetManifestResourceStream(_resourceName))
+            using (Stream? stream = assembly.GetManifestResourceStream($"{_resourceName}.{Thread.CurrentThread.CurrentCulture.Name}"))
             {
                 if (stream == null)
                 {
