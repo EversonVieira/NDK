@@ -15,7 +15,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NDK.Query", "NDK.Query\NDK.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NDK.QueryAnalyser.Core", "NDK.QueryAnalyser\NDK.QueryAnalyser.Core.csproj", "{FE6144DE-766B-4451-8C59-8026B7CDE5C4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDK.UI", "NDK.UI\NDK.UI.csproj", "{D5F242C8-C2E8-46EB-BFE8-EE26362FDEC7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NDK.UI", "NDK.UI\NDK.UI.csproj", "{D5F242C8-C2E8-46EB-BFE8-EE26362FDEC7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDK.Globalization", "NDK.Globalization\NDK.Globalization.csproj", "{2429599B-BA43-4A25-86C4-5C29BCF77AC2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -51,6 +53,10 @@ Global
 		{D5F242C8-C2E8-46EB-BFE8-EE26362FDEC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D5F242C8-C2E8-46EB-BFE8-EE26362FDEC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D5F242C8-C2E8-46EB-BFE8-EE26362FDEC7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2429599B-BA43-4A25-86C4-5C29BCF77AC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2429599B-BA43-4A25-86C4-5C29BCF77AC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2429599B-BA43-4A25-86C4-5C29BCF77AC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2429599B-BA43-4A25-86C4-5C29BCF77AC2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
