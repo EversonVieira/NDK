@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "NDK.Auth": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:63526;http://localhost:63528"
+    }
+  }
+}

@@ -11,9 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NDK.PublicAuth", "NDK.Publi
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NDK.Database", "NDK.Database\NDK.Database.csproj", "{4A109BA6-2122-449B-B907-0C0A4AA373C2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDK.Query", "NDK.Query\NDK.Query.csproj", "{A62F2E3B-6BE0-4DC1-AB63-399C9555B0CB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NDK.Query", "NDK.Query\NDK.Query.csproj", "{A62F2E3B-6BE0-4DC1-AB63-399C9555B0CB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDK.QueryAnalyser", "NDK.QueryAnalyser\NDK.QueryAnalyser.csproj", "{2FEE886E-1808-41C5-8CD4-99EE3B0AB21E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NDK.QueryAnalyser.Core", "NDK.QueryAnalyser\NDK.QueryAnalyser.Core.csproj", "{FE6144DE-766B-4451-8C59-8026B7CDE5C4}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDK.UI", "NDK.UI\NDK.UI.csproj", "{D5F242C8-C2E8-46EB-BFE8-EE26362FDEC7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -41,10 +43,14 @@ Global
 		{A62F2E3B-6BE0-4DC1-AB63-399C9555B0CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A62F2E3B-6BE0-4DC1-AB63-399C9555B0CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A62F2E3B-6BE0-4DC1-AB63-399C9555B0CB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{2FEE886E-1808-41C5-8CD4-99EE3B0AB21E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{2FEE886E-1808-41C5-8CD4-99EE3B0AB21E}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{2FEE886E-1808-41C5-8CD4-99EE3B0AB21E}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{2FEE886E-1808-41C5-8CD4-99EE3B0AB21E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FE6144DE-766B-4451-8C59-8026B7CDE5C4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FE6144DE-766B-4451-8C59-8026B7CDE5C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FE6144DE-766B-4451-8C59-8026B7CDE5C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FE6144DE-766B-4451-8C59-8026B7CDE5C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5F242C8-C2E8-46EB-BFE8-EE26362FDEC7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5F242C8-C2E8-46EB-BFE8-EE26362FDEC7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5F242C8-C2E8-46EB-BFE8-EE26362FDEC7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5F242C8-C2E8-46EB-BFE8-EE26362FDEC7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
