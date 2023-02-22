@@ -64,14 +64,14 @@ namespace NDK.Globalization
             return this;
         }
 
-        private string GetString(string key)
+        private string? GetString(string key)
         {
-            if (string.IsNullOrWhiteSpace(_resourceName))
+            if (string.IsNullOrWhiteSpace(_resourceName) || string.IsNullOrWhiteSpace(_assemblyPartialName) || string.IsNullOrWhiteSpace(_resourceFile))
             {
-                throw new InvalidOperationException("Provide a ResourceName and/or the target assembly");
+                throw new InvalidOperationException("AssemblyPartialName, resourceName and resourceFile are required, check and provide those data.");
             }
 
-            Assembly? assembly = Assembly.LoadWithPartialName(_assemblyPartialName);
+            Assembly? assembly = Assembly.Load(_assemblyPartialName);
             if (assembly == null) 
             {
                 throw new InvalidOperationException("Assembly wasn't found");
