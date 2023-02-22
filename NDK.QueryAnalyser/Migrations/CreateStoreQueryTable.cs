@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NDK.QueryAnalyser.Migrations
+namespace NDK.QueryAnalyser.Core.Migrations
 {
     [Migration(1)]
     public class CreateStoreQueryTable : Migration
@@ -30,7 +30,7 @@ namespace NDK.QueryAnalyser.Migrations
 
             table.WithColumn("FullQuery")
                  .AsString(int.MaxValue);
-            
+
             table.WithColumn("BaseQuery")
                  .AsString(int.MaxValue);
 

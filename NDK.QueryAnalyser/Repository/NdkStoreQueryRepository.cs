@@ -1,16 +1,16 @@
 ﻿using Dapper;
 using NDK.Core.Models;
 using NDK.Database.ExtensionMethods;
-using NDK.QueryAnalyser.Handlers;
-using NDK.QueryAnalyser.Models;
+using NDK.QueryAnalyser.Core.Handlers;
+using NDK.QueryAnalyser.Core.Models;
 
-namespace NDK.QueryAnalyser.Repository
+namespace NDK.QueryAnalyser.Core.Repository
 {
     public class NdkStoreQueryRepository
     {
         private SqlAnalyserConnectionHandler _sqlAnalyserConnectionFactory;
-        public NdkStoreQueryRepository(SqlAnalyserConnectionHandler sqlAnalyserConnectionFactory) 
-        { 
+        public NdkStoreQueryRepository(SqlAnalyserConnectionHandler sqlAnalyserConnectionFactory)
+        {
             _sqlAnalyserConnectionFactory = sqlAnalyserConnectionFactory;
         }
 
@@ -27,7 +27,7 @@ namespace NDK.QueryAnalyser.Repository
             using (var conn = _sqlAnalyserConnectionFactory.GetDbConnection())
             {
                 conn.Open();
-                
+
                 await conn.ExecuteAsync(INSERT, storeQuery);
             }
         }
@@ -44,7 +44,7 @@ namespace NDK.QueryAnalyser.Repository
                 var data = request.GetRequestData(SELECT, _sqlAnalyserConnectionFactory._configuration);
                 string command = data.query;
 
-                result = (await conn.QueryAsync<NdkStoreQuery>(command,data.parameters)).ToList();
+                result = (await conn.QueryAsync<NdkStoreQuery>(command, data.parameters)).ToList();
             }
 
             return result;

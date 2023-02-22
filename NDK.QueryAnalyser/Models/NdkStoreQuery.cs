@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NDK.QueryAnalyser.Models
+namespace NDK.QueryAnalyser.Core.Models
 {
     public class NdkStoreQuery
     {
@@ -23,14 +23,14 @@ namespace NDK.QueryAnalyser.Models
             using (MD5 md5 = MD5.Create())
             {
                 StringBuilder sb = new StringBuilder();
-                byte[] bytes = md5.ComputeHash(UTF8Encoding.UTF8.GetBytes(sourceQuery));
+                byte[] bytes = md5.ComputeHash(Encoding.UTF8.GetBytes(sourceQuery));
 
-                foreach(var byt in bytes)
+                foreach (var byt in bytes)
                 {
                     sb.Append(byt.ToString());
                 }
 
-                QueryMD5= sb.ToString();
+                QueryMD5 = sb.ToString();
             }
         }
     }
