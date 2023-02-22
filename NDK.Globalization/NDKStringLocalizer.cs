@@ -20,6 +20,9 @@ namespace NDK.Globalization
         private string? _assemblyPartialName;
         private string? _resourceName;
 
+        private Assembly _assembly;
+        private ResourceManager _resourceManager;
+
         private readonly JsonSerializer _serializer;
 
         public NDKStringLocalizer(string? assemblyPartialName, string? resourceFile, string? resourceName)
@@ -28,6 +31,19 @@ namespace NDK.Globalization
             _resourceFile = resourceFile;
             _resourceName = resourceName;
             _serializer = new JsonSerializer();
+
+            if (string.IsNullOrWhiteSpace(_resourceName) || string.IsNullOrWhiteSpace(_assemblyPartialName) || string.IsNullOrWhiteSpace(_resourceFile))
+            {
+                throw new InvalidOperationException("AssemblyPartialName, resourceName and resourceFile are required, check and provide those data.");
+            }
+
+            _assembly = Assembly.Load(_assemblyPartialName);
+            if (_assembly == null)
+            {
+                throw new InvalidOperationException("Assembly wasn't found");
+            }
+
+            _resourceManager = new ResourceManager(_resourceFile, _assembly);
         }
 
         public LocalizedString this[string name]
@@ -66,21 +82,9 @@ namespace NDK.Globalization
 
         private string? GetString(string key)
         {
-            if (string.IsNullOrWhiteSpace(_resourceName) || string.IsNullOrWhiteSpace(_assemblyPartialName) || string.IsNullOrWhiteSpace(_resourceFile))
-            {
-                throw new InvalidOperationException("AssemblyPartialName, resourceName and resourceFile are required, check and provide those data.");
-            }
-
-            Assembly? assembly = Assembly.Load(_assemblyPartialName);
-            if (assembly == null) 
-            {
-                throw new InvalidOperationException("Assembly wasn't found");
-            }
-
-            var resourceManager = new ResourceManager(_resourceFile, assembly);
 
             string filePath = $"{_resourceName}.{Thread.CurrentThread.CurrentCulture.Name}";
-            var file = resourceManager.GetObject(filePath) as byte[];
+            var file = _resourceManager.GetObject(filePath) as byte[];
 
             if (file == null)
             {
@@ -109,6 +113,13 @@ namespace NDK.Globalization
                 }
                 return default;
             }
+        }
+    }
+
+    public class NDKStringLocalizer<T> : NDKStringLocalizer, IStringLocalizer, INDKStringLocalizer<T>
+    {
+        public NDKStringLocalizer(string? assemblyPartialName, string? resourceFile, string? resourceName) : base(assemblyPartialName, resourceFile, resourceName)
+        {
         }
     }
 }
