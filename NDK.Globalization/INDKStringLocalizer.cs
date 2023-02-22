@@ -4,8 +4,8 @@ namespace NDK.Globalization
 {
     public interface INDKStringLocalizer:IStringLocalizer
     {
-      
-        void SetResource(string resourceName);
+
+        public void SetResource(string assemblyPartialName, string resourceFile, string resourceName);
     }
 
 }
