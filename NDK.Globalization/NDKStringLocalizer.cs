@@ -1,15 +1,7 @@
-﻿using Microsoft.Extensions.Caching.Distributed;
-using Microsoft.Extensions.Localization;
+﻿using Microsoft.Extensions.Localization;
 using Newtonsoft.Json;
-using Newtonsoft.Json.Linq;
-using System;
-using System.Collections.Generic;
-using System.Globalization;
-using System.Linq;
 using System.Reflection;
 using System.Resources;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NDK.Globalization
 {
@@ -19,7 +11,6 @@ namespace NDK.Globalization
         private string? _resourceFile;
         private string? _assemblyPartialName;
         private string? _resourceName;
-
         private Assembly _assembly;
         private ResourceManager _resourceManager;
 
