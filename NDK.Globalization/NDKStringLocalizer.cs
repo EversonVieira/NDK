@@ -16,13 +16,17 @@ namespace NDK.Globalization
     public class NDKStringLocalizer : IStringLocalizer, INDKStringLocalizer
     {
 
-        private string? _resourceName;
-        private string? _assemblyPartialName;
         private string? _resourceFile;
+        private string? _assemblyPartialName;
+        private string? _resourceName;
 
         private readonly JsonSerializer _serializer;
-        public NDKStringLocalizer()
+
+        public NDKStringLocalizer(string? assemblyPartialName, string? resourceFile, string? resourceName)
         {
+            _assemblyPartialName = assemblyPartialName;
+            _resourceFile = resourceFile;
+            _resourceName = resourceName;
             _serializer = new JsonSerializer();
         }
 
@@ -51,11 +55,13 @@ namespace NDK.Globalization
         }
 
 
-        public void SetResource(string assemblyPartialName, string resourceFile, string resourceName)
+        public INDKStringLocalizer SetResource(string assemblyPartialName, string resourceFile, string resourceName)
         {
             _assemblyPartialName = assemblyPartialName;
             _resourceFile = resourceFile;
             _resourceName = resourceName;
+
+            return this;
         }
 
         private string GetString(string key)
@@ -66,6 +72,10 @@ namespace NDK.Globalization
             }
 
             Assembly? assembly = Assembly.LoadWithPartialName(_assemblyPartialName);
+            if (assembly == null) 
+            {
+                throw new InvalidOperationException("Assembly wasn't found");
+            }
 
             var resourceManager = new ResourceManager(_resourceFile, assembly);
 
@@ -74,7 +84,8 @@ namespace NDK.Globalization
 
             if (file == null)
             {
-                return default(string?);
+                throw new InvalidOperationException("Resource wasn't found");
+
             }
 
             using (StreamReader? reader = new StreamReader(new MemoryStream(file)))
