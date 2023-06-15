@@ -11,16 +11,9 @@ namespace NDK.Razor.Common.Parameters
         public int Code { get; set; }
         public string? Name { get; set; }
         public string? Value { get; set; }
-        public NdkMaskType? Type { get; set; }
-
     }
 
-    public enum NdkMaskType
-    {
-        OnlyNumber = 0,
-        OnlyChar= 1,
-        AlfaNumeric= 2,
-    }
+   
 
     public class NdkMaskOptions
     {

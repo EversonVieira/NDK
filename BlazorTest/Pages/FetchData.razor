@@ -1,0 +1,25 @@
+﻿@page "/fetchdata"
+@inject HttpClient Http
+
+<PageTitle>Weather forecast</PageTitle>
+
+<NdkBaseInputText @bind-Value="Test" MaskCollection="Masks" ></NdkBaseInputText>
+
+<label>@Test</label>
+
+@code {
+
+    public string? Test { get; set; }
+
+    public List<NdkMask> Masks = new List<NdkMask>()
+    {
+        new NdkMask
+        {
+            Code = 0,
+            Name = "CPF",
+            Value = "000-000-000.00"
+        }
+    };
+
+
+}

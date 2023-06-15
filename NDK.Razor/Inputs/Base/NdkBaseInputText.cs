@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace NDK.Razor.Inputs.Base
 {
-    internal class NdkBaseInputText : NdkBaseInput<string>
+    public class NdkBaseInputText : NdkBaseInput<string>
     {
         [Parameter]
         public int MaxSize { get; set; }
@@ -19,16 +19,24 @@ namespace NDK.Razor.Inputs.Base
         [Parameter]
         public int MinSize { get; set; }
 
-     
+        [Parameter]
+        public List<NdkMask>? MaskCollection { get; set; }
+
+        [Parameter]
+        public MaskSelectComponent MaskSelectComponent { get; set; }
+        public NdkBaseInputText() 
+        {
+            Event = "oninput";
+        }
 
         public override void OnAfterValueChange(string newValue)
         {
-            //List<(int minKey, int maxKey)> asciCodes = new List<(int minKey, int maxKey)>
-            //{
-            //    new(48, 57),
-            //    new(65, 90),
-            //    new(97, 122)
-            //};
+            List<(int minKey, int maxKey)> asciCodes = new List<(int minKey, int maxKey)>
+            {
+                new(48, 57),
+                new(65, 90),
+                new(97, 122)
+            };
 
         }
 
@@ -39,10 +47,7 @@ namespace NDK.Razor.Inputs.Base
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
-            //if (MaskCollection != null && MaskCollection.Any())
-            //{
-            //    builder.OpenComponent<MaskSelectComponent>(0);
-            //}
+           
             base.BuildRenderTree(builder);
         }
 

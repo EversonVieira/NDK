@@ -15,7 +15,7 @@ using Microsoft.Extensions.Logging;
 
 namespace NDK.Razor.Inputs.Base
 {
-    internal abstract class NdkBaseInput<TValue> : NdkBaseComponent
+    public abstract class NdkBaseInput<TValue> : NdkBaseComponent
     {
         [Parameter]
         public string? Label { get; set; }
@@ -67,31 +67,31 @@ namespace NDK.Razor.Inputs.Base
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
-            builder.OpenElement(0, "div");
-            builder.AddAttribute(1, "class", $"ndk-inp-div-class {DivClass}");
+            builder.OpenElement(1, "div");
+            builder.AddAttribute(2, "class", $"ndk-inp-div-class {DivClass}");
 
-            builder.OpenElement(2, "label");
-            builder.AddAttribute(3, "class", $"ndk-inp-label-class {LabelClass}");
-            builder.AddContent(4, Label);
+            builder.OpenElement(3, "label");
+            builder.AddAttribute(4, "class", $"ndk-inp-label-class {LabelClass}");
+            builder.AddContent(5, Label);
             builder.CloseElement();
 
-            builder.OpenElement(5, "div");
-            builder.AddAttribute(6, "class", $"ndk-inp-cnt-class {InputDivClass}");
+            builder.OpenElement(6, "div");
+            builder.AddAttribute(7, "class", $"ndk-inp-cnt-class {InputDivClass}");
 
-            builder.OpenElement(7, "input");
-            builder.AddAttribute(8, "type", GetInputType());
-            builder.AddAttribute(9, "class", $"ndk-inp-class {InputClass}");
-            builder.AddAttribute(10, "placeholder", Placeholder);
+            builder.OpenElement(8, "input");
+            builder.AddAttribute(9, "type", GetInputType());
+            builder.AddAttribute(10, "class", $"ndk-inp-class {InputClass}");
+            builder.AddAttribute(11, "placeholder", Placeholder);
 
-            builder.AddAttribute(11, Event is null ? "onchange":Event, EventCallback.Factory.CreateBinder(this, __valor => ValueAsString = __valor, ValueAsString));
-            builder.AddAttribute(12, "value", BindConverter.FormatValue(ValueAsString));
+            builder.AddAttribute(12, Event is null ? "onchange":Event, EventCallback.Factory.CreateBinder(this, __valor => ValueAsString = __valor, ValueAsString));
+            builder.AddAttribute(13, "value", BindConverter.FormatValue(ValueAsString));
 
             if (Disabled)
             {
-                builder.AddAttribute(13, "disabled");
+                builder.AddAttribute(14, "disabled");
             }
 
-            builder.AddElementReferenceCapture(13, (r) => Element = r);
+            builder.AddElementReferenceCapture(15, (r) => Element = r);
             builder.CloseElement(); // fecha o input
             builder.CloseElement(); // fecha a div
             builder.CloseElement(); // fecha a div
