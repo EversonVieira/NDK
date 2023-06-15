@@ -1,5 +1,6 @@
 ﻿using Dapper;
 using NDK.Core.Models;
+using NDK.Database.ExtensionMethods.Internal;
 using NDK.Database.Models;
 using System;
 using System.Collections.Generic;
@@ -19,15 +20,12 @@ namespace NDK.Database.ExtensionMethods
                     request.GetParameters(configuration));
         }
 
+
         private static DynamicParameters GetParameters(this NdkRequest request, NdkDbConnectionConfiguration configuration)
         {
             var parameters = new DynamicParameters();
 
-            string alias = configuration.DBType switch
-            {
-                NdkDbType.ORACLE => ":",
-                _ => "@"
-            };
+            string alias = configuration.GetParamSymbol();
 
             if (request.Paging is not null)
             {

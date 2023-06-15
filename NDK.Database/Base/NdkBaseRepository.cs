@@ -1,15 +1,14 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using FluentValidation;
+using Microsoft.Extensions.Logging;
 using NDK.Core.Models;
 using NDK.Core.Utility;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using NDK.Database.Interfaces;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace NDK.Database.Base
 {
-    public class BaseRepository
+    public class NdkBaseRepository: INdkBaseRepository
     {
         public const string BASE_INSERT_SQL_COLUMNS = "IsActive, IsDeleted, CreatedBy, CreatedAt, LastUpdatedBy, LastUpdatedAt";
         public const string BASE_INSERT_SQL_VALUES = "@IsActive, @IsDeleted, @CreatedBy, @CreatedAt, @LastUpdatedBy, @LastUpdatedAt";
@@ -23,8 +22,21 @@ namespace NDK.Database.Base
             {
                 Code = $"EX{RandomCode.GenerateRandomCode(5)}_{DateTime.UtcNow}",
                 Text = "An internal error happened, try again and if the problems persists contact the support with the exception code.",
-                Type = NdkMessageType.EXCEPTION
+                Type = NdkMessageType.EXCEPTION,
             });
         }
+
+        protected virtual void ApplyBaseModelValues<User, Model>(User loggedUser, Model model ) where User : NdkUser
+                                                                                where Model:NdkBaseModel
+        {
+
+            model.CreatedAt = DateTime.UtcNow;
+            model.LastUpdatedAt = DateTime.UtcNow;
+            model.CreatedBy = $"{loggedUser.FirstName} {loggedUser.LastName}";
+            model.LastUpdatedBy = $"{loggedUser.FirstName} {loggedUser.LastName}";
+        }
+
     }
+
+
 }

@@ -6,12 +6,6 @@ using NDK.Auth.MiddleWares;
 using NDK.PublicAuth.Handlers;
 using NDK.PublicAuth.Interfaces;
 using NDK.PublicAuth.Models;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NDK.Auth.ExtensionMethods
 {

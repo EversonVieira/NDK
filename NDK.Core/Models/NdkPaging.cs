@@ -6,5 +6,4 @@
         public int ItemsPerPage { get; set; }
     }
 
-
 }

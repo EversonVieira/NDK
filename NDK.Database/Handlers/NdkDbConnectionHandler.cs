@@ -16,13 +16,17 @@ namespace NDK.Database.Handlers
 
         public DbConnection GetDbConnection()
         {
-            return _configuration.DBType switch
+            DbConnection conn = _configuration.DBType switch
             {
                 NdkDbType.SQLSERVER => new SqlConnection(_configuration.ConnectionString),
                 NdkDbType.MYSQL => new MySqlConnection(_configuration.ConnectionString),
                 // TO DO, IMPLEMENT ORACLE, POSTGREE AND MARIADB
                 _ => throw new Exception("Not implemented")
             };
+
+            conn.Open();
+
+            return conn;
         }
     }
 
