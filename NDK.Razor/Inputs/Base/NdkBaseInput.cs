@@ -28,7 +28,21 @@ namespace NDK.Razor.Inputs.Base
 
         [Parameter]
         public TValue? Value { get; set; }
-        protected string? ValueAsString { get; set; }
+
+        private string? _valueAsString = string.Empty;
+        protected string? ValueAsString
+        {
+            get 
+            { 
+                return _valueAsString; 
+            }
+            set 
+            { 
+                _valueAsString = value;
+
+                ValueChanged.InvokeAsync((TValue) Convert.ChangeType(value, typeof(TValue)));
+            }
+        }
 
         [Parameter]
         public EventCallback<TValue?> ValueChanged { get; set; }
