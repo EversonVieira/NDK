@@ -1,0 +1,10 @@
+﻿@if (MaskCollection != null && MaskCollection.Any())
+{
+    <div class="ndk-mask-selector-container-div">
+        @foreach (var mask in MaskCollection)
+        {
+            <span onclick="@(() => SelectMask(mask))" class="ndk-mask-selector-item">@mask.Name</span>
+        }
+    </div>
+}
+

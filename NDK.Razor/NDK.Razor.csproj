@@ -15,4 +15,11 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.18" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Charts\" />
+    <Folder Include="Forms\" />
+    <Folder Include="Reports\" />
+    <Folder Include="Tables\" />
+  </ItemGroup>
+
 </Project>
