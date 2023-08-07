@@ -1,10 +1,8 @@
-﻿using FluentValidation;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using NDK.Core.Models;
 using NDK.Core.Utility;
 using NDK.Database.Interfaces;
-using System.Text.Json;
-using System.Text.Json.Serialization;
+using System;
 
 namespace NDK.Database.Base
 {
@@ -35,6 +33,8 @@ namespace NDK.Database.Base
             model.CreatedBy = $"{loggedUser.FirstName} {loggedUser.LastName}";
             model.LastUpdatedBy = $"{loggedUser.FirstName} {loggedUser.LastName}";
         }
+
+        
 
     }
 

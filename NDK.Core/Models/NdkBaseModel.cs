@@ -10,7 +10,7 @@ namespace NDK.Core.Models
 {
     public class NdkBaseModel:IPersistable
     {
-        public virtual long Id { get; set; }
+        public long Id { get; set; }
         public string? CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
         public string? LastUpdatedBy { get; set;}
