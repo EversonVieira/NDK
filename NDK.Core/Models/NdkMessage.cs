@@ -5,5 +5,6 @@
         public string? Code { get; set; }
         public string? Text { get; set; }
         public NdkMessageType Type { get; set; }
+        public string? AdditionalInfo { get; set; }
     }
 }

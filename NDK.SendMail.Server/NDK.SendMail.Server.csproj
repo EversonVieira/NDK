@@ -7,11 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentValidation" Version="11.5.1" />
+    <PackageReference Include="MongoDB.Driver" Version="2.21.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Handlers\" />
+    <ProjectReference Include="..\NDK.Core\NDK.Core.csproj" />
+    <ProjectReference Include="..\NDK.SendMail.Shared\NDK.SendMail.Shared.csproj" />
   </ItemGroup>
 
 </Project>

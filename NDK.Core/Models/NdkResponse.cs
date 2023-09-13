@@ -34,6 +34,8 @@ namespace NDK.Core.Models
         {
             Messages.Add(message);
         }
+
+      
     }
 
     public class NdkResponse<T> : NdkResponse

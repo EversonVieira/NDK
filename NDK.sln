@@ -19,6 +19,14 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NDK.Globalization", "NDK.Gl
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NDK.Razor", "NDK.Razor\NDK.Razor.csproj", "{883FCA21-F21F-462B-9BF1-9099DFC04FAB}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NDK.MiddleActions", "NDK.MiddleActions\NDK.MiddleActions.csproj", "{8828781F-57BE-43AF-A2D3-7EB38647624D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDK.SendMail.Client", "NDK.SendMail.Client\NDK.SendMail.Client.csproj", "{9EB73AA4-5BFE-43CA-9808-59D576A272B1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDK.SendMail.Server", "NDK.SendMail.Server\NDK.SendMail.Server.csproj", "{E4426456-5577-4D41-AE65-4180BC827731}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDK.SendMail.Shared", "NDK.SendMail.Shared\NDK.SendMail.Shared.csproj", "{8C83D625-960F-4C36-8AFC-E9FEA9C051F6}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +65,22 @@ Global
 		{883FCA21-F21F-462B-9BF1-9099DFC04FAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{883FCA21-F21F-462B-9BF1-9099DFC04FAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{883FCA21-F21F-462B-9BF1-9099DFC04FAB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8828781F-57BE-43AF-A2D3-7EB38647624D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8828781F-57BE-43AF-A2D3-7EB38647624D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8828781F-57BE-43AF-A2D3-7EB38647624D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8828781F-57BE-43AF-A2D3-7EB38647624D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9EB73AA4-5BFE-43CA-9808-59D576A272B1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9EB73AA4-5BFE-43CA-9808-59D576A272B1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9EB73AA4-5BFE-43CA-9808-59D576A272B1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9EB73AA4-5BFE-43CA-9808-59D576A272B1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E4426456-5577-4D41-AE65-4180BC827731}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E4426456-5577-4D41-AE65-4180BC827731}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E4426456-5577-4D41-AE65-4180BC827731}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E4426456-5577-4D41-AE65-4180BC827731}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8C83D625-960F-4C36-8AFC-E9FEA9C051F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8C83D625-960F-4C36-8AFC-E9FEA9C051F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8C83D625-960F-4C36-8AFC-E9FEA9C051F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8C83D625-960F-4C36-8AFC-E9FEA9C051F6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
