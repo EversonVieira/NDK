@@ -10,7 +10,10 @@ namespace NDK.Core.Models
     {
         public NdkPaging? Paging { get; set; }
 
+        public Dictionary<long,bool> Options { get; set; }  = new Dictionary<long,bool>();
+
         private List<NdkFilterGroup> _filtersGroups = new List<NdkFilterGroup>();
+
         public IReadOnlyList<NdkFilterGroup> FiltersGroup
         {
             get

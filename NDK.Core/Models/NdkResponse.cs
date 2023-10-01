@@ -10,12 +10,14 @@ namespace NDK.Core.Models
     {
         public List<NdkMessage> Messages { get; set; } = new List<NdkMessage>();
 
-        public bool HasAnyMessage => Messages.Any();
+        public bool HasAnyMessage => Messages.Count > 0;
 
         public bool HasMessageByType(NdkMessageType type)
         {
             return Messages.Any(x => x.Type == type);
         }
+
+        public bool HasStopFlowMessages => Messages.Exists(x => x.Type > NdkMessageType.CAUTION);
 
 
         public bool HasMessageByTypes(params NdkMessageType[] types)
