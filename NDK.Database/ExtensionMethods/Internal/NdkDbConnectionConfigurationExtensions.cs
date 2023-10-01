@@ -14,7 +14,7 @@ namespace NDK.Database.ExtensionMethods.Internal
         {
             if (configuration == null)  throw new InvalidOperationException("NdkDbConnectionConfiguration wasn't provided.");
 
-            return configuration.DBType switch
+            return configuration.Type switch
             {
                 NdkDbType.ORACLE => ":",
                 _ => "@"
@@ -25,7 +25,7 @@ namespace NDK.Database.ExtensionMethods.Internal
         {
             if (configuration == null) throw new InvalidOperationException("NdkDbConnectionConfiguration wasn't provided.");
 
-            return configuration.DBType switch
+            return configuration.Type switch
             {
                 NdkDbType.SQLSERVER => "SELECT SCOPE_IDENTITY()",
                 NdkDbType.MYSQL => "SELECT last_insert_id()",
@@ -37,7 +37,7 @@ namespace NDK.Database.ExtensionMethods.Internal
         {
             if (configuration == null) throw new InvalidOperationException("NdkDbConnectionConfiguration wasn't provided.");
 
-            return configuration.DBType switch
+            return configuration.Type switch
             {
                 NdkDbType.SQLSERVER => "SELECT SCOPE_IDENTITY()",
                 NdkDbType.MYSQL => "SELECT last_insert_id()",
@@ -49,7 +49,7 @@ namespace NDK.Database.ExtensionMethods.Internal
         {
             if (configuration == null) throw new InvalidOperationException("NdkDbConnectionConfiguration wasn't provided.");
 
-            return configuration.DBType switch
+            return configuration.Type switch
             {
                 NdkDbType.SQLSERVER => "SELECT SELECT @@ROWCOUNT",
                 NdkDbType.MYSQL => "SSELECT ROW_COUNT()",

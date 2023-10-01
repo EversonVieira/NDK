@@ -73,7 +73,7 @@ namespace NDK.Database.ExtensionMethods
         {
             StringBuilder sb;
 
-            sb = configuration.DBType switch
+            sb = configuration.Type switch
             {
                 NdkDbType.ORACLE => new StringBuilder($"SELECT * FROM ( {query} <<where>> )"),
                 _ => new StringBuilder(query)
@@ -81,7 +81,7 @@ namespace NDK.Database.ExtensionMethods
 
             if (request.FiltersGroup.Any())
             {
-                if (configuration.DBType == NdkDbType.ORACLE)
+                if (configuration.Type == NdkDbType.ORACLE)
                 {
                     if (request.FiltersGroup.Any())
                     {
@@ -114,7 +114,7 @@ namespace NDK.Database.ExtensionMethods
 
             if (request.Paging is not null)
             {
-                sb.AppendLine(configuration.DBType switch
+                sb.AppendLine(configuration.Type switch
                 {
                     NdkDbType.ORACLE => " WHERE rownum < ((:Page * :ItemsPerPage) + 1 ) ",
                     NdkDbType.MYSQL => " LIMIT (@Page * @ItemsPerPage),@ItemsPerPage ",
@@ -163,7 +163,7 @@ namespace NDK.Database.ExtensionMethods
 
             sb.Append($"{filter.Target} {GetOperator(filter, configuration)} ");
 
-            string alias = configuration.DBType switch
+            string alias = configuration.Type switch
             {
                 NdkDbType.ORACLE => ":",
                 _ => "@"

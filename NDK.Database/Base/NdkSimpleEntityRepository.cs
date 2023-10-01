@@ -17,12 +17,12 @@ namespace NDK.Database.Base
     public class NdkSimpleEntityRepository<T, TUser> : NdkBaseRepository, INdkRepository<T> where T : NdkBaseModel where TUser:NdkUser
     {
         private readonly TUser _loggedUser;
-        private readonly NdkDbConnectionHandler _connectionHandler;
+        private readonly NdkDbConnectionFactory _connectionHandler;
         private readonly NdkSimpleEntityRepositoryConfig _config;
         private readonly ILogger _logger;
 
         public NdkSimpleEntityRepository(TUser loggedUser,
-                                         NdkDbConnectionHandler connectionHandler, 
+                                         NdkDbConnectionFactory connectionHandler, 
                                          NdkSimpleEntityRepositoryConfig config, 
                                          ILogger<NdkSimpleEntityRepository<T,TUser>> logger)
         {

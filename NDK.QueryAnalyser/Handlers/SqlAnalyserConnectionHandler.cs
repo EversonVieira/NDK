@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NDK.QueryAnalyser.Core.Handlers
 {
-    public class SqlAnalyserConnectionHandler : NdkDbConnectionHandler
+    public class SqlAnalyserConnectionHandler : NdkDbConnectionFactory
     {
         public SqlAnalyserConnectionHandler(NdkDbConnectionConfiguration configuration) : base(configuration)
         {

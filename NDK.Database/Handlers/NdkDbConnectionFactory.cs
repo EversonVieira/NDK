@@ -5,18 +5,18 @@ using System.Data.SqlClient;
 
 namespace NDK.Database.Handlers
 {
-    public class NdkDbConnectionHandler
+    public class NdkDbConnectionFactory
     {
         public NdkDbConnectionConfiguration _configuration { get; set; }
 
-        public NdkDbConnectionHandler(NdkDbConnectionConfiguration configuration)
+        public NdkDbConnectionFactory(NdkDbConnectionConfiguration configuration)
         {
             _configuration = configuration;
         }
 
         public DbConnection GetDbConnection()
         {
-            DbConnection conn = _configuration.DBType switch
+            DbConnection conn = _configuration.Type switch
             {
                 NdkDbType.SQLSERVER => new SqlConnection(_configuration.ConnectionString),
                 NdkDbType.MYSQL => new MySqlConnection(_configuration.ConnectionString),

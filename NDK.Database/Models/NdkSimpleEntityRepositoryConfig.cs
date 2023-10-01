@@ -6,18 +6,19 @@ using System.Threading.Tasks;
 
 namespace NDK.Database.Models
 {
-    public class NdkSimpleEntityRepositoryConfig
+    public abstract class NdkSimpleEntityRepositoryConfig
     {
         private Dictionary<Type, string> _entityTableMap = new Dictionary<Type, string>();
 
-        public NdkSimpleEntityRepositoryConfig(Dictionary<Type, string> entityTableMap)
-        {
-            _entityTableMap = entityTableMap;
-        }
 
         public string GetEntityTable(Type type) 
         {
             return _entityTableMap[type];
+        }
+
+        protected void AddMap(Type type, string Table) 
+        {
+            _entityTableMap.Add(type, Table);
         }
     }
 }
