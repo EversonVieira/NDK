@@ -1,4 +1,5 @@
-﻿using NDK.PublicAuth.Interfaces;
+﻿using NDK.Core.ExtensionMethods;
+using NDK.PublicAuth.Interfaces;
 using NDK.PublicAuth.Models;
 using System;
 using System.Collections.Generic;
@@ -17,11 +18,16 @@ namespace NDK.PublicAuth.Handlers
 
             string[] tokenParts = token.Split('.');
 
-            result.Header = JsonSerializer.Deserialize<NdkTokenHeader>(Encoding.UTF8.GetString(Convert.FromBase64String(tokenParts[0].Replace("-", "+").Replace("_", @"//"))));
-            result.Payload = JsonSerializer.Deserialize<NdkTokenPayload>(Encoding.UTF8.GetString(Convert.FromBase64String(tokenParts[1].Replace("-", "+").Replace("_", @"//"))));
-            result.Signature = JsonSerializer.Deserialize<NdkTokenSignature>(Encoding.UTF8.GetString(Convert.FromBase64String(tokenParts[2].Replace("-", "+").Replace("_", @"//"))));
+            result.Header = JsonSerializer.Deserialize<NdkTokenHeader>(Encoding.UTF8.GetString(Convert.FromBase64String(handleTokenReplace(tokenParts[0]))));
+            result.Payload = JsonSerializer.Deserialize<NdkTokenPayload>(Encoding.UTF8.GetString(Convert.FromBase64String(handleTokenReplace(tokenParts[1]))));
+            result.Signature = JsonSerializer.Deserialize<NdkTokenSignature>(Encoding.UTF8.GetString(Convert.FromBase64String(handleTokenReplace(tokenParts[2]))));
 
             return result;
+
+            string handleTokenReplace(string vlr)
+            {
+                return vlr.HandleBase64String().Replace("-", "+").Replace("_", @"//");
+            }
         }
 
     }
