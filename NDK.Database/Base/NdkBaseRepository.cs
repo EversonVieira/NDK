@@ -8,10 +8,10 @@ namespace NDK.Database.Base
 {
     public class NdkBaseRepository: INdkBaseRepository
     {
-        public const string BASE_INSERT_SQL_COLUMNS = "IsActive, IsDeleted, CreatedBy, CreatedAt, LastUpdatedBy, LastUpdatedAt";
+        public const string BASE_INSERT_SQL_COLUMNS = "Uuid, IsActive, IsDeleted, CreatedBy, CreatedAt, LastUpdatedBy, LastUpdatedAt";
         public const string BASE_INSERT_SQL_VALUES = "@IsActive, @IsDeleted, @CreatedBy, @CreatedAt, @LastUpdatedBy, @LastUpdatedAt";
-        public const string BASE_SELECT_SQL = "IsActive, IsDeleted, CreatedBy, CreatedAt, LastUpdatedBy, LastUpdatedAt";
-        public const string BASE_UPDATE_SQL = "IsActive = @IsActive, IsDeleted = @IsDeleted, CreatedBy = @CreatedBy, CreatedAt = @CreatedAt, LastUpdatedBy = @LastUpdatedBy, LastUpdatedAt = @LastUpdatedAt";
+        public const string BASE_SELECT_SQL = "Uuid, IsActive, IsDeleted, CreatedBy, CreatedAt, LastUpdatedBy, LastUpdatedAt";
+        public const string BASE_UPDATE_SQL = "Uuid = @Uuid, IsActive = @IsActive, IsDeleted = @IsDeleted, CreatedBy = @CreatedBy, CreatedAt = @CreatedAt, LastUpdatedBy = @LastUpdatedBy, LastUpdatedAt = @LastUpdatedAt";
 
         public void HandleException(Exception exception, NdkResponse response, ILogger logger)
         {

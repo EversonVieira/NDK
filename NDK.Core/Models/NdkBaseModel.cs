@@ -11,6 +11,7 @@ namespace NDK.Core.Models
     public class NdkBaseModel:IPersistable
     {
         public long Id { get; set; }
+        public Guid Uuid { get; set; }
         public string? CreatedBy { get; set; }
         public DateTime CreatedAt { get; set; }
         public string? LastUpdatedBy { get; set;}
@@ -18,5 +19,9 @@ namespace NDK.Core.Models
         public bool IsActive { get; set; }
         public bool IsDeleted { get; set; }
 
+        public NdkBaseModel() 
+        {
+            Uuid = Guid.NewGuid();
+        }
     }
 }
