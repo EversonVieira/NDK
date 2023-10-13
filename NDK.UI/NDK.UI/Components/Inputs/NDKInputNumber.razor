@@ -1,0 +1,14 @@
+﻿@using System.Numerics
+@typeparam TValue where TValue:INumber<TValue> 
+@inherits NDKBaseInput<TValue>
+
+<input @ref="Element"
+       value="@CurrentValueAsString"
+       type="number"
+       id="@Id"
+       name="@Name"
+       title="@Title"
+       class="@Class"
+       style="@Style"
+       disabled="@Disabled"
+       oninput="@((ChangeEventArgs args) => Set(args))" />

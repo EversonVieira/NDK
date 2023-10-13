@@ -7,11 +7,12 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\NDK.Database\NDK.Database.csproj" />
+    <PackageReference Include="FluentMigrator.Runner" Version="3.3.2" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="FluentMigrator.Runner" Version="3.3.2" />
+    <ProjectReference Include="..\NDK.Core\NDK.Core.csproj" />
+    <ProjectReference Include="..\NDK.Database\NDK.Database.csproj" />
   </ItemGroup>
 
 </Project>

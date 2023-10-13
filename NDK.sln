@@ -21,11 +21,15 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NDK.Razor", "NDK.Razor\NDK.
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NDK.MiddleActions", "NDK.MiddleActions\NDK.MiddleActions.csproj", "{8828781F-57BE-43AF-A2D3-7EB38647624D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDK.SendMail.Client", "NDK.SendMail.Client\NDK.SendMail.Client.csproj", "{9EB73AA4-5BFE-43CA-9808-59D576A272B1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NDK.SendMail.Client", "NDK.SendMail.Client\NDK.SendMail.Client.csproj", "{9EB73AA4-5BFE-43CA-9808-59D576A272B1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDK.SendMail.Server", "NDK.SendMail.Server\NDK.SendMail.Server.csproj", "{E4426456-5577-4D41-AE65-4180BC827731}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NDK.SendMail.Server", "NDK.SendMail.Server\NDK.SendMail.Server.csproj", "{E4426456-5577-4D41-AE65-4180BC827731}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NDK.SendMail.Shared", "NDK.SendMail.Shared\NDK.SendMail.Shared.csproj", "{8C83D625-960F-4C36-8AFC-E9FEA9C051F6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NDK.SendMail.Shared", "NDK.SendMail.Shared\NDK.SendMail.Shared.csproj", "{8C83D625-960F-4C36-8AFC-E9FEA9C051F6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Test", "Test", "{34BD10B5-5101-42DB-814D-F4C4085BC36C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Ndk.TestBlazor", "Ndk.TestBlazor\Ndk.TestBlazor.csproj", "{C20C2D65-528A-4FCB-8715-1EC2DE2F6F8A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -81,9 +85,16 @@ Global
 		{8C83D625-960F-4C36-8AFC-E9FEA9C051F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C83D625-960F-4C36-8AFC-E9FEA9C051F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C83D625-960F-4C36-8AFC-E9FEA9C051F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C20C2D65-528A-4FCB-8715-1EC2DE2F6F8A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C20C2D65-528A-4FCB-8715-1EC2DE2F6F8A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C20C2D65-528A-4FCB-8715-1EC2DE2F6F8A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C20C2D65-528A-4FCB-8715-1EC2DE2F6F8A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C20C2D65-528A-4FCB-8715-1EC2DE2F6F8A} = {34BD10B5-5101-42DB-814D-F4C4085BC36C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {75014FFC-1ED3-4812-924A-135C7806673B}

@@ -11,4 +11,8 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\NDK.Core\NDK.Core.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -1,0 +1,16 @@
+﻿@inherits NDKBaseInput<string?>
+
+<input @ref="Element"
+       value="@CurrentValueAsString"
+       type="text"
+       id="@Id"
+       name="@Name"
+       title="@Title"
+       class="@Class"
+       style="@Style"
+       disabled="@Disabled"
+       maxlength="@MaxLength"
+       oninput="@((ChangeEventArgs args) => Set(args))" />
+
+       
+
