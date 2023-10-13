@@ -17,7 +17,27 @@ namespace NDK.UI.Components.Inputs
         [Parameter]
         public decimal? Min { get; set; }
 
+        protected static readonly string _stepAttributeValue = GetStepAttributeValue();
 
+        private static string GetStepAttributeValue()
+        {
+            // Unwrap Nullable<T>, because InputBase already deals with the Nullable aspect
+            // of it for us. We will only get asked to parse the T for nonempty inputs.
+            var targetType = Nullable.GetUnderlyingType(typeof(TValue)) ?? typeof(TValue);
+            if (targetType == typeof(int) ||
+                targetType == typeof(long) ||
+                targetType == typeof(short) ||
+                targetType == typeof(float) ||
+                targetType == typeof(double) ||
+                targetType == typeof(decimal))
+            {
+                return "any";
+            }
+            else
+            {
+                throw new InvalidOperationException($"The type '{targetType}' is not a supported numeric type.");
+            }
+        }
         protected async Task Set(ChangeEventArgs? args)
         {
             await using (var commonJsInterop = new CommonJsInterop(Js))
