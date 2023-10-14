@@ -3,13 +3,11 @@
 @inject IJSRuntime _js
 
 
-<NDKInputNumber @bind-Value="Model.Decimal" 
+<NDKInputNumber @bind-Value="Model.Decimal" Thousands="'.'" Decimal="','" Scale="2" 
                Id="1"/>
-<NDKInputText @bind-Value="Model.String" Id="2"/>
+<NDKInputText @bind-Value="Model.String" Id="2" />
 
-<EditForm Model="Model">
-    <InputNumber @bind-Value="Model.Decimal"></InputNumber>
-</EditForm>
+
 @code {
     protected InputModel Model = new InputModel();
     

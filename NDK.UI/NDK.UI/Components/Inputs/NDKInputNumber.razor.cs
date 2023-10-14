@@ -11,13 +11,35 @@ namespace NDK.UI.Components.Inputs
     public partial class NDKInputNumber<[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.All)] TValue> : NDKBaseInput<TValue>
         where TValue : INumber<TValue>
     {
+
+        private const char THOUSANDS_CONST = ',';
+        private const char DECIMAL_CONST = '.';
+
         [Parameter]
         public decimal? Max { get; set; }
 
         [Parameter]
         public decimal? Min { get; set; }
 
+        [Parameter]
+        public string? Prefix { get; set; }
+
+        [Parameter]
+        public string? Suffix { get; set;}
+
+        [Parameter]
+        public char Thousands { get; set; } = THOUSANDS_CONST;
+
+        [Parameter]
+        public char Decimal { get; set; } = DECIMAL_CONST;
+
+        [Parameter]
+        public int? Scale {  get; set; }
+
+
+
         protected static readonly string _stepAttributeValue = GetStepAttributeValue();
+
 
         private static string GetStepAttributeValue()
         {
@@ -42,19 +64,65 @@ namespace NDK.UI.Components.Inputs
         {
             await using (var commonJsInterop = new CommonJsInterop(Js))
             {
+                bool srcValueChanged = false;
                 if (args != null)
                 {
                     string? value = (string?)args.Value;
 
                     if (!string.IsNullOrWhiteSpace(value))
                     {
+                        if (!string.IsNullOrWhiteSpace(Prefix))
+                        {
+                            value = value.Replace(Prefix, "");
+                        }
+
+                        if (!string.IsNullOrWhiteSpace(Suffix))
+                        {
+                            value = value.Replace(Suffix, "");
+                        }
+
+                        if (value.Length == 1)
+                        {
+                            if (value.StartsWith("-"))
+                            {
+                                return;
+                            }
+
+                            if (value.StartsWith(".") || value.StartsWith(","))
+                            {
+                                value = $"0";
+                                srcValueChanged = true;
+                            }
+                        }
+                        else
+                        {
+                            if (value.StartsWith(".") || value.StartsWith(","))
+                            {
+                                value = $"0{value[0]}{value.Substring(1)}";
+                                srcValueChanged = true;
+                            }
+                        }
+
+                        if (Scale.HasValue)
+                        {
+                            int index = value.IndexOf(this.Decimal.ToString());
+                            if ((value.Length - index) > Scale && index > -1)
+                            {
+                                srcValueChanged = true;
+                                value = value.Substring(0, index + Scale.Value + 1);
+                            }
+                        }
+                      
+
                         if (!VerifyInputIntegrity(value))
                         {
                             CurrentValueAsString = CurrentValueAsString;
                             await commonJsInterop.SetInputValue(Element, CurrentValueAsString!);
                             return;
-
+ 
                         }
+
+
                         TValue valueAsNum = (TValue)Convert.ChangeType(value, typeof(TValue));
 
                         if (Max.HasValue)
@@ -68,7 +136,7 @@ namespace NDK.UI.Components.Inputs
                             }
                         }
 
-                        
+
                         if (Min.HasValue)
                         {
                             TValue minAsType = (TValue)Convert.ChangeType(Min, typeof(TValue));
@@ -80,17 +148,19 @@ namespace NDK.UI.Components.Inputs
                             }
                         }
 
-                       
+
                     }
 
 
-                    CurrentValueAsString = (string?)args.Value;
-                    await commonJsInterop.SetInputValue(Element, CurrentValueAsString!);
-
-
+                    CurrentValueAsString = value;
+                    if (srcValueChanged)
+                        await commonJsInterop.SetInputValue(Element, CurrentValueAsString!);
                 }
             }
         }
+
+
+
 
         protected override TValue? ParseValueFromString(string value)
         {
@@ -111,57 +181,60 @@ namespace NDK.UI.Components.Inputs
                 return true;
             }
 
-            int charCode = value[0];
-
-            if (charCode < 48 || 
-                charCode > 57 )
-            {
-                if (charCode == 45)
-                    return true;
-
-                return false;
-            }
-
-            if (BindConverter.TryConvertTo<TValue>(value, CultureInfo.InvariantCulture, out TValue? vlr))
-            {
-                return true;
-            }
-            else
+            if (value.Count(x => x == '-') > 1 ||
+                value.Count(x => x == ',') > 1 ||
+                value.Count(x => x == '.') > 0)
             {
                 return false;
             }
+
+            if (value.IndexOf("-") > 0)
+            {
+                return false;
+            }
+
+
+
+            for (int i = 0; i < value.Length; i++)
+            {
+                int charCode = value[i];
+
+                if ((charCode < 48 || charCode > 57) && charCode != this.Decimal && charCode != 45)
+                {
+                    return false;
+                }
+            }
+
+            return true;
 
         }
 
         protected override string? FormatValueAsString(TValue? value)
         {
-            // Avoiding a cast to IFormattable to avoid boxing.
-            switch (value)
+            string? parcialResult = value switch
             {
-                case null:
-                    return null;
+                null => null,
+                int @int => BindConverter.FormatValue(@int, CultureInfo.InvariantCulture),
+                long @long => BindConverter.FormatValue(@long, CultureInfo.InvariantCulture),
+                short @short => BindConverter.FormatValue(@short, CultureInfo.InvariantCulture),
+                float @float => BindConverter.FormatValue(@float, CultureInfo.InvariantCulture),
+                double @double => BindConverter.FormatValue(@double, CultureInfo.InvariantCulture),
+                decimal @decimal => BindConverter.FormatValue(@decimal, CultureInfo.InvariantCulture),
+                _ => throw new InvalidOperationException($"Unsupported type {value.GetType()}")
+            };
 
-                case int @int:
-                    return BindConverter.FormatValue(@int, CultureInfo.InvariantCulture);
-
-                case long @long:
-                    return BindConverter.FormatValue(@long, CultureInfo.InvariantCulture);
-
-                case short @short:
-                    return BindConverter.FormatValue(@short, CultureInfo.InvariantCulture);
-
-                case float @float:
-                    return BindConverter.FormatValue(@float, CultureInfo.InvariantCulture);
-
-                case double @double:
-                    return BindConverter.FormatValue(@double, CultureInfo.InvariantCulture);
-
-                case decimal @decimal:
-                    return BindConverter.FormatValue(@decimal, CultureInfo.InvariantCulture);
-
-                default:
-                    throw new InvalidOperationException($"Unsupported type {value.GetType()}");
+            if (string.IsNullOrWhiteSpace(parcialResult))
+            {
+                return parcialResult;
             }
+
+            if (this.Thousands != THOUSANDS_CONST || this.Decimal != DECIMAL_CONST)
+            {
+                parcialResult = parcialResult.Replace(THOUSANDS_CONST.ToString(), nameof(THOUSANDS_CONST)).Replace(DECIMAL_CONST.ToString(), nameof(DECIMAL_CONST));
+                parcialResult = parcialResult.Replace(nameof(THOUSANDS_CONST), this.Thousands.ToString()).Replace(nameof(DECIMAL_CONST), this.Decimal.ToString());
+            }
+
+            return parcialResult;
         }
     }
 }

@@ -4,12 +4,10 @@
 
 <input @ref="Element"
        value="@CurrentValueAsString"
-       type="number"
        id="@Id"
        name="@Name"
        title="@Title"
        class="@Class"
        style="@Style"
-       step="@_stepAttributeValue"
        disabled="@Disabled"
        oninput="@((ChangeEventArgs args) => Set(args))" />
