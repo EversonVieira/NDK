@@ -5,7 +5,10 @@
        title="@Title"
        class="@Class"
        style="@Style"
+       
        disabled="@Disabled"
+       
        @ref="Element"
-       @bind="Value">
+       @onchange="@((ChangeEventArgs args) => Set(args))"
+       >
 

@@ -24,6 +24,12 @@ namespace NDK.UI
             await module.InvokeAsync<string>("setInputValue",element, value);
         }
 
+        public async Task<string?> GetInputValue(ElementReference element)
+        {
+            var module = await moduleTask.Value;
+            return await module.InvokeAsync<string>("getInputValue", element);
+        }
+
         public async ValueTask DisposeAsync()
         {
             if (moduleTask.IsValueCreated)
