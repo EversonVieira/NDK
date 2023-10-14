@@ -2,6 +2,7 @@
 @typeparam TValue where TValue:INumber<TValue> 
 @inherits NDKBaseInput<TValue>
 
+<label>@Prefix</label>
 <input @ref="Element"
        value="@CurrentValueAsString"
        id="@Id"
@@ -11,3 +12,4 @@
        style="@Style"
        disabled="@Disabled"
        oninput="@((ChangeEventArgs args) => Set(args))" />
+<label>@Suffix</label>
