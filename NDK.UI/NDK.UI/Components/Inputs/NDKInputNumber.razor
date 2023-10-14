@@ -11,5 +11,6 @@
        class="@Class"
        style="@Style"
        disabled="@Disabled"
-       oninput="@((ChangeEventArgs args) => Set(args))" />
+       oninput="@((ChangeEventArgs args) => Set(args))"
+       onchange="@((ChangeEventArgs args) => SetChange(args))"/>
 <label>@Suffix</label>

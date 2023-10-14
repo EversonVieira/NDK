@@ -25,7 +25,7 @@ namespace NDK.UI.Components.Inputs
         public string? Prefix { get; set; }
 
         [Parameter]
-        public string? Suffix { get; set;}
+        public string? Suffix { get; set; }
 
         [Parameter]
         public char Thousands { get; set; } = THOUSANDS_CONST;
@@ -34,7 +34,7 @@ namespace NDK.UI.Components.Inputs
         public char Decimal { get; set; } = DECIMAL_CONST;
 
         [Parameter]
-        public int? Scale {  get; set; }
+        public int? Scale { get; set; }
 
 
 
@@ -69,16 +69,36 @@ namespace NDK.UI.Components.Inputs
                 {
                     string? value = (string?)args.Value;
 
+                    if (string.IsNullOrWhiteSpace(value))
+                    {
+                        value = "0";
+                        await commonJsInterop.SetInputValue(Element, value!);
+                        return;
+                    }
+
                     if (!string.IsNullOrWhiteSpace(value))
                     {
-                        if (!string.IsNullOrWhiteSpace(Prefix))
+                        if (value.StartsWith("0", StringComparison.Ordinal)) 
                         {
-                            value = value.Replace(Prefix, "");
+                            value = value.Substring(1);
                         }
 
-                        if (!string.IsNullOrWhiteSpace(Suffix))
+                        if (Scale.HasValue && value.Contains(Decimal))
                         {
-                            value = value.Replace(Suffix, "");
+                            int counter = value.Length - value.IndexOf(Decimal);
+                            if (counter > Scale.Value + 1)
+                            {
+                                value = value.Substring(0, value.Length - 1);
+                                await commonJsInterop.SetInputValue(Element, value!);
+                                return;
+                            }
+                        }
+
+                        if (!VerifyInputIntegrity(value))
+                        {
+                            CurrentValueAsString = CurrentValueAsString;
+                            await commonJsInterop.SetInputValue(Element, CurrentValueAsString!);
+                            return;
                         }
 
                         if (value.Length == 1)
@@ -88,15 +108,63 @@ namespace NDK.UI.Components.Inputs
                                 return;
                             }
 
-                            if (value.StartsWith(".") || value.StartsWith(","))
+                            if (value.StartsWith(Thousands) || value.StartsWith(Decimal))
                             {
                                 value = $"0";
                                 srcValueChanged = true;
                             }
                         }
-                        else
+
+
+                        value = NormalizeValue(value);
+
+                    }
+
+
+
+
+                    CurrentValueAsString = value;
+                    if (srcValueChanged)
+                        await commonJsInterop.SetInputValue(Element, CurrentValueAsString!);
+                }
+            }
+        }
+
+        private string NormalizeValue(string value)
+        {
+            value = value.Replace(Thousands.ToString(), nameof(Thousands)).Replace(Decimal.ToString(), nameof(Decimal));
+            value = value.Replace(nameof(Thousands), THOUSANDS_CONST.ToString()).Replace(nameof(Decimal), DECIMAL_CONST.ToString());
+            return value;
+
+        }
+        protected async Task SetChange(ChangeEventArgs args)
+        {
+            await using (var commonJsInterop = new CommonJsInterop(Js))
+            {
+                bool srcValueChanged = false;
+                if (args != null)
+                {
+                    string? value = (string?)args.Value;
+
+                    if (!string.IsNullOrWhiteSpace(value))
+                    {
+                        if (value.EndsWith(Thousands.ToString()) || value.EndsWith(Decimal.ToString()))
                         {
-                            if (value.StartsWith(".") || value.StartsWith(","))
+                            srcValueChanged = true;
+                            value = value.Substring(0, value.Length - 1);
+                        }
+
+                        if (value.Length == 1)
+                        {
+                            if ((value.StartsWith("-") || value.StartsWith(".") || value.StartsWith(",")))
+                            {
+                                value = $"0";
+                                srcValueChanged = true;
+                            }
+                        }
+                        else if (value.Length > 1)
+                        {
+                            if (value.StartsWith(Thousands.ToString()) || value.StartsWith(Decimal.ToString()))
                             {
                                 value = $"0{value[0]}{value.Substring(1)}";
                                 srcValueChanged = true;
@@ -112,22 +180,16 @@ namespace NDK.UI.Components.Inputs
                                 value = value.Substring(0, index + Scale.Value + 1);
                             }
                         }
-                      
 
-                        if (!VerifyInputIntegrity(value))
-                        {
-                            CurrentValueAsString = CurrentValueAsString;
-                            await commonJsInterop.SetInputValue(Element, CurrentValueAsString!);
-                            return;
- 
-                        }
+                        value = NormalizeValue(value);
 
 
-                        TValue valueAsNum = (TValue)Convert.ChangeType(value, typeof(TValue));
+
+                        TValue valueAsNum = (TValue)Convert.ChangeType(value, typeof(TValue), CultureInfo.GetCultureInfo("en-us"));
 
                         if (Max.HasValue)
                         {
-                            TValue maxAsType = (TValue)Convert.ChangeType(Max, typeof(TValue));
+                            TValue maxAsType = (TValue)Convert.ChangeType(Max, typeof(TValue), CultureInfo.GetCultureInfo("en-us"));
                             if (valueAsNum.CompareTo(maxAsType) > 0)
                             {
                                 CurrentValueAsString = CurrentValueAsString;
@@ -139,7 +201,7 @@ namespace NDK.UI.Components.Inputs
 
                         if (Min.HasValue)
                         {
-                            TValue minAsType = (TValue)Convert.ChangeType(Min, typeof(TValue));
+                            TValue minAsType = (TValue)Convert.ChangeType(Min, typeof(TValue), CultureInfo.GetCultureInfo("en-us"));
                             if (valueAsNum.CompareTo(minAsType) < 0)
                             {
                                 CurrentValueAsString = CurrentValueAsString;
@@ -152,26 +214,28 @@ namespace NDK.UI.Components.Inputs
                     }
 
 
+
+
+
                     CurrentValueAsString = value;
                     if (srcValueChanged)
                         await commonJsInterop.SetInputValue(Element, CurrentValueAsString!);
                 }
             }
+
+
+            await Task.CompletedTask;
         }
-
-
 
 
         protected override TValue? ParseValueFromString(string value)
         {
-            if (!VerifyInputIntegrity(value))
+            if (string.IsNullOrWhiteSpace(value))
             {
-                return CurrentValue;
+                return default;
             }
 
-
-            return base.ParseValueFromString(value);
-
+            return (TValue)Convert.ChangeType(value, typeof(TValue), CultureInfo.GetCultureInfo("en-us"));
         }
 
         protected override bool VerifyInputIntegrity(string? value)
@@ -182,8 +246,8 @@ namespace NDK.UI.Components.Inputs
             }
 
             if (value.Count(x => x == '-') > 1 ||
-                value.Count(x => x == ',') > 1 ||
-                value.Count(x => x == '.') > 0)
+                value.Count(x => x == Decimal) > 1 ||
+                value.Count(x => x == Thousands) > 0)
             {
                 return false;
             }
@@ -192,6 +256,7 @@ namespace NDK.UI.Components.Inputs
             {
                 return false;
             }
+
 
 
 
@@ -214,12 +279,12 @@ namespace NDK.UI.Components.Inputs
             string? parcialResult = value switch
             {
                 null => null,
-                int @int => BindConverter.FormatValue(@int, CultureInfo.InvariantCulture),
-                long @long => BindConverter.FormatValue(@long, CultureInfo.InvariantCulture),
-                short @short => BindConverter.FormatValue(@short, CultureInfo.InvariantCulture),
-                float @float => BindConverter.FormatValue(@float, CultureInfo.InvariantCulture),
-                double @double => BindConverter.FormatValue(@double, CultureInfo.InvariantCulture),
-                decimal @decimal => BindConverter.FormatValue(@decimal, CultureInfo.InvariantCulture),
+                int @int => BindConverter.FormatValue(@int, CultureInfo.GetCultureInfo("en-us")),
+                long @long => BindConverter.FormatValue(@long, CultureInfo.GetCultureInfo("en-us")),
+                short @short => BindConverter.FormatValue(@short, CultureInfo.GetCultureInfo("en-us")),
+                float @float => BindConverter.FormatValue(@float, CultureInfo.GetCultureInfo("en-us")),
+                double @double => BindConverter.FormatValue(@double, CultureInfo.GetCultureInfo("en-us")),
+                decimal @decimal => BindConverter.FormatValue(@decimal, CultureInfo.GetCultureInfo("en-us")),
                 _ => throw new InvalidOperationException($"Unsupported type {value.GetType()}")
             };
 
