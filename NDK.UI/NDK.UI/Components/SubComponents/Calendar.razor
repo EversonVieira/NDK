@@ -1,4 +1,53 @@
-﻿
+﻿@inherits NDKBaseInput<DateTime>
+
+<div class="ndk-calendar-container">
+
+    <select>
+        @foreach(var month in Options.AvailableMonths)
+        {
+            <option value="@month">@(Options.MonthLabels[month])</option>
+        }
+    </select>
 
 
+
+    <select>
+        @foreach(var year in Options.AvailableYears)
+        {
+            <option value="@year">@year</option>
+        }
+    </select>
+
+    <table class="ndk-calendar" style="width:300px">
+        <tr class="ndk-dt-header-ui">
+            <th class="ndk-dt-header-s-ui">@Options.SundayAlias</th>
+            <th>@Options.MondayAlias</th>
+            <th>@Options.TuesdayAlias</th>
+            <th>@Options.WednesdayAlias</th>
+            <th>@Options.ThursdayAlias</th>
+            <th>@Options.FridayAlias</th>
+            <th class="ndk-dt-header-e-ui">@Options.SaturdayAlias</th>
+        </tr>
+        @{
+            foreach (var item in DataSource)
+            {
+                bool isPair = DataSource.IndexOf(item) % 2 == 0;
+                <tr class="@($"ndk-dt-row-ui {(isPair ? "ndk-dt-row-pair-ui":"")}")">
+                    @{
+                        foreach (var dayModel in item.DayList)
+                        {
+                            <td class="ndk-dt-container-ui">
+                                <span class="ndk-dt-item-ui">
+                                    @(!dayModel.ShowEmpty ? dayModel.Day.ToString() : "-")
+                                </span>
+                            </td>
+                        }
+                    }
+                </tr>
+            }
+        }
+    </table>
+
+
+</div>
 
