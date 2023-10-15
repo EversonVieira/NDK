@@ -40,6 +40,43 @@ namespace NDK.UI.Components.Inputs
 
         protected static readonly string _stepAttributeValue = GetStepAttributeValue();
 
+        protected string GetMaxLength()
+        {
+            var targetType = Nullable.GetUnderlyingType(typeof(TValue)) ?? typeof(TValue);
+
+            if (targetType == typeof(int))
+            {
+                return int.MaxValue.ToString().Length.ToString();
+            }
+
+            if (targetType == typeof(long))
+            {
+                return long.MaxValue.ToString().Length.ToString();
+            }
+
+            if (targetType == typeof(short))
+            {
+                return short.MaxValue.ToString().Length.ToString();
+            }
+
+            if (targetType == typeof(float))
+            {
+                return float.MaxValue.ToString().Length.ToString();
+            }
+
+            if (targetType == typeof(double))
+            {
+                return double.MaxValue.ToString().Length.ToString();
+            }
+
+            if (targetType == typeof(decimal))
+            {
+                return decimal.MaxValue.ToString().Length.ToString();
+            }
+
+            return string.Empty;
+
+        }
 
         private static string GetStepAttributeValue()
         {
@@ -78,7 +115,7 @@ namespace NDK.UI.Components.Inputs
 
                     if (!string.IsNullOrWhiteSpace(value))
                     {
-                        if (value.StartsWith("0", StringComparison.Ordinal)) 
+                        if (value.StartsWith($"{(Min.HasValue ? Min.ToString() : "0")}", StringComparison.Ordinal))
                         {
                             value = value.Substring(1);
                         }
@@ -110,7 +147,7 @@ namespace NDK.UI.Components.Inputs
 
                             if (value.StartsWith(Thousands) || value.StartsWith(Decimal))
                             {
-                                value = $"0";
+                                value = $"{(Min.HasValue ? Min.ToString() : "0")}";
                                 srcValueChanged = true;
                             }
                         }
@@ -118,6 +155,10 @@ namespace NDK.UI.Components.Inputs
 
                         value = NormalizeValue(value);
 
+                        if (!BindConverter.TryConvertTo<TValue>(value,CultureInfo.InvariantCulture, out var tmpvalue))
+                        {
+                            value = value.Substring(0, value.Length - 1);
+                        }
                     }
 
 
@@ -158,7 +199,7 @@ namespace NDK.UI.Components.Inputs
                         {
                             if ((value.StartsWith("-") || value.StartsWith(".") || value.StartsWith(",")))
                             {
-                                value = $"0";
+                                value = $"{(Min.HasValue ? Min.ToString() : "0")}";
                                 srcValueChanged = true;
                             }
                         }
@@ -166,7 +207,7 @@ namespace NDK.UI.Components.Inputs
                         {
                             if (value.StartsWith(Thousands.ToString()) || value.StartsWith(Decimal.ToString()))
                             {
-                                value = $"0{value[0]}{value.Substring(1)}";
+                                value = $"{{(Min.HasValue ? Min.ToString():\"0\"{value[0]}{value.Substring(1)}";
                                 srcValueChanged = true;
                             }
                         }
@@ -183,32 +224,14 @@ namespace NDK.UI.Components.Inputs
 
                         value = NormalizeValue(value);
 
-
+                        if (!BindConverter.TryConvertTo<TValue>(value, CultureInfo.InvariantCulture, out var tmpvalue))
+                        {
+                            value = value.Substring(0, value.Length - 1);
+                        }
 
                         TValue valueAsNum = (TValue)Convert.ChangeType(value, typeof(TValue), CultureInfo.GetCultureInfo("en-us"));
 
-                        if (Max.HasValue)
-                        {
-                            TValue maxAsType = (TValue)Convert.ChangeType(Max, typeof(TValue), CultureInfo.GetCultureInfo("en-us"));
-                            if (valueAsNum.CompareTo(maxAsType) > 0)
-                            {
-                                CurrentValueAsString = CurrentValueAsString;
-                                await commonJsInterop.SetInputValue(Element, CurrentValueAsString!);
-                                return;
-                            }
-                        }
-
-
-                        if (Min.HasValue)
-                        {
-                            TValue minAsType = (TValue)Convert.ChangeType(Min, typeof(TValue), CultureInfo.GetCultureInfo("en-us"));
-                            if (valueAsNum.CompareTo(minAsType) < 0)
-                            {
-                                CurrentValueAsString = CurrentValueAsString;
-                                await commonJsInterop.SetInputValue(Element, CurrentValueAsString!);
-                                return;
-                            }
-                        }
+                        if (!await ValidateMaxMin(valueAsNum, commonJsInterop)) return;
 
 
                     }
@@ -226,6 +249,41 @@ namespace NDK.UI.Components.Inputs
 
             await Task.CompletedTask;
         }
+
+        private async Task<bool> ValidateMax(TValue valueAsNum, CommonJsInterop commonJsInterop)
+        {
+            if (Max.HasValue)
+            {
+                TValue maxAsType = (TValue)Convert.ChangeType(Max, typeof(TValue), CultureInfo.GetCultureInfo("en-us"));
+                if (valueAsNum.CompareTo(maxAsType) > 0)
+                {
+                    CurrentValueAsString = Max.ToString();
+                    await commonJsInterop.SetInputValue(Element, Max.ToString()!);
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        private async Task<bool> ValidateMin(TValue valueAsNum, CommonJsInterop commonJsInterop)
+        {
+            if (Min.HasValue)
+            {
+                TValue minAsType = (TValue)Convert.ChangeType(Min, typeof(TValue), CultureInfo.GetCultureInfo("en-us"));
+                if (valueAsNum.CompareTo(minAsType) < 0)
+                {
+                    CurrentValueAsString = Min.ToString();
+                    await commonJsInterop.SetInputValue(Element, Min.ToString()!);
+                    return false;
+                }
+            }
+
+            return true;
+        }
+        private async Task<bool> ValidateMaxMin(TValue valueAsNum, CommonJsInterop commonJsInterop) =>
+           await ValidateMax(valueAsNum, commonJsInterop) && await ValidateMin(valueAsNum, commonJsInterop);
+
 
 
         protected override TValue? ParseValueFromString(string value)
@@ -247,7 +305,10 @@ namespace NDK.UI.Components.Inputs
 
             if (value.Count(x => x == '-') > 1 ||
                 value.Count(x => x == Decimal) > 1 ||
-                value.Count(x => x == Thousands) > 0)
+                value.Count(x => x == Thousands) > 0 ||
+                (!Scale.HasValue &&
+                (value.Count(x => x == Decimal) > 0 ||
+                value.Count(x => x == Thousands) > 0)))
             {
                 return false;
             }

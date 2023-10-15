@@ -9,7 +9,8 @@
 
 <NDKInputDate @bind-Value="Model.DateTime" Id="3"></NDKInputDate> *@
 
-<NDK.UI.Components.SubComponents.Calendar Id="Calendar"></NDK.UI.Components.SubComponents.Calendar>
+<NDKCalendar Id="Calendar"></NDKCalendar>
+
 @code {
     protected InputModel Model = new InputModel();
 
@@ -24,3 +25,4 @@
         public DateTimeOffset dateTimeOffset { get; set; }
     }
 }
+
