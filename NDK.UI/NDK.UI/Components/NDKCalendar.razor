@@ -3,13 +3,13 @@
 <div class="ndk-calendar-container">
 
     <div class="ndk-calendar-controlers">
-        <select @bind="Options.Month" onfocusout="@(() => UpdateValue())">
+        <select @bind="Options.Month" onfocusout="@(() => UpdateValue(true))">
             @foreach (var month in Options.AvailableMonths)
             {
                 <option value="@month">@(Options.MonthLabels[month])</option>
             }
         </select>
-        <NDKInputNumber Id="ndkyearinputnumber" @bind-Value="Options.Year" Min="1800" Max="9999"/>
+        <NDKInputNumber Id="ndkyearinputnumber" @bind-Value="Options.Year" AfterValueUpdate="@((int output) => UpdateValue(true))"  Min="1800" Max="9999" />
         
         
         <NDKButton Id="ndkcalendartodaybutton" OnClick="OnClickHandlerAsync">@Options.TodayAlias</NDKButton>

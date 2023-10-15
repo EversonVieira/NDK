@@ -64,8 +64,11 @@ namespace NDK.UI.Components
                 {
                     if (item.Day == day.Day)
                     {
-                        item.IsSelected = true;
-                        SelectedDay = item;
+                        if (!item.ShowEmpty)
+                        {
+                            item.IsSelected = true;
+                            SelectedDay = item;
+                        }
                     }
                     else
                     {
@@ -74,15 +77,31 @@ namespace NDK.UI.Components
                 }
             }
 
+
+
             await UpdateValue();
+
 
             StateHasChanged();
         }
 
 
-        public async Task UpdateValue()
+        public async Task UpdateValue(bool dataSourceUpdate = false)
         {
+
+            if (dataSourceUpdate)
+            {
+                this.FiilDataSource();
+                StateHasChanged();
+            }
+
             if (SelectedDay == null)
+            {
+                CurrentValueAsString = null;
+                return;
+            }
+
+            if (SelectedDay.ShowEmpty)
             {
                 CurrentValueAsString = null;
                 return;
@@ -144,7 +163,7 @@ namespace NDK.UI.Components
 
                 if (i == 1 && dayOfWeek > DayOfWeek.Sunday)
                 {
-                    for (int k = 0; k <= (int)dayOfWeek; k++)
+                    for (int k = 0; k < (int)dayOfWeek; k++)
                     {
                         item.DayList.Add(new DayItem { ShowEmpty = true, DayOfWeek = (DayOfWeek)k });
                     }
@@ -179,8 +198,7 @@ namespace NDK.UI.Components
 
             weekList = new ObservableCollection<WeekList>(weekList.OrderBy(x => x.WeekIndex).ToList());
 
-            this.
-            DataSource = weekList;
+            this.DataSource = weekList;
         }
 
         public async Task OnClickHandlerAsync()

@@ -56,6 +56,11 @@ namespace NDK.UI.Components.Common
         [Parameter]
         public Expression<Func<TValue>>? ValueExpression { get; set; }
 
+        [Parameter]
+        public EventCallback<TValue?> BeforeValueUpdate {  get; set; }
+
+        [Parameter]
+        public EventCallback<TValue?> AfterValueUpdate { get; set; }
 
         protected virtual string? FormatValueAsString(TValue? value)
             => value?.ToString();
@@ -88,7 +93,18 @@ namespace NDK.UI.Components.Common
             set
             {
                 Value = value;
+
+                if (BeforeValueUpdate.HasDelegate)
+                {
+                    BeforeValueUpdate.InvokeAsync(CurrentValue);
+                }
+
                 _ = ValueChanged.InvokeAsync(Value);
+
+                if (AfterValueUpdate.HasDelegate)
+                {
+                    AfterValueUpdate.InvokeAsync(CurrentValue);
+                }
                 
             }
         }
