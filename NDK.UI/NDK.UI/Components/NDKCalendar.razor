@@ -64,7 +64,7 @@
                         foreach (var dayModel in item.DayList)
                         {
                             <td class="ndk-dt-container-ui">
-                                <span class="@($"ndk-dt-item-ui {(dayModel.IsSelected ? "ndk-dt-item-selected-ui" : "")}")"
+                                <span class="@($"ndk-dt-item-ui {(dayModel.IsSelected ? "ndk-dt-item-selected-ui" : "")} {(dayModel.ShowEmpty ? "ndk-dt-item-ui-disabled":"")}")"
                                       onclick="@(() => OnDaySelect(dayModel))">
                                     @(!dayModel.ShowEmpty ? dayModel.Day.ToString() : "-")
                                 </span>

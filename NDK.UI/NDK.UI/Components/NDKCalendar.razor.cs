@@ -59,6 +59,11 @@ namespace NDK.UI.Components
 
         public async Task OnDaySelect(DayItem day)
         {
+            if (day.ShowEmpty)
+            {
+                return;
+            }
+
             foreach (var wk in DataSource)
             {
                 foreach (var item in wk.DayList)

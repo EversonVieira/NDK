@@ -6,14 +6,13 @@
     box-shadow: var(--ndk-popup, 0 8px 10px rgba(0, 0, 0, 0.12), 0 4px 16px rgba(0, 0, 0, 0.12));
     border: 1px solid rgba(0,0,0,0);
     border-radius: 8px;
-    font-size:14px;
+    font-size: 14px;
 }
 
 .ndk-calendar {
-    
     border-radius: 8px;
-    max-width:100px !important;
-    width:100px !important;
+    max-width: 100px !important;
+    width: 100px !important;
 }
 
 .ndk-dt-header-ui {
@@ -59,6 +58,17 @@
         background-color: #e2e1e1;
         border-color: #e2e1e1
     }
+
+.ndk-dt-item-ui-disabled {
+    cursor: not-allowed
+}
+
+    .ndk-dt-item-ui-disabled:hover {
+        cursor: not-allowed;
+        background-color: rgba(255,255,255,0);
+        border-color: rgba(255,255,255,0)
+    }
+
 
 .ndk-calendar-controlers {
     display: flex;
