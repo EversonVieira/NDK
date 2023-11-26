@@ -31,7 +31,8 @@ namespace NDK.UI.Components
 
         private async Task SetSelectedDateAsToday()
         {
-            SelectedDay = AllDays.Find(x => x.Day == DateTime.UtcNow.Day);
+            int day = DateTime.Now.Day;
+            SelectedDay = AllDays.Find(x => x.Day == day);
 
             Options.Year = DateTime.UtcNow.Year;
             Options.Month = DateTime.UtcNow.Month;
@@ -171,10 +172,9 @@ namespace NDK.UI.Components
 
                 if (newWeek)
                 {
-                    AllDays.AddRange(item.DayList);
                     item = new WeekList()
                     {
-                        WeekIndex = i,
+                        WeekIndex = weekIndex,
                     };
 
                     weekList.Add(item);
@@ -197,6 +197,11 @@ namespace NDK.UI.Components
             }
 
             weekList = new ObservableCollection<WeekList>(weekList.OrderBy(x => x.WeekIndex).ToList());
+
+            foreach(var wi in weekList)
+            {
+                AllDays.AddRange(wi.DayList);
+            }
 
             this.DataSource = weekList;
         }
