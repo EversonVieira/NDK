@@ -1,5 +1,4 @@
-﻿
-.ndk-calendar-container {
+﻿.ndk-year-picker-container {
     width: fit-content;
     padding: 5px;
     /* offset-x | offset-y | blur-radius | spread-radius | color */
@@ -9,39 +8,22 @@
     font-size: 14px;
 }
 
-.ndk-calendar {
-    border-radius: 8px;
-    max-width: 100px !important;
-    width: 100px !important;
+.ndk-year-picker{
+    display: flex;
+    padding: 10px;
+    flex-direction: column;
+}
+.ndk-year-picker-header{
+    padding:10px 0;
 }
 
-
-
-.ndk-dt-header-ui {
-    padding: 2px;
-    border-radius: 8px;
+.ndk-year-picker-line{
+    display:flex;
+    justify-content:center;
+    align-items: center;
 }
 
-.ndk-dt-row-ui {
-    background-color: none;
-}
-
-.ndk-dt-row-pair-ui {
-}
-
-.ndk-dt-header-s-ui {
-    border-top-left-radius: 8px;
-}
-
-.ndk-dt-header-e-ui {
-    border-top-right-radius: 8px;
-}
-
-.ndk-dt-container-ui {
-    padding: 2px;
-}
-
-.ndk-dt-item-ui {
+.ndk-year-picker-item {
     display: flex;
     border: none;
     padding: 10px;
@@ -55,33 +37,27 @@
     transition: color 0.3s;
 }
 
-    .ndk-dt-item-ui:hover {
-        cursor: pointer;
-        background-color: #e2e1e1;
-        border-color: #e2e1e1
-    }
+.ndk-year-picker-item:hover {
+    cursor: pointer;
+    background-color: #e2e1e1;
+    border-color: #e2e1e1
+}
 
-.ndk-dt-item-ui-disabled {
+.ndk-year-picker-item-disabled {
     cursor: not-allowed
 }
 
-    .ndk-dt-item-ui-disabled:hover {
+    .ndk-year-picker-item-disabled:hover {
         cursor: not-allowed;
         background-color: rgba(255,255,255,0);
         border-color: rgba(255,255,255,0)
     }
 
-
-.ndk-calendar-controlers {
-    display: flex;
-    justify-content: space-between;
-}
-
-.ndk-dt-item-selected-ui {
+.ndk-year-picker-item-selected-ui {
     background-color: #ada7fc !important;
     color: #fff;
 }
 
-.ndk-dt-header-m-ui {
+.ndk-year-picker-item-container {
     padding: 2px;
 }

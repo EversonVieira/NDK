@@ -19,15 +19,13 @@ namespace NDK.UI.Components
         private DayItem? SelectedDay;
         public NDKCalendar()
         {
-            FiilDataSource();
+            FillDataSource();
         }
 
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
         }
-
-
 
         private async Task SetSelectedDateAsToday()
         {
@@ -97,7 +95,7 @@ namespace NDK.UI.Components
 
             if (dataSourceUpdate)
             {
-                this.FiilDataSource();
+                this.FillDataSource();
                 StateHasChanged();
             }
 
@@ -151,7 +149,7 @@ namespace NDK.UI.Components
 
             return Options.MonthLabels[month];
         }
-        private void FiilDataSource()
+        private void FillDataSource()
         {
             int AvailableDays = DateTime.DaysInMonth(Options.Year, Options.Month);
             int weekIndex = 1;

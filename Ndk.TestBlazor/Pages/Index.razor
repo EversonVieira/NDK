@@ -9,7 +9,9 @@
 
 <NDKInputDate @bind-Value="Model.DateTime" Id="3"></NDKInputDate> *@
 
-<NDKCalendar Id="Calendar"></NDKCalendar>
+<NDKCalendar Id="Calendar"/>
+
+<NDKYearPicker Id="Year" CurrentYearAsDefaultValue="true" MinimalYear="2020" MaximumYear="2025"/>
 
 @code {
     protected InputModel Model = new InputModel();

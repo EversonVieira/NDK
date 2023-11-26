@@ -1,0 +1,40 @@
+﻿@inherits NDKBaseInput<int>
+
+<div class="ndk-year-picker-container">
+
+    <div class="ndk-year-picker">
+
+        <div class="ndk-year-picker-header">
+            <span class="ndk-year-picker-header-value">@($"{CurrentYear - 6} - {CurrentYear + 5}")</span>
+
+            <NDKButton Id="YearPickerCurrentYear" OnClick="SetCurrentYear">@Options.CurrentYearAlias</NDKButton>
+            <NDKButton Id="YearPickerCurrentYear" OnClick="Clear">@Options.ClearAlias</NDKButton>
+        </div>
+
+        @{
+
+            foreach(var yl in DataSource)
+            {
+                <div class="ndk-year-picker-line">
+                
+                    @foreach(var yi in yl.Items)
+                    {
+                        <div class="ndk-year-picker-item-container">
+                            <span 
+                                class="@($"ndk-year-picker-item {(yi.ShowEmpty ? "ndk-year-picker-item-disabled":"-")} {(yi.IsSelected ? "ndk-year-picker-item-selected-ui":"")}")"
+                                onclick="@(() => SetYear(yi))">
+
+                                @($"{(yi.ShowEmpty ? "-":yi.Value)}")
+                            </span>
+                        </div>
+                    }
+                
+                </div>
+            }
+        }
+        </div>
+
+</div>
+
+
+

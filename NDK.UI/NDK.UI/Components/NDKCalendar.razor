@@ -9,11 +9,11 @@
                 <option value="@month">@(Options.MonthLabels[month])</option>
             }
         </select>
+        
         <NDKInputNumber Id="ndkyearinputnumber" @bind-Value="Options.Year" AfterValueUpdate="@((int output) => UpdateValue(true))"  Min="1800" Max="9999" />
         
-        
         <NDKButton Id="ndkcalendartodaybutton" OnClick="OnClickHandlerAsync">@Options.TodayAlias</NDKButton>
-        <NDKButton Id="ndkcalendartodaybutton" OnClick="OnClear">@Options.Clear</NDKButton>
+        <NDKButton Id="ndkcalendarclearbutton" OnClick="OnClear">@Options.Clear</NDKButton>
         </div>
 
 
