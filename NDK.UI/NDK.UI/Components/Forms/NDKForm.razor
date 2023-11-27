@@ -1,0 +1,33 @@
+﻿@using NDK.UI.Components.Forms.Common;
+@typeparam TModel
+@attribute [CascadingTypeParameter(nameof(TModel))]
+@inherits NDKBaseComponent
+
+<CascadingValue Value="this" TValue="NDKForm<TModel>">
+    <CascadingValue Value="Model" TValue="TModel">
+        <CascadingValue Value="Data">
+
+            <div class="ndk-form-container">
+
+                <div class="ndk-form">
+                    @{
+                        if(Sections is not null)
+                        {
+                            @Sections
+                        }
+
+                        if (ChildContent is not null)
+                        {
+                            @ChildContent(Model)
+                        }
+                    }
+                </div>
+
+            </div>
+        </CascadingValue>
+    </CascadingValue>
+
+</CascadingValue>
+
+
+

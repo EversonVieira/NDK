@@ -1,0 +1,34 @@
+﻿@using NDK.UI.Icons
+@inherits NDKBaseComponent
+@typeparam TModel
+<div class="ndk-section-container">
+
+    <div class="ndk-section">
+
+        <div class="ndk-section-header" onclick="@(() => ExpandCollapse())">
+
+            @if (Collapsable)
+            {
+                <span>
+                    @(IsExpanded ? CommonIcons.ExpandLess:CommonIcons.ExpandMore)
+                </span>
+            }
+
+            @SectionHeader
+        </div>
+
+        @if (!Collapsable || IsExpanded)
+        {
+            <div class="ndk-section-content">
+
+                @if (ChildContent is not null && FormData is not null && FormData.Model is not null)
+                    @ChildContent(FormData.Model)
+
+            </div>
+        }
+
+    </div>
+
+</div>
+
+

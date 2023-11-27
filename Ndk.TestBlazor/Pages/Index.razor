@@ -1,5 +1,7 @@
 ﻿@page "/"
 @using System.Text.Json
+@using NDK.UI.Components.Forms
+@using NDK.UI.Components.Forms.Common
 @inject IJSRuntime _js
 
 
@@ -9,10 +11,20 @@
 
 <NDKInputDate @bind-Value="Model.DateTime" Id="3"></NDKInputDate> *@
 
-<NDKCalendar Id="Calendar"/>
+@* <NDKCalendar Id="Calendar"/>
 
-<NDKYearPicker Id="Year" CurrentYearAsDefaultValue="true" MinimalYear="2020" MaximumYear="2025"/>
+<NDKYearPicker Id="Year" CurrentYearAsDefaultValue="true" MinimalYear="2020" MaximumYear="2025"/> *@
 
+
+<NDKForm Id="FormX" Model="Model">
+    <Sections>
+        <NDKFormSection Id="x">
+            @{
+                context.
+            }
+        </NDKFormSection>
+    </Sections>
+</NDKForm>
 @code {
     protected InputModel Model = new InputModel();
 
