@@ -17,7 +17,7 @@ namespace NDK.UI.Components.Forms.Common
         public RenderFragment? SectionHeader { get; set; }
 
         [Parameter]
-        public bool Collapsable { get; set; }
+        public bool Collapsable { get; set; } = true;
 
         [Parameter]
         public bool StartExpanded { get; set; } = true;

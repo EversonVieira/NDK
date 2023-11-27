@@ -9,8 +9,8 @@ namespace NDK.UI.Components.Common
 {
     public abstract class NDKBaseComponent : ComponentBase
     {
-        [Parameter, EditorRequired]
-        public string? Id { get; set; }
+        [Parameter]
+        public string? Id { get; set; } = Guid.NewGuid().ToString();
 
         [Parameter]
         public string? Name { get; set; }
