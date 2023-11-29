@@ -1,5 +1,40 @@
-﻿<h3>NDKMonthPicker</h3>
+﻿@inherits NDKBaseInput<int>
 
-@code {
+<div class="ndk-Month-picker-container">
 
-}
+    <div class="ndk-Month-picker">
+
+        <div class="ndk-Month-picker-header">
+            <span class="ndk-Month-picker-header-value">
+                @($"{ControlMonth - 6} - {ControlMonth + 5}")
+
+            </span>
+
+            <NDKButton Id="MonthPickerCurrentMonth" OnClick="SetCurrentMonth">@Options.CurrentMonthAlias</NDKButton>
+            <NDKButton Id="MonthPickerCurrentMonth" OnClick="Clear">@Options.ClearAlias</NDKButton>
+
+            </div>
+
+        @foreach (var yl in DataSource)
+        {
+            <div class="ndk-Month-picker-line">
+
+                @foreach (var yi in yl.Items)
+                {
+                    <div class="ndk-Month-picker-item-container">
+                        <span class="@($"ndk-Month-picker-item {(yi.ShowEmpty ? "ndk-Month-picker-item-disabled":"-")} {(yi.IsSelected ? "ndk-Month-picker-item-selected-ui":"")}")"
+                              onclick="@(() => SetMonth(yi))">
+
+                            @($"{(yi.ShowEmpty ? "-" : yi.Value)}")
+                        </span>
+                    </div>
+                }
+
+            </div>
+        }
+    </div>
+
+</div>
+
+
+

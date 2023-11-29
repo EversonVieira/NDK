@@ -19,7 +19,7 @@ namespace NDK.UI.Components
         public YearPickerOptions Options { get; set; } = new YearPickerOptions();
 
         public YearItem? SelectedYearItem { get; set; }
-        private int CurrentYear { get; set; } = DateTime.Now.Year;
+        private int ControlYear { get; set; } = DateTime.Now.Year;
         public ObservableCollection<YearList> DataSource { get; set; } = new ObservableCollection<YearList>();
 
         protected override async Task OnInitializedAsync()
@@ -35,11 +35,30 @@ namespace NDK.UI.Components
 
         }
 
+        protected async Task SetBaseYear(int offset)
+        {
+            ControlYear += offset;
+
+            if (ControlYear > MaximumYear || ControlYear < MinimalYear)
+            {
+                ControlYear -= offset;
+                return;
+            }
+
+            await FillDataSource();
+        }
+
         public async Task SetCurrentYear()
         {
+            if (ControlYear != DateTime.Now.Year)
+            {
+                ControlYear = DateTime.Now.Year;
+                await FillDataSource();
+            }
+
             await SetYear(new YearItem
             {
-                Value = CurrentYear
+                Value = ControlYear
             });
         }
 
@@ -83,12 +102,10 @@ namespace NDK.UI.Components
             await Task.CompletedTask;
         }
 
-        public async Task FillDataSource(int offset = 0)
+        public async Task FillDataSource()
         {
-            CurrentYear += offset;
-
-            int start = CurrentYear - 6;
-            int end = CurrentYear + 5;
+            int start = ControlYear - 6;
+            int end = ControlYear + 5;
             int index = 0;
             DataSource.Clear();
 

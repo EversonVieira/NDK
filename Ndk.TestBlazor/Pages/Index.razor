@@ -6,16 +6,16 @@
 
 
 @* <NDKInputNumber @bind-Value="Model.Decimal" Thousands="','" Decimal="'.'" Scale="2" Prefix="R$"
-               Id="1"/>
-<NDKInputText @bind-Value="Model.String" Id="2" />
+               Id="1"/> *@
+<NDKInputText @bind-Value="Model.String" AfterValueUpdate="Log" Id="2" />
 
-<NDKInputDate @bind-Value="Model.DateTime" Id="3"></NDKInputDate> *@
+@* <NDKInputDate @bind-Value="Model.DateTime" Id="3"></NDKInputDate> *@
 
-@* <NDKCalendar Id="Calendar"/>
+@* <NDKCalendar Id="Calendar"/> *@
 
-<NDKYearPicker Id="Year" CurrentYearAsDefaultValue="true" MinimalYear="2020" MaximumYear="2025"/> *@
+@* <NDKYearPicker Id="Year" CurrentYearAsDefaultValue="true" MinimalYear="1800" MaximumYear="2100"/> *@
 
-
+@* 
 <NDKForm Id="FormX" Model="Model">
    <Sections>
        <NDKFormSection Id="X" Collapsable="true">
@@ -30,7 +30,7 @@
             TESTE 2
         </NDKFormSection>
    </Sections>
-</NDKForm>
+</NDKForm> *@
 @code {
     protected InputModel Model = new InputModel();
 
@@ -43,6 +43,12 @@
         public string String { get; set; } = "Tes";
         public DateTime DateTime { get; set; }
         public DateTimeOffset dateTimeOffset { get; set; }
+    }
+
+    public void Log(string value)
+    {
+        Console.WriteLine(value);
+        Console.WriteLine($"Updated Value?:{Model.String}");
     }
 }
 

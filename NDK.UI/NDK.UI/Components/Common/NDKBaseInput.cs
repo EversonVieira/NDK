@@ -92,12 +92,12 @@ namespace NDK.UI.Components.Common
             get => Value;
             set
             {
-                Value = value;
-
                 if (BeforeValueUpdate.HasDelegate)
                 {
                     BeforeValueUpdate.InvokeAsync(CurrentValue);
                 }
+
+                Value = value;
 
                 _ = ValueChanged.InvokeAsync(Value);
 
