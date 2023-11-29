@@ -9,7 +9,7 @@ namespace NDK.UI.Components.Forms
     public partial class NDKForm<TModel> : NDKBaseComponent
     {
         [Parameter]
-        public RenderFragment? Sections { get; set; }
+        public RenderFragment<TModel>? Sections { get; set; }
 
         [Parameter]
         public RenderFragment<TModel>? ChildContent { get; set; }
