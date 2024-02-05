@@ -7,7 +7,6 @@
     border: 1px solid rgba(0,0,0,0);
     border-radius: 8px;
     font-size: 14px;
-    background-color: var(--background-color);
 }
 
 .ndk-calendar-ui {
@@ -15,8 +14,6 @@
     max-width: 100px !important;
     width: 100px !important;
 }
-
-
 
 .ndk-dt-header-ui {
     padding: 2px;
@@ -79,7 +76,7 @@
 }
 
 .ndk-dt-item-selected-ui {
-    background-color: #ada7fc !important;
+    background-color: #ada7fc ;
     color: #fff;
 }
 
