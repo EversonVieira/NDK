@@ -28,7 +28,7 @@ namespace NDK.UI.Components
         [CascadingParameter]
         protected NDKCalendar? Calendar { get; set; }
 
-        protected Dictionary<int, string> MonthNames { get; set; } = new Dictionary<int, string>();
+        public Dictionary<int, string> MonthAlias { get; set; } = new Dictionary<int, string>();
 
         protected override async Task OnInitializedAsync()
         {
@@ -41,19 +41,10 @@ namespace NDK.UI.Components
                 await SetCurrentMonth();
             }
 
-        }
-
-        protected async Task SetBaseMonth(int offset)
-        {
-            ControlMonth += offset;
-
-            if (ControlMonth > MaximumMonth || ControlMonth < MinimalMonth)
+            await SetMonth(new MonthItem
             {
-                ControlMonth -= offset;
-                return;
-            }
-
-            await FillDataSource();
+                Value = ControlMonth
+            });
         }
 
         public async Task SetCurrentMonth()
@@ -101,6 +92,8 @@ namespace NDK.UI.Components
 
             CurrentValueAsString = item.Value.ToString();
 
+
+
             StateHasChanged();
 
             await Task.CompletedTask;
@@ -133,22 +126,22 @@ namespace NDK.UI.Components
                 index++;
             }
 
-            if (MonthNames.Count == 0  || (MonthNames.ContainsKey(1) && !MonthNames[1].Equals(Options.JanAlias)))
+            if (MonthAlias.Count == 0  || (MonthAlias.ContainsKey(1) && !MonthAlias[1].Equals(Options.JanAlias)))
             {
-                this.MonthNames.Clear();
+                this.MonthAlias.Clear();
 
-                this.MonthNames.Add(1, Options.JanAlias);
-                this.MonthNames.Add(2, Options.FebAlias);
-                this.MonthNames.Add(3, Options.MarAlias);
-                this.MonthNames.Add(4, Options.AprilAlias);
-                this.MonthNames.Add(5, Options.MayAlias);
-                this.MonthNames.Add(6, Options.JuneAlias);
-                this.MonthNames.Add(7, Options.JulyAlias);
-                this.MonthNames.Add(8, Options.AugAlias);
-                this.MonthNames.Add(9, Options.SepAlias);
-                this.MonthNames.Add(10, Options.OctAlias);
-                this.MonthNames.Add(11, Options.NovAlias);
-                this.MonthNames.Add(12, Options.DecAlias);
+                this.MonthAlias.Add(1, Options.JanAlias);
+                this.MonthAlias.Add(2, Options.FebAlias);
+                this.MonthAlias.Add(3, Options.MarAlias);
+                this.MonthAlias.Add(4, Options.AprilAlias);
+                this.MonthAlias.Add(5, Options.MayAlias);
+                this.MonthAlias.Add(6, Options.JuneAlias);
+                this.MonthAlias.Add(7, Options.JulyAlias);
+                this.MonthAlias.Add(8, Options.AugAlias);
+                this.MonthAlias.Add(9, Options.SepAlias);
+                this.MonthAlias.Add(10, Options.OctAlias);
+                this.MonthAlias.Add(11, Options.NovAlias);
+                this.MonthAlias.Add(12, Options.DecAlias);
             }
            
             await Task.CompletedTask;
@@ -185,6 +178,11 @@ namespace NDK.UI.Components
             public string NovAlias { get; set; } = "Nov";
             public string DecAlias { get; set; } = "Dec";
 
+        }
+
+        protected override string GetClass()
+        {
+            return $"{base.GetClass()} {(Calendar is not null ? "ndk-calendar-tool" : "")}";
         }
     }
 }

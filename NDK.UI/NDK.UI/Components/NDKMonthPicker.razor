@@ -1,38 +1,43 @@
 ﻿@inherits NDKBaseInput<int>
+@if (Calendar is null || (Calendar is not null && Calendar.ShowMonthPicker))
+{
+    <div class="ndk-component ndk-month-picker-container @GetClass()">
 
-<div class="ndk-component ndk-month-picker-container @GetClass()">
+        <div class="ndk-month-picker">
 
-    <div class="ndk-month-picker">
+            <div class="ndk-month-controlers">
+                @if(Calendar is  null)
+                {
+                    <NDKButton OnClick="Clear">@Options.ClearAlias</NDKButton>
+                }
+                <NDKButton OnClick="SetCurrentMonth">@Options.CurrentMonthAlias</NDKButton>
 
-        <div class="ndk-month-controlers">
-            <NDKButton>@Calendar?.Value</NDKButton>
-            <NDKButton OnClick="Clear">@Options.ClearAlias</NDKButton>
-            <NDKButton OnClick="SetCurrentMonth">@Options.CurrentMonthAlias</NDKButton>
+                </div>
+
+                <table class="ndk-month">
+                    @foreach (var list in DataSource)
+                {
+                    bool isPair = DataSource.IndexOf(list) % 2 == 0;
+                    <tr class="@($"ndk-dt-row-ui {(isPair ? "ndk-dt-row-pair-ui":"")}")">
+
+                        @foreach (var item in list.Items)
+                        {
+                            <td class="ndk-dt-container-ui" @onclick="@(() => SetMonth(item))">
+                                <span class="@($"ndk-dt-item-ui {(item.IsSelected ? "ndk-dt-item-selected-ui" : "")}")">
+                                    @MonthAlias[item.Value]
+                                </span>
+                            </td>
+                        }
+
+                    </tr>
+                }
+            </table>
+
+
         </div>
-
-        <table class="ndk-month">
-            @foreach(var list in DataSource)
-            {
-                bool isPair = DataSource.IndexOf(list) % 2 == 0;
-                <tr class="@($"ndk-dt-row-ui {(isPair ? "ndk-dt-row-pair-ui":"")}")">
-
-                    @foreach(var item in list.Items)
-                    {
-                        <td class="ndk-dt-container-ui" @onclick="@(() => SetMonth(item))">
-                            <span class="@($"ndk-dt-item-ui {(item.IsSelected ? "ndk-dt-item-selected-ui" : "")}")">
-                               @MonthNames[item.Value]
-                            </span>
-                        </td>
-                    }
-                
-                </tr>
-            }
-        </table>
-
 
     </div>
 
-</div>
 
 
-
+}

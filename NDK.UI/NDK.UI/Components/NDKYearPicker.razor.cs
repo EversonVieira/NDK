@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Components;
 using NDK.UI.Components.Common;
 using System.Collections.ObjectModel;
+using static NDK.UI.Components.NDKMonthPicker;
 
 namespace NDK.UI.Components
 {
@@ -18,9 +19,13 @@ namespace NDK.UI.Components
         [Parameter]
         public YearPickerOptions Options { get; set; } = new YearPickerOptions();
 
+        [CascadingParameter]
+        protected NDKCalendar? Calendar { get; set; }
+
         public YearItem? SelectedYearItem { get; set; }
         private int ControlYear { get; set; } = DateTime.Now.Year;
         public ObservableCollection<YearList> DataSource { get; set; } = new ObservableCollection<YearList>();
+
 
         protected override async Task OnInitializedAsync()
         {
@@ -33,6 +38,11 @@ namespace NDK.UI.Components
                 await SetCurrentYear();
             }
 
+
+            await SetYear(new YearItem
+            {
+                Value = ControlYear
+            });
         }
 
         protected async Task SetBaseYear(int offset)
@@ -152,6 +162,11 @@ namespace NDK.UI.Components
             public string CurrentYearAlias = "Current Year";
             public string ClearAlias = "Clear";
 
+        }
+
+        protected override string GetClass()
+        {
+            return $"{base.GetClass()} {(Calendar is not null ? "ndk-calendar-tool":"")}";
         }
     }
 }

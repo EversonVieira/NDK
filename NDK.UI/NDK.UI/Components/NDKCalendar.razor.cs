@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Options;
 using NDK.UI.Components.Common;
+using System;
 using System.Collections.ObjectModel;
 
 namespace NDK.UI.Components
@@ -12,8 +14,12 @@ namespace NDK.UI.Components
         [Parameter]
         public CalendarOptions Options { get; set; } = new CalendarOptions();
 
+        public bool ShowMonthPicker { get; set; }
+        public bool ShowYearPicker { get; set; }
 
         protected ObservableCollection<WeekList> DataSource = new ObservableCollection<WeekList>();
+
+        protected NDKMonthPicker? NDKMonthPickerRef { get; set; }
 
         private List<DayItem> AllDays = new List<DayItem>();
         private DayItem? SelectedDay;
@@ -113,6 +119,7 @@ namespace NDK.UI.Components
 
             CurrentValueAsString = new DateTime(Options.Year, Options.Month, SelectedDay.Day).ToString(DateFormat);
 
+            StateHasChanged();
             await Task.CompletedTask;
         }
 
@@ -140,19 +147,27 @@ namespace NDK.UI.Components
 ;        }
 
 
-        protected string GetMonthLabel(int month)
-        {
-            if (month <= 0 || month > 12)
-            {
-                return string.Empty;
-            }
 
-            return Options.MonthLabels[month];
-        }
-        private void FillDataSource()
+       
+        private async void FillDataSource()
         {
             int AvailableDays = DateTime.DaysInMonth(Options.Year, Options.Month);
             int weekIndex = 1;
+            DayItem? dayItem = null;
+
+            if (DataSource.Count > 0)
+            {
+
+                foreach(var w in DataSource)
+                {
+                    dayItem = w.DayList.Where(x => x.IsSelected).FirstOrDefault();
+                    if (dayItem != null) 
+                    {
+                        break;
+                    }
+                }
+
+            }
 
             ObservableCollection<WeekList> weekList = new ObservableCollection<WeekList>();
 
@@ -207,6 +222,26 @@ namespace NDK.UI.Components
             }
 
             this.DataSource = weekList;
+
+            if (dayItem is not null)
+            {
+                if (dayItem.Day > 28 && !AllDays.Exists(x => x.Day == dayItem.Day))
+                {
+                    dayItem = AllDays.LastOrDefault();
+                    if (dayItem is not null)
+                    {
+                        await OnDaySelect(dayItem);
+                    }
+                }
+                else
+                {
+                    dayItem = AllDays.Find(x => x.Day == dayItem.Day);
+                    if (dayItem is not null)
+                    {
+                        await OnDaySelect(dayItem);
+                    }
+                }
+            }   
         }
 
         public async Task OnClickHandlerAsync()
@@ -243,7 +278,6 @@ namespace NDK.UI.Components
 
             public string TodayAlias { get; set; } = "Today";
             public string Clear { get; set; } = "Clear";
-            public Dictionary<int, string> MonthLabels { get; set; } = new Dictionary<int, string>();
 
             public string SundayAlias { get; set; } = "S";
             public string MondayAlias { get; set; } = "M";
@@ -267,26 +301,7 @@ namespace NDK.UI.Components
 
                 Year = DateTime.UtcNow.Year;
                 Month = DateTime.UtcNow.Month;
-                FillMonthLabels();
             }
-
-            public virtual void FillMonthLabels()
-            {
-                MonthLabels.Add(1, "January");
-                MonthLabels.Add(2, "February");
-                MonthLabels.Add(3, "March");
-                MonthLabels.Add(4, "April");
-                MonthLabels.Add(5, "May");
-                MonthLabels.Add(6, "Jun");
-                MonthLabels.Add(7, "July");
-                MonthLabels.Add(8, "August");
-                MonthLabels.Add(9, "September");
-                MonthLabels.Add(10, "October");
-                MonthLabels.Add(11, "November");
-                MonthLabels.Add(12, "December");
-
-            }
-
 
             public DayOfWeek GetFirstDayOfTheWeek()
             {
@@ -295,6 +310,43 @@ namespace NDK.UI.Components
                 return Date.DayOfWeek;
 
             }
+           
+        }
+
+        protected async Task OnMonthUpdate(int month)
+        {
+            Options.Month = month;
+
+            this.ShowMonthPicker = false;
+            await UpdateValue(true);
+
+
+            await Task.CompletedTask;
+        }
+
+        protected async Task OnYearUpdate(int year)
+        {
+            Options.Year = year;
+
+            this.ShowYearPicker= false;
+            await UpdateValue(true);
+
+
+            await Task.CompletedTask;
+        }
+
+        protected async Task OpenMonth()
+        {
+            ShowMonthPicker = true;
+            StateHasChanged();
+            await Task.CompletedTask;
+        }
+
+        protected async Task OpenYear() 
+        {
+            ShowYearPicker = true;
+            StateHasChanged();
+            await Task.CompletedTask;
         }
     }
 }

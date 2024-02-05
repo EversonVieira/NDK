@@ -2,18 +2,19 @@
 
 <div class="ndk-component ndk-calendar-container @GetClass()">
 
-    <div class="ndk-calendar-controlers">
-        <select @bind="Options.Month" onfocusout="@(() => UpdateValue(true))">
-            @foreach (var month in Options.AvailableMonths)
+    @if (!ShowMonthPicker && !ShowYearPicker)
+    {
+        <div class="ndk-calendar-controlers">
+
+            <span @onclick="(() => OpenYear())">@Options.Year</span>
+            @if (NDKMonthPickerRef is not null)
             {
-                <option value="@month">@(Options.MonthLabels[month])</option>
+                <span @onclick="(() => OpenMonth())">@NDKMonthPickerRef.MonthAlias[Options.Month]</span>
             }
-        </select>
-        
-        <NDKInputNumber Id="ndkyearinputnumber" @bind-Value="Options.Year" AfterValueUpdate="@((int output) => UpdateValue(true))"  Min="1800" Max="9999" />
-        
-        <NDKButton Id="ndkcalendartodaybutton" OnClick="OnClickHandlerAsync">@Options.TodayAlias</NDKButton>
-        <NDKButton Id="ndkcalendarclearbutton" OnClick="OnClear">@Options.Clear</NDKButton>
+
+
+            <NDKButton Id="ndkcalendartodaybutton" OnClick="OnClickHandlerAsync">@Options.TodayAlias</NDKButton>
+            <NDKButton Id="ndkcalendarclearbutton" OnClick="OnClear">@Options.Clear</NDKButton>
         </div>
 
 
@@ -22,64 +23,64 @@
                 <th class="ndk-dt-header-m-ui">
                     <span class="ndk-dt-item-ui">
                         @Options.SundayAlias
-                </span>
-            </th>
-            <th class="ndk-dt-header-m-ui">
-                <span class="ndk-dt-item-ui">
-                    @Options.MondayAlias
-                </span>
-            </th>
-            <th class="ndk-dt-header-m-ui">
-                <span class="ndk-dt-item-ui">
-                    @Options.TuesdayAlias
-                </span>
-            </th>
-            <th class="ndk-dt-header-m-ui">
-                <span class="ndk-dt-item-ui">
-                    @Options.WednesdayAlias
-                </span>
-            </th>
-            <th class="ndk-dt-header-m-ui">
-                <span class="ndk-dt-item-ui">
-                    @Options.ThursdayAlias
-                </span>
-            </th>
-            <th class="ndk-dt-header-m-ui">
-                <span class="ndk-dt-item-ui">
-                    @Options.FridayAlias
-                </span>
-            </th>
-            <th class="ndk-dt-header-m-ui">
-                <span class="ndk-dt-item-ui">
-                    @Options.SaturdayAlias
-                </span>
-            </th>
-        </tr>
-        @{
-            foreach (var item in DataSource)
-            {
-                bool isPair = DataSource.IndexOf(item) % 2 == 0;
-                <tr class="@($"ndk-dt-row-ui {(isPair ? "ndk-dt-row-pair-ui":"")}")">
-                    @{
-                        foreach (var dayModel in item.DayList)
-                        {
-                            <td class="ndk-dt-container-ui">
-                                <span class="@($"ndk-dt-item-ui {(dayModel.IsSelected ? "ndk-dt-item-selected-ui" : "")} {(dayModel.ShowEmpty ? "ndk-dt-item-ui-disabled":"")}")"
-                                      onclick="@(() => OnDaySelect(dayModel))">
-                                    @(!dayModel.ShowEmpty ? dayModel.Day.ToString() : "-")
-                                </span>
-                            </td>
+                    </span>
+                </th>
+                <th class="ndk-dt-header-m-ui">
+                    <span class="ndk-dt-item-ui">
+                        @Options.MondayAlias
+                    </span>
+                </th>
+                <th class="ndk-dt-header-m-ui">
+                    <span class="ndk-dt-item-ui">
+                        @Options.TuesdayAlias
+                    </span>
+                </th>
+                <th class="ndk-dt-header-m-ui">
+                    <span class="ndk-dt-item-ui">
+                        @Options.WednesdayAlias
+                    </span>
+                </th>
+                <th class="ndk-dt-header-m-ui">
+                    <span class="ndk-dt-item-ui">
+                        @Options.ThursdayAlias
+                    </span>
+                </th>
+                <th class="ndk-dt-header-m-ui">
+                    <span class="ndk-dt-item-ui">
+                        @Options.FridayAlias
+                    </span>
+                </th>
+                <th class="ndk-dt-header-m-ui">
+                    <span class="ndk-dt-item-ui">
+                        @Options.SaturdayAlias
+                    </span>
+                </th>
+            </tr>
+            @{
+                foreach (var item in DataSource)
+                {
+                    bool isPair = DataSource.IndexOf(item) % 2 == 0;
+                    <tr class="@($"ndk-dt-row-ui {(isPair ? "ndk-dt-row-pair-ui":"")}")">
+                        @{
+                            foreach (var dayModel in item.DayList)
+                            {
+                                <td class="ndk-dt-container-ui">
+                                    <span class="@($"ndk-dt-item-ui {(dayModel.IsSelected ? "ndk-dt-item-selected-ui" : "")} {(dayModel.ShowEmpty ? "ndk-dt-item-ui-disabled":"")}")"
+                                          onclick="@(() => OnDaySelect(dayModel))">
+                                        @(!dayModel.ShowEmpty ? dayModel.Day.ToString() : "-")
+                                    </span>
+                                </td>
+                            }
                         }
-                    }
-                </tr>
+                    </tr>
+                }
             }
-        }
-    </table>
+        </table>
+    }
 
     <CascadingValue Value="this">
-        <NDKMonthPicker></NDKMonthPicker>
-        <NDKYearPicker></NDKYearPicker>
+        <NDKMonthPicker @ref="NDKMonthPickerRef" Value="Options.Month" ValueChanged="OnMonthUpdate"></NDKMonthPicker>
+        <NDKYearPicker Value="Options.Year" ValueChanged="OnYearUpdate"></NDKYearPicker>
     </CascadingValue>
-
 </div>
 
