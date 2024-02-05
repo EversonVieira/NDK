@@ -1,22 +1,23 @@
 ﻿@page "/"
 @using System.Text.Json
 @using NDK.UI.Components.Forms
-@using NDK.UI.Components.Forms.Common
+@using NDK.UI.Components
+
 @inject IJSRuntime _js
 
 
-@* <NDKInputNumber @bind-Value="Model.Decimal" Thousands="','" Decimal="'.'" Scale="2" Prefix="R$"
-               Id="1"/> *@
-<NDKInputText @bind-Value="Model.String" AfterValueUpdate="Log" Id="2" />
+@* <NDKInputNumber @bind-Value="Model.Decimal" Thousands="','" Decimal="'.'" Scale="2" Prefix="R$" Id="1"/> 
+<NDKInputText @bind-Value="Model.String" AfterValueUpdate="Log" Id="2" /> 
 
-@* <NDKInputDate @bind-Value="Model.DateTime" Id="3"></NDKInputDate> *@
+<NDKInputDate @bind-Value="Model.DateTime" Id="3"></NDKInputDate> *@
 
-@* <NDKCalendar Id="Calendar"/> *@
+<NDKCalendar Id="Calendar"/>
 
-@* <NDKYearPicker Id="Year" CurrentYearAsDefaultValue="true" MinimalYear="1800" MaximumYear="2100"/> *@
+@* <NDKYearPicker Id="Year" CurrentYearAsDefaultValue="true" MinimalYear="1800" MaximumYear="2100"/>\ *@
+@* <NDKMonthPicker Id="Month"></NDKMonthPicker> *@
 
-@* 
-<NDKForm Id="FormX" Model="Model">
+
+@* <NDKForm Id="FormX" Model="Model">
    <Sections>
        <NDKFormSection Id="X" Collapsable="true">
            TESTE 1
@@ -30,7 +31,7 @@
             TESTE 2
         </NDKFormSection>
    </Sections>
-</NDKForm> *@
+</NDKForm>  *@
 @code {
     protected InputModel Model = new InputModel();
 

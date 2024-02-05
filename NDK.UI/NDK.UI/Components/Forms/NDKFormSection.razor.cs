@@ -2,7 +2,7 @@ using Microsoft.AspNetCore.Components;
 using NDK.UI.Components.Common;
 using System.Diagnostics.CodeAnalysis;
 
-namespace NDK.UI.Components.Forms.Common
+namespace NDK.UI.Components.Forms
 {
 
     public partial class NDKFormSection<TModel>:NDKBaseComponent

@@ -1,6 +1,6 @@
 ﻿using NDK.Core.Models;
 
-namespace NDK.UI.Components.Forms.Common
+namespace NDK.UI.Components.Forms
 {
     public class FormData<TModel>
     {

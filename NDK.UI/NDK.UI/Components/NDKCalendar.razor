@@ -1,6 +1,6 @@
 ﻿@inherits NDKBaseInput<DateTime>
 
-<div class="ndk-calendar-container">
+<div class="ndk-component ndk-calendar-container @GetClass()">
 
     <div class="ndk-calendar-controlers">
         <select @bind="Options.Month" onfocusout="@(() => UpdateValue(true))">
@@ -76,6 +76,10 @@
         }
     </table>
 
+    <CascadingValue Value="this">
+        <NDKMonthPicker></NDKMonthPicker>
+        <NDKYearPicker></NDKYearPicker>
+    </CascadingValue>
 
 </div>
 

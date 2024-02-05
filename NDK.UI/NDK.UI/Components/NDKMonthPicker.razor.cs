@@ -1,16 +1,17 @@
 using Microsoft.AspNetCore.Components;
 using NDK.UI.Components.Common;
 using System.Collections.ObjectModel;
+using System.Diagnostics.CodeAnalysis;
 
 namespace NDK.UI.Components
 {
     public partial class NDKMonthPicker : NDKBaseInput<int>
     {
         [Parameter]
-        public int MinimalMonth { get; set; } = 1800;
+        public int MaximumMonth { get; set; }
 
         [Parameter]
-        public int MaximumMonth { get; set; } = 9999;
+        public int MinimalMonth { get; set; }
 
         [Parameter]
         public bool CurrentMonthAsDefaultValue { get; set; }
@@ -19,8 +20,15 @@ namespace NDK.UI.Components
         public MonthPickerOptions Options { get; set; } = new MonthPickerOptions();
 
         public MonthItem? SelectedMonthItem { get; set; }
+
         private int ControlMonth { get; set; } = DateTime.Now.Month;
+
         public ObservableCollection<MonthList> DataSource { get; set; } = new ObservableCollection<MonthList>();
+
+        [CascadingParameter]
+        protected NDKCalendar? Calendar { get; set; }
+
+        protected Dictionary<int, string> MonthNames { get; set; } = new Dictionary<int, string>();
 
         protected override async Task OnInitializedAsync()
         {
@@ -60,6 +68,7 @@ namespace NDK.UI.Components
             {
                 Value = ControlMonth
             });
+
         }
 
         public async Task Clear()
@@ -77,11 +86,6 @@ namespace NDK.UI.Components
 
         public async Task SetMonth(MonthItem item)
         {
-            if (item.ShowEmpty)
-            {
-                return;
-            }
-
             foreach (MonthList list in DataSource)
             {
                 foreach (MonthItem Month in list.Items)
@@ -104,8 +108,8 @@ namespace NDK.UI.Components
 
         public async Task FillDataSource()
         {
-            int start = ControlMonth - 6;
-            int end = ControlMonth + 5;
+            int start = 1;
+            int end = 12;
             int index = 0;
             DataSource.Clear();
 
@@ -124,12 +128,29 @@ namespace NDK.UI.Components
                 {
                     Value = i,
                     IsSelected = false,
-                    ShowEmpty = i < MinimalMonth || i > MaximumMonth,
                 });
 
                 index++;
             }
 
+            if (MonthNames.Count == 0  || (MonthNames.ContainsKey(1) && !MonthNames[1].Equals(Options.JanAlias)))
+            {
+                this.MonthNames.Clear();
+
+                this.MonthNames.Add(1, Options.JanAlias);
+                this.MonthNames.Add(2, Options.FebAlias);
+                this.MonthNames.Add(3, Options.MarAlias);
+                this.MonthNames.Add(4, Options.AprilAlias);
+                this.MonthNames.Add(5, Options.MayAlias);
+                this.MonthNames.Add(6, Options.JuneAlias);
+                this.MonthNames.Add(7, Options.JulyAlias);
+                this.MonthNames.Add(8, Options.AugAlias);
+                this.MonthNames.Add(9, Options.SepAlias);
+                this.MonthNames.Add(10, Options.OctAlias);
+                this.MonthNames.Add(11, Options.NovAlias);
+                this.MonthNames.Add(12, Options.DecAlias);
+            }
+           
             await Task.CompletedTask;
         }
 
@@ -144,13 +165,25 @@ namespace NDK.UI.Components
         {
             public int Value { get; set; }
             public bool IsSelected { get; set; }
-            public bool ShowEmpty { get; set; }
         }
 
         public class MonthPickerOptions
         {
-            public string CurrentMonthAlias = "Current Month";
-            public string ClearAlias = "Clear";
+            public string CurrentMonthAlias { get; set; } = "Current Month";
+            public string ClearAlias { get; set; } = "Clear";
+
+            public string JanAlias { get; set; } = "Jan";
+            public string FebAlias { get; set; } = "Feb";
+            public string MarAlias { get; set; } = "Mar";
+            public string AprilAlias { get; set; } = "April";
+            public string MayAlias { get; set; } = "May";
+            public string JuneAlias { get; set; } = "June";
+            public string JulyAlias { get; set; } = "July";
+            public string AugAlias { get; set; } = "Aug";
+            public string SepAlias { get; set; } = "Sep";
+            public string OctAlias { get; set; } = "Oct";
+            public string NovAlias { get; set; } = "Nov";
+            public string DecAlias { get; set; } = "Dec";
 
         }
     }

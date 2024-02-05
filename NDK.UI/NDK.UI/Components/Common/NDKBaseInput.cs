@@ -14,8 +14,8 @@ namespace NDK.UI.Components.Common
 
         public ElementReference Element { get; protected set; }
 
-        [Parameter, EditorRequired]
-        public string? Id { get; set; }
+        [Parameter]
+        public string? Id { get; set; } = Guid.NewGuid().ToString();
 
         [Parameter]
         public string? Name { get; set; }
@@ -120,8 +120,12 @@ namespace NDK.UI.Components.Common
         }
 
         protected virtual bool VerifyInputIntegrity(string? value) => true;
-  
 
+        protected virtual string GetClass()
+        {
+            string currentName = this.GetType().Name.Replace("NDK","").ToLower();
+            return $"ndk-${currentName} ${Class}";
+        }
     }
 
 
