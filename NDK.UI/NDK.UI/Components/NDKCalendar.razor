@@ -1,9 +1,9 @@
 ﻿@inherits NDKBaseInput<DateTime>
+@if (!ShowMonthPicker && !ShowYearPicker)
+{
+    <div class="ndk-component ndk-calendar-container match-calendar @GetClass()">
 
-<div class="ndk-component ndk-calendar-container match-calendar @GetClass()">
 
-    @if (!ShowMonthPicker && !ShowYearPicker)
-    {
         <div class="ndk-calendar-controllers">
 
             <span class="ndk-calendar-control" @onclick="(() => OpenYear())">@Options.Year</span>
@@ -14,15 +14,15 @@
 
 
             <NDKButton Id="ndkcalendartodaybutton" OnClick="OnClickHandlerAsync">@Options.TodayAlias</NDKButton>
-            <NDKButton Id="ndkcalendarclearbutton" OnClick="OnClear">@Options.Clear</NDKButton>
-        </div>
+                <NDKButton Id="ndkcalendarclearbutton" OnClick="OnClear">@Options.Clear</NDKButton>
+            </div>
 
 
-        <table class="ndk-calendar">
-            <tr class="ndk-dt-header-ui">
-                <th class="ndk-dt-header-m-ui">
-                    <span class="ndk-dt-item-ui">
-                        @Options.SundayAlias
+            <table class="ndk-calendar">
+                <tr class="ndk-dt-header-ui">
+                    <th class="ndk-dt-header-m-ui">
+                        <span class="ndk-dt-item-ui">
+                            @Options.SundayAlias
                     </span>
                 </th>
                 <th class="ndk-dt-header-m-ui">
@@ -76,11 +76,11 @@
                 }
             }
         </table>
-    }
+    </div>
 
-    <CascadingValue Value="this">
-        <NDKMonthPicker Class="match-calendar" @ref="NDKMonthPickerRef" Value="Options.Month" ValueChanged="OnMonthUpdate"></NDKMonthPicker>
-        <NDKYearPicker  Class="match-calendar" @ref="NDKYearPickerRef" Value="Options.Year" ValueChanged="OnYearUpdate"></NDKYearPicker>
-    </CascadingValue>
-</div>
+}
 
+<CascadingValue Value="this">
+    <NDKMonthPicker Class="match-calendar" @ref="NDKMonthPickerRef" Value="Options.Month" ValueChanged="OnMonthUpdate"></NDKMonthPicker>
+    <NDKYearPicker Class="match-calendar" @ref="NDKYearPickerRef" Value="Options.Year" ValueChanged="OnYearUpdate"></NDKYearPicker>
+</CascadingValue>
