@@ -11,6 +11,8 @@
     /*colors*/
     --primary-text-color: #121212;
     --secondary-text-color: #fff;
+
+    --span-control: #ff6666;
     /*Border*/
     --border: 1px solid rgba(255,255,255,0);
     --border-radius: 8px;
@@ -31,7 +33,7 @@
     --primary-theme-bg-color: #272727;
     --primary-theme-color: #fff;
     /*Background colors*/
-    --hover-bg-color: #000000;
+    --hover-bg-color: #373737;
     --hover-bg-border-color: #000000;
     /*colors*/
     --primary-text-color: #fff;

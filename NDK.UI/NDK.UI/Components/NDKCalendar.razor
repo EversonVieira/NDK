@@ -1,10 +1,10 @@
 ﻿@inherits NDKBaseInput<DateTime>
 
-<div class="ndk-component ndk-calendar-container @GetClass()">
+<div class="ndk-component ndk-calendar-container match-calendar @GetClass()">
 
     @if (!ShowMonthPicker && !ShowYearPicker)
     {
-        <div class="ndk-calendar-controlers">
+        <div class="ndk-calendar-controllers">
 
             <span class="ndk-calendar-control" @onclick="(() => OpenYear())">@Options.Year</span>
             @if (NDKMonthPickerRef is not null && NDKMonthPickerRef.MonthAlias.ContainsKey(Options.Month))
@@ -79,8 +79,8 @@
     }
 
     <CascadingValue Value="this">
-        <NDKMonthPicker @ref="NDKMonthPickerRef" Value="Options.Month" ValueChanged="OnMonthUpdate"></NDKMonthPicker>
-        <NDKYearPicker  @ref="NDKYearPickerRef" Value="Options.Year" ValueChanged="OnYearUpdate"></NDKYearPicker>
+        <NDKMonthPicker Class="match-calendar" @ref="NDKMonthPickerRef" Value="Options.Month" ValueChanged="OnMonthUpdate"></NDKMonthPicker>
+        <NDKYearPicker  Class="match-calendar" @ref="NDKYearPickerRef" Value="Options.Year" ValueChanged="OnYearUpdate"></NDKYearPicker>
     </CascadingValue>
 </div>
 
