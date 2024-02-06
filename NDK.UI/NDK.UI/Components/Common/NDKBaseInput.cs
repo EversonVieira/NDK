@@ -126,6 +126,16 @@ namespace NDK.UI.Components.Common
             string currentName = this.GetType().Name.Replace("NDK","").ToLower();
             return $"ndk-{currentName} {(Disabled ? "ndk-button-disabled":"")} {Class}";
         }
+
+        public virtual async Task UpdateState()
+        {
+
+
+
+            StateHasChanged();
+
+            await Task.CompletedTask;
+        }
     }
 
 

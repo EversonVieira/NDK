@@ -64,15 +64,7 @@ namespace NDK.UI.Components
 
         public async Task Clear()
         {
-            if (SelectedMonthItem != null)
-            {
-                SelectedMonthItem.IsSelected = false;
-                SelectedMonthItem = null;
-            }
-
-            CurrentValueAsString = null;
-
-            await Task.CompletedTask;
+            await SetCurrentMonth();
         }
 
         public async Task SetMonth(MonthItem item)
@@ -130,6 +122,7 @@ namespace NDK.UI.Components
             {
                 this.MonthAlias.Clear();
 
+                this.MonthAlias.Add(0, "");
                 this.MonthAlias.Add(1, Options.JanAlias);
                 this.MonthAlias.Add(2, Options.FebAlias);
                 this.MonthAlias.Add(3, Options.MarAlias);
@@ -146,6 +139,8 @@ namespace NDK.UI.Components
            
             await Task.CompletedTask;
         }
+
+       
 
 
 

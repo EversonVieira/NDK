@@ -6,10 +6,10 @@
     {
         <div class="ndk-calendar-controlers">
 
-            <span @onclick="(() => OpenYear())">@Options.Year</span>
-            @if (NDKMonthPickerRef is not null)
+            <span class="ndk-calendar-control" @onclick="(() => OpenYear())">@Options.Year</span>
+            @if (NDKMonthPickerRef is not null && NDKMonthPickerRef.MonthAlias.ContainsKey(Options.Month))
             {
-                <span @onclick="(() => OpenMonth())">@NDKMonthPickerRef.MonthAlias[Options.Month]</span>
+                <span class="ndk-calendar-control" @onclick="(() => OpenMonth())">@NDKMonthPickerRef.MonthAlias[Options.Month]</span>
             }
 
 
@@ -80,7 +80,7 @@
 
     <CascadingValue Value="this">
         <NDKMonthPicker @ref="NDKMonthPickerRef" Value="Options.Month" ValueChanged="OnMonthUpdate"></NDKMonthPicker>
-        <NDKYearPicker Value="Options.Year" ValueChanged="OnYearUpdate"></NDKYearPicker>
+        <NDKYearPicker  @ref="NDKYearPickerRef" Value="Options.Year" ValueChanged="OnYearUpdate"></NDKYearPicker>
     </CascadingValue>
 </div>
 

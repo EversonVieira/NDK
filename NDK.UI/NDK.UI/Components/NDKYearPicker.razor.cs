@@ -74,13 +74,7 @@ namespace NDK.UI.Components
 
         public async Task Clear()
         {
-            if (SelectedYearItem != null)
-            {
-                SelectedYearItem.IsSelected = false;
-                SelectedYearItem = null;
-            }
-
-            CurrentValueAsString = null;
+            await SetCurrentYear();
 
             await Task.CompletedTask;
         }
@@ -168,5 +162,7 @@ namespace NDK.UI.Components
         {
             return $"{base.GetClass()} {(Calendar is not null ? "ndk-calendar-tool":"")}";
         }
+
+
     }
 }

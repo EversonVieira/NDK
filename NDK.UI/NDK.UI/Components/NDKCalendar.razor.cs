@@ -20,6 +20,7 @@ namespace NDK.UI.Components
         protected ObservableCollection<WeekList> DataSource = new ObservableCollection<WeekList>();
 
         protected NDKMonthPicker? NDKMonthPickerRef { get; set; }
+        protected NDKYearPicker? NDKYearPickerRef { get; set; }
 
         private List<DayItem> AllDays = new List<DayItem>();
         private DayItem? SelectedDay;
@@ -38,12 +39,25 @@ namespace NDK.UI.Components
             int day = DateTime.Now.Day;
             SelectedDay = AllDays.Find(x => x.Day == day);
 
-            Options.Year = DateTime.UtcNow.Year;
-            Options.Month = DateTime.UtcNow.Month;
+            Options.Year = DateTime.Now.Year;
+            Options.Month = DateTime.Now.Month;
 
             if (SelectedDay != null)
             {
                 await OnDaySelect(SelectedDay);
+            }
+
+            if (NDKMonthPickerRef is not null)
+            {
+                await NDKMonthPickerRef.SetMonth(new NDKMonthPicker.MonthItem
+                {
+                    Value = Options.Month
+                });
+            }
+
+            if (NDKYearPickerRef is not null)
+            {
+                await NDKYearPickerRef.SetYear(new NDKYearPicker.YearItem { Value = Options.Year });
             }
         }
 
@@ -58,6 +72,17 @@ namespace NDK.UI.Components
             this.CurrentValueAsString = null;
 
             StateHasChanged();
+
+            if (NDKMonthPickerRef is not null)
+            {
+                await NDKMonthPickerRef.Clear();
+            }
+
+            if (NDKYearPickerRef is not null)
+            {
+                await NDKYearPickerRef.Clear();
+            }
+
             await Task.CompletedTask;
         }
 
@@ -144,30 +169,19 @@ namespace NDK.UI.Components
                                 hour: Convert.ToInt32(hourParts[0]),
                                 minute: Convert.ToInt32(hourParts[1]),
                                 second: Convert.ToInt32(hourParts[2]));
-;        }
+            ;
+        }
 
 
 
-       
+
         private async void FillDataSource()
         {
             int AvailableDays = DateTime.DaysInMonth(Options.Year, Options.Month);
             int weekIndex = 1;
-            DayItem? dayItem = null;
+            
 
-            if (DataSource.Count > 0)
-            {
-
-                foreach(var w in DataSource)
-                {
-                    dayItem = w.DayList.Where(x => x.IsSelected).FirstOrDefault();
-                    if (dayItem != null) 
-                    {
-                        break;
-                    }
-                }
-
-            }
+           
 
             ObservableCollection<WeekList> weekList = new ObservableCollection<WeekList>();
 
@@ -216,32 +230,23 @@ namespace NDK.UI.Components
 
             weekList = new ObservableCollection<WeekList>(weekList.OrderBy(x => x.WeekIndex).ToList());
 
-            foreach(var wi in weekList)
+            foreach (var wi in weekList)
             {
                 AllDays.AddRange(wi.DayList);
             }
 
             this.DataSource = weekList;
 
-            if (dayItem is not null)
+            if (CurrentValue != default(DateTime))
             {
-                if (dayItem.Day > 28 && !AllDays.Exists(x => x.Day == dayItem.Day))
+                if (Options.Year == CurrentValue.Year && Options.Month == CurrentValue.Month)
                 {
-                    dayItem = AllDays.LastOrDefault();
-                    if (dayItem is not null)
+                    await this.OnDaySelect(new DayItem
                     {
-                        await OnDaySelect(dayItem);
-                    }
+                        Day = CurrentValue.Day,
+                    });
                 }
-                else
-                {
-                    dayItem = AllDays.Find(x => x.Day == dayItem.Day);
-                    if (dayItem is not null)
-                    {
-                        await OnDaySelect(dayItem);
-                    }
-                }
-            }   
+            }
         }
 
         public async Task OnClickHandlerAsync()
@@ -252,7 +257,7 @@ namespace NDK.UI.Components
 
         }
 
-        
+
 
 
         public class WeekList
@@ -273,8 +278,8 @@ namespace NDK.UI.Components
 
         public class CalendarOptions
         {
-            public int Year { get; set; } = DateTime.UtcNow.Year;
-            public int Month { get; set; } = DateTime.UtcNow.Month;
+            public int Year { get; set; } = DateTime.Now.Year;
+            public int Month { get; set; } = DateTime.Now.Month;
 
             public string TodayAlias { get; set; } = "Today";
             public string Clear { get; set; } = "Clear";
@@ -299,8 +304,8 @@ namespace NDK.UI.Components
                     AvailableYears.Add(i);
                 }
 
-                Year = DateTime.UtcNow.Year;
-                Month = DateTime.UtcNow.Month;
+                Year = DateTime.Now.Year;
+                Month = DateTime.Now.Month;
             }
 
             public DayOfWeek GetFirstDayOfTheWeek()
@@ -310,7 +315,7 @@ namespace NDK.UI.Components
                 return Date.DayOfWeek;
 
             }
-           
+
         }
 
         protected async Task OnMonthUpdate(int month)
@@ -318,7 +323,7 @@ namespace NDK.UI.Components
             Options.Month = month;
 
             this.ShowMonthPicker = false;
-            await UpdateValue(true);
+            this.FillDataSource();
 
 
             await Task.CompletedTask;
@@ -328,8 +333,8 @@ namespace NDK.UI.Components
         {
             Options.Year = year;
 
-            this.ShowYearPicker= false;
-            await UpdateValue(true);
+            this.ShowYearPicker = false;
+            this.FillDataSource();
 
 
             await Task.CompletedTask;
@@ -338,14 +343,12 @@ namespace NDK.UI.Components
         protected async Task OpenMonth()
         {
             ShowMonthPicker = true;
-            StateHasChanged();
             await Task.CompletedTask;
         }
 
-        protected async Task OpenYear() 
+        protected async Task OpenYear()
         {
             ShowYearPicker = true;
-            StateHasChanged();
             await Task.CompletedTask;
         }
     }
