@@ -144,6 +144,7 @@ namespace NDK.UI.Components
 
             CurrentValueAsString = new DateTime(Options.Year, Options.Month, SelectedDay.Day).ToString(DateFormat);
 
+            Console.WriteLine(CurrentValueAsString);
             StateHasChanged();
             await Task.CompletedTask;
         }
@@ -256,9 +257,6 @@ namespace NDK.UI.Components
             await UpdateValue();
 
         }
-
-
-
 
         public class WeekList
         {

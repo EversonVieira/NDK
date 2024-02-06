@@ -26,7 +26,6 @@ namespace NDK.UI.Components
         private int ControlYear { get; set; } = DateTime.Now.Year;
         public ObservableCollection<YearList> DataSource { get; set; } = new ObservableCollection<YearList>();
 
-
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
@@ -44,6 +43,8 @@ namespace NDK.UI.Components
                 Value = ControlYear
             });
         }
+
+      
 
         protected async Task SetBaseYear(int offset)
         {
@@ -127,13 +128,14 @@ namespace NDK.UI.Components
                 item.Items.Add(new YearItem
                 {
                     Value = i,
-                    IsSelected = false,
+                    IsSelected = i == CurrentValue,
                     ShowEmpty = i < MinimalYear || i > MaximumYear,
                 });
 
                 index++;
             }
 
+            
             await Task.CompletedTask;
         }
 

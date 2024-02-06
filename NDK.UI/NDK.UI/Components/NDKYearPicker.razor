@@ -10,20 +10,32 @@
             <div class="ndk-year-picker-header">
                 <span class="ndk-year-picker-header-value">
                     @($"{ControlYear - 6} - {ControlYear + 5}")
-
                 </span>
 
+            </div>
+            <div class="ndk-year-picker-header">
 
-                <NDKButton Id="YearPickerCurrentYear" OnClick="SetCurrentYear">@Options.CurrentYearAlias</NDKButton>
+                <div class="w-70p d-flex">
+                    <span class="ndk-calendar-control" @onclick="(() => SetCurrentYear())">@Options.CurrentYearAlias</span>
 
-                @if (Calendar is null)
-                {
-                    <NDKButton Id="YearPickerCurrentYear" OnClick="Clear">@Options.ClearAlias</NDKButton>
-                }
 
-                <span class="ndk-year-picker-header-value" onclick="@(() => SetBaseYear(6))">@($"Mais")</span>
-                <span class="ndk-year-picker-header-value" onclick="@(() => SetBaseYear(-6))">@($"Menos")</span>
+                    @if (Calendar is null)
+                    {
+                        <span class="ndk-calendar-control" @onclick="(() => Clear())">@Options.ClearAlias</span>
+                    }
+                </div>
 
+
+
+                <div class="w-30p d-flex">
+
+                    <span class="ndk-calendar-control" onclick="@(() => SetBaseYear(-6))">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z" /></svg>
+                    </span>
+                    <span class="ndk-calendar-control" onclick="@(() => SetBaseYear(6))">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z" /></svg>
+                    </span>
+                </div>
             </div>
 
             @{

@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Components;
 using NDK.UI.Components.Common;
 using System.Collections.ObjectModel;
 using System.Diagnostics.CodeAnalysis;
+using static NDK.UI.Components.NDKYearPicker;
 
 namespace NDK.UI.Components
 {
@@ -47,6 +48,8 @@ namespace NDK.UI.Components
             });
         }
 
+
+
         public async Task SetCurrentMonth()
         {
             if (ControlMonth != DateTime.Now.Month)
@@ -66,6 +69,8 @@ namespace NDK.UI.Components
         {
             await SetCurrentMonth();
         }
+
+      
 
         public async Task SetMonth(MonthItem item)
         {
@@ -112,7 +117,7 @@ namespace NDK.UI.Components
                 item.Items.Add(new MonthItem
                 {
                     Value = i,
-                    IsSelected = false,
+                    IsSelected = i == CurrentValue,
                 });
 
                 index++;

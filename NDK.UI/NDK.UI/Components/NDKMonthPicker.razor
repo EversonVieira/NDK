@@ -8,9 +8,9 @@
             <div class="ndk-month-controllers">
                 @if(Calendar is  null)
                 {
-                    <NDKButton OnClick="Clear">@Options.ClearAlias</NDKButton>
+                    <span class="ndk-calendar-control" @onclick="(() => Clear())">@Options.ClearAlias</span>
                 }
-                <NDKButton OnClick="SetCurrentMonth">@Options.CurrentMonthAlias</NDKButton>
+                <span class="ndk-calendar-control" @onclick="(() => SetCurrentMonth())">@Options.CurrentMonthAlias</span>
 
                 </div>
 

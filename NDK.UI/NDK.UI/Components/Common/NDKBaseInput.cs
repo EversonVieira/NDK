@@ -62,6 +62,8 @@ namespace NDK.UI.Components.Common
         [Parameter]
         public EventCallback<TValue?> AfterValueUpdate { get; set; }
 
+        protected TValue? PreviousValue { get; set; }
+
         protected virtual string? FormatValueAsString(TValue? value)
             => value?.ToString();
 
@@ -92,6 +94,9 @@ namespace NDK.UI.Components.Common
             get => Value;
             set
             {
+
+                PreviousValue = Value;
+
                 if (BeforeValueUpdate.HasDelegate)
                 {
                     BeforeValueUpdate.InvokeAsync(CurrentValue);
@@ -124,7 +129,7 @@ namespace NDK.UI.Components.Common
         protected virtual string GetClass()
         {
             string currentName = this.GetType().Name.Replace("NDK","").ToLower();
-            return $"ndk-{currentName} {(Disabled ? "ndk-button-disabled":"")} {Class}";
+            return $"ndk-component ndk-{currentName} {(Disabled ? "ndk-button-disabled":"")} {Class}";
         }
 
         public virtual async Task UpdateState()

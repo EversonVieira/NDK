@@ -19,12 +19,12 @@
     /*Box Shadow*/
     --box-shadow: var(--ndk-popup, 0 8px 10px rgba(0, 0, 0, 0.12), 0 4px 16px rgba(0, 0, 0, 0.12));
     /*Spacing*/
-    --p-1: 5px;
-    --p-2: 10px;
-    --p-3: 15px;
-    --m-1: 5px;
-    --m-2: 10px;
-    --m-3: 15px;
+    --p-1: 1px;
+    --p-2: 2px;
+    --p-3: 3px;
+    --m-1: 1px;
+    --m-2: 2px;
+    --m-3: 3px;
 }
 /*-------------------- DARK MODE ------------*/
 

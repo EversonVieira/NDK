@@ -12,6 +12,10 @@
 <NDKInputDate @bind-Value="Model.DateTime" Id="3"></NDKInputDate> *@
 
 <NDKCalendar Id="Calendar"/>
+<EditForm Model="Model">
+
+    <InputDate @bind-Value="Model.DateTime"></InputDate>
+</EditForm>
 
 @* <NDKYearPicker Id="Year" CurrentYearAsDefaultValue="true" MinimalYear="1800" MaximumYear="2100"/>\ *@
 @* <NDKMonthPicker Id="Month"></NDKMonthPicker> *@
