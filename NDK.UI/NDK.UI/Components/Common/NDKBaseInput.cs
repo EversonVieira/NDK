@@ -124,7 +124,7 @@ namespace NDK.UI.Components.Common
         protected virtual string GetClass()
         {
             string currentName = this.GetType().Name.Replace("NDK","").ToLower();
-            return $"ndk-{currentName} {Class}";
+            return $"ndk-{currentName} {(Disabled ? "ndk-button-disabled":"")} {Class}";
         }
     }
 

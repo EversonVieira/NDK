@@ -1,0 +1,279 @@
+﻿@import 'variables.css';
+/*NDK BUTTON*/
+.ndk-button {
+    background-color: var(--primary-bg-color);
+    color: var(--primary-text-color);
+    -webkit-appearance: none;
+    border: var(--border);
+    border-radius: var(--border-radius);
+}
+
+.ndk-button-secondary {
+    background-color: var(--secondary-bg-color);
+    color: var(--secondary-text-color);
+}
+
+.ndk-button-disabled {
+    background-color: var(--disabled-bg-color);
+    color: var(--secondary-text-color);
+}
+
+/*NDK CALENDAR*/
+.ndk-calendar-container {
+    width: fit-content;
+    padding: 5px;
+    /* offset-x | offset-y | blur-radius | spread-radius | color */
+    box-shadow: var(--box-shadow);
+    border: var(--border);
+    border-radius: var(--border-radius);
+    background-color: var(--primary-theme-bg-color);
+    font-size: 14px;
+}
+
+.ndk-calendar-ui {
+    border-radius: var(--border-radius);
+    max-width: 100px !important;
+    width: 100px !important;
+}
+
+.ndk-dt-header-ui {
+    padding: 2px;
+    border-radius: var(--border-radius);
+}
+
+.ndk-dt-row-ui {
+    background-color: none;
+}
+
+.ndk-dt-row-pair-ui {
+}
+
+.ndk-dt-header-s-ui {
+    border-top-left-radius: var(--border-radius);
+}
+
+.ndk-dt-header-e-ui {
+    border-top-right-radius: var(--border-radius);
+}
+
+.ndk-dt-container-ui {
+    padding: 2px;
+}
+
+.ndk-dt-item-ui {
+    display: flex;
+    border: none;
+    padding: 10px;
+    border: var(--border);
+    border-radius: var(--border-radius);
+    min-width: 40px;
+    width: 40px;
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s;
+    transition: color 0.3s;
+    color: var(--primary-text-color);
+}
+
+    .ndk-dt-item-ui:hover {
+        cursor: pointer;
+        background-color: var(--hover-bg-color);
+    }
+
+.ndk-dt-item-ui-disabled {
+    cursor: not-allowed
+}
+
+    .ndk-dt-item-ui-disabled:hover {
+        cursor: not-allowed;
+        background-color: var(--primary-theme-bg-color);
+    }
+
+
+.ndk-calendar-controlers {
+    display: flex;
+    justify-content: space-between;
+}
+
+.ndk-dt-item-selected-ui {
+    background-color: var(--primary-bg-color);
+    color: var(--secondary-text-color);
+}
+
+.ndk-dt-header-m-ui {
+    padding: 2px;
+}
+
+.ndk-calendar-tool {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+}
+
+/*NDK CALENDAR MONTH PICKER*/
+
+
+.ndk-month-picker-container {
+    width: fit-content;
+    padding: 5px;
+    /* offset-x | offset-y | blur-radius | spread-radius | color */
+    box-shadow: var(--box-shadow);
+    border: var(--border);
+    border-radius: var(--border-radius);
+    font-size: 14px;
+    background-color: var(--primary-theme-bg-color);
+}
+
+.ndk-month {
+    border-radius: var(--border-radius);
+    max-width: 100px !important;
+    width: 100px !important;
+}
+
+
+
+.ndk-dt-header-ui {
+    padding: 2px;
+    border-radius: var(--border-radius);
+}
+
+.ndk-dt-row-ui {
+    background-color: none;
+}
+
+.ndk-dt-row-pair-ui {
+}
+
+.ndk-dt-header-s-ui {
+    border-top-left-radius: var(--border-radius);
+}
+
+.ndk-dt-header-e-ui {
+    border-top-right-radius: var(--border-radius);
+}
+
+.ndk-dt-container-ui {
+    padding: 2px;
+}
+
+.ndk-dt-item-ui {
+    display: flex;
+    border: none;
+    padding: 10px;
+    border: var(--border);
+    border-radius: var(--border-radius);
+    min-width: 40px;
+    width: 40px;
+    color: var(--primary-text-color);
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s;
+    transition: color 0.3s;
+}
+
+    .ndk-dt-item-ui:hover {
+        cursor: pointer;
+        background-color: var(--hover-bg-color);
+    }
+
+.ndk-dt-item-ui-disabled {
+    cursor: not-allowed
+}
+
+    .ndk-dt-item-ui-disabled:hover {
+        cursor: not-allowed;
+        background-color: var(--primary-theme-bg-color);
+    }
+
+
+.ndk-month-controlers {
+    display: flex;
+    justify-content: space-between;
+}
+
+.ndk-dt-item-selected-ui {
+    background-color: #ada7fc !important;
+    color: var(--secondary-text-color);
+}
+
+.ndk-dt-header-m-ui {
+    padding: 2px;
+}
+
+/*NDK CALENDAR YEAR PICKER*/
+.ndk-year-picker-container {
+    width: fit-content;
+    padding: 5px;
+    /* offset-x | offset-y | blur-radius | spread-radius | color */
+    box-shadow: var(--box-shadow);
+    border: var(--border);
+    border-radius: var(--border-radius);
+    font-size: 14px;
+    background-color: var(--primary-theme-bg-color);
+}
+
+.ndk-year-picker {
+    display: flex;
+    padding: 10px;
+    flex-direction: column;
+}
+
+.ndk-year-picker-header {
+    padding: 10px 0;
+}
+
+.ndk-year-picker-line {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ndk-year-picker-item {
+    display: flex;
+    border: none;
+    padding: 10px;
+    border: var(--border);
+    border-radius: var(--border-radius);
+    min-width: 40px;
+    width: 40px;
+    color: var(--primary-text-color);
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s;
+    transition: color 0.3s;
+}
+
+    .ndk-year-picker-item:hover {
+        cursor: pointer;
+        background-color: var(--hover-bg-color);
+    }
+
+.ndk-year-picker-item-disabled {
+    cursor: not-allowed
+}
+
+    .ndk-year-picker-item-disabled:hover {
+        cursor: not-allowed;
+        background-color: var(--primary-theme-bg-color);
+    }
+
+.ndk-year-picker-item-selected-ui {
+    background-color: #ada7fc !important;
+    color: var(--secondary-text-color);
+}
+
+.ndk-year-picker-item-container {
+    padding: 2px;
+}
+
+/*
+    General
+*/
+
+* {
+    color: var(--primary-text-color);
+}
+
+body {
+    background-color: var(--primary-theme-bg-color);
+}

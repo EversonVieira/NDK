@@ -1,0 +1,45 @@
+﻿:root {
+    /*Theme*/
+    --primary-theme-bg-color: #fff;
+    --primary-theme-color: #121212;
+    /*Background colors*/
+    --primary-bg-color: #ada7fc;
+    --secondary-bg-color: #ff6666;
+    --disabled-bg-color: #c3c3c3;
+    --hover-bg-color: #e2e1e1;
+    --hover-bg-border-color: #e2e1e1;
+    /*colors*/
+    --primary-text-color: #121212;
+    --secondary-text-color: #fff;
+    /*Border*/
+    --border: 1px solid rgba(255,255,255,0);
+    --border-radius: 8px;
+    /*Box Shadow*/
+    --box-shadow: var(--ndk-popup, 0 8px 10px rgba(0, 0, 0, 0.12), 0 4px 16px rgba(0, 0, 0, 0.12));
+    /*Spacing*/
+    --p-1: 5px;
+    --p-2: 10px;
+    --p-3: 15px;
+    --m-1: 5px;
+    --m-2: 10px;
+    --m-3: 15px;
+}
+/*-------------------- DARK MODE ------------*/
+
+.dark-mode {
+    /*Theme*/
+    --primary-theme-bg-color: #272727;
+    --primary-theme-color: #fff;
+    /*Background colors*/
+    --hover-bg-color: #000000;
+    --hover-bg-border-color: #000000;
+    /*colors*/
+    --primary-text-color: #fff;
+    --secondary-text-color: #121212;
+}
+
+
+.square-borders {
+    --border-radius: 0;
+}
+

@@ -179,10 +179,5 @@ namespace NDK.UI.Components
             public string DecAlias { get; set; } = "Dec";
 
         }
-
-        protected override string GetClass()
-        {
-            return $"{base.GetClass()} {(Calendar is not null ? "ndk-calendar-tool" : "")}";
-        }
     }
 }

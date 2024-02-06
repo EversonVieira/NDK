@@ -236,10 +236,6 @@ namespace NDK.UI.Components.Inputs
 
                     }
 
-
-
-
-
                     CurrentValueAsString = value;
                     if (srcValueChanged)
                         await commonJsInterop.SetInputValue(Element, CurrentValueAsString!);
