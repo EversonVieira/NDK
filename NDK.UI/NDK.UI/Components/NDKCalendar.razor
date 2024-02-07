@@ -1,6 +1,6 @@
 ﻿@inherits NDKBaseInput<DateTime>
 
-@if(!ShowMonthPicker && !ShowYearPicker)
+@if (!ShowMonthPicker && !ShowYearPicker)
 {
     <div class="ndk-calendar-container" @attributes="AdditionalAttributes">
 
@@ -80,11 +80,16 @@
         </div>
 
 
-     
+
     </div>
 }
 
 <CascadingValue Value="this">
-    <NDKMonthPicker @ref="NDKMonthPickerRef" Value="Options.Month" ValueChanged="OnMonthUpdate"></NDKMonthPicker>
-    <NDKYearPicker @ref="NDKYearPickerRef" Value="Options.Year" ValueChanged="OnYearUpdate"></NDKYearPicker>
+    <NDKShow Visible="ShowMonthPicker">
+        <NDKMonthPicker @ref="NDKMonthPickerRef" Value="Options.Month" ValueChanged="OnMonthUpdate"></NDKMonthPicker>
+    </NDKShow>
+
+    <NDKShow Visible="ShowYearPicker">
+        <NDKYearPicker @ref="NDKYearPickerRef" Value="Options.Year" ValueChanged="OnYearUpdate"></NDKYearPicker>
+    </NDKShow>
 </CascadingValue>

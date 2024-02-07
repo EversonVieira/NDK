@@ -1,62 +1,55 @@
 ﻿@inherits NDKBaseInput<int>
 
-@if (Calendar is null || (Calendar is not null && Calendar.ShowYearPicker))
-{
-    <div class="ndk-calendar-tool-container" @attributes="AdditionalAttributes">
+<div class="ndk-calendar-tool-container" @attributes="AdditionalAttributes">
 
-        <div class="@GetClass()">
+    <div class="@GetClass()">
 
-            <div class="ndk-calendar-tool-controllers">
+        <div class="ndk-calendar-tool-controllers">
 
-                <div class="d-flex">
-                    <span class="ndk-calendar-control" @onclick="(() => SetCurrentYear())">@Options.CurrentYearAlias</span>
+            <div class="d-flex">
+                <span class="ndk-calendar-control" @onclick="(() => SetCurrentYear())">@Options.CurrentYearAlias</span>
 
-                    <span class="ndk-calendar-control">
-                        @($"{ControlYear - 6} - {ControlYear + 5}")
-                    </span>
-                    @if (Calendar is null)
-                    {
-                        <span class="ndk-calendar-control" @onclick="(() => Clear())">@Options.ClearAlias</span>
-                    }
-                </div>
-
-
-
-                <div class="d-flex">
-
-                    <span class="ndk-calendar-control" onclick="@(() => SetBaseYear(-6))">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z" /></svg>
-                    </span>
-                    <span class="ndk-calendar-control" onclick="@(() => SetBaseYear(6))">
-                        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z" /></svg>
-                    </span>
-                </div>
+                <span class="ndk-calendar-control">
+                    @($"{ControlYear - 6} - {ControlYear + 5}")
+                </span>
+                @if (Calendar is null)
+                {
+                    <span class="ndk-calendar-control" @onclick="(() => Clear())">@Options.ClearAlias</span>
+                }
             </div>
 
-            <table class="ndk-calendar-tool">
 
-                @foreach (var list in DataSource)
-                {
-                    bool isPair = DataSource.IndexOf(list) % 2 == 0;
-                    <tr class="@($"ndk-dt-row-ui {(isPair ? "ndk-dt-row-pair-ui":"")}")">
 
-                        @foreach (var item in list.Items)
-                        {
-                            <td class="ndk-dt-container-ui" onclick="@(() => SetYear(item))">
-                                <span class="@($"ndk-dt-item-ui {(item.IsSelected ? "ndk-dt-item-selected-ui" : "")} {(item.ShowEmpty ? "ndk-year-picker-item-disabled":"-")}")">
-                                    @($"{(item.ShowEmpty ? "-" : item.Value)}")
-                                </span>
-                            </td>
-                        }
+            <div class="d-flex">
 
-                    </tr>
-                }
-            </table>
+                <span class="ndk-calendar-control" onclick="@(() => SetBaseYear(-6))">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z" /></svg>
+                </span>
+                <span class="ndk-calendar-control" onclick="@(() => SetBaseYear(6))">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M504-480 320-664l56-56 240 240-240 240-56-56 184-184Z" /></svg>
+                </span>
+            </div>
         </div>
 
+        <table class="ndk-calendar-tool">
+
+            @foreach (var list in DataSource)
+            {
+                bool isPair = DataSource.IndexOf(list) % 2 == 0;
+                <tr class="@($"ndk-dt-row-ui {(isPair ? "ndk-dt-row-pair-ui":"")}")">
+
+                    @foreach (var item in list.Items)
+                    {
+                        <td class="ndk-dt-container-ui" onclick="@(() => SetYear(item))">
+                            <span class="@($"ndk-dt-item-ui {(item.IsSelected ? "ndk-dt-item-selected-ui" : "")} {(item.ShowEmpty ? "ndk-year-picker-item-disabled":"-")}")">
+                                @($"{(item.ShowEmpty ? "-" : item.Value)}")
+                            </span>
+                        </td>
+                    }
+
+                </tr>
+            }
+        </table>
     </div>
 
-
-
-
-}
+</div>

@@ -116,6 +116,8 @@
     border-radius: var(--border-radius);
     background-color: var(--primary-theme-bg-color);
     font-size: 14px;
+
+    transition: max-height 0.3s;
 }
 
 .ndk-calendar-tool {
@@ -270,3 +272,8 @@ body {
     justify-content: flex-start;
     align-items: center;
 }
+
+.hidden {
+    display: none; /* Hide when not visible */
+}
+
