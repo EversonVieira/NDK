@@ -7,8 +7,6 @@
         <div class="ndk-calendar-tool-controllers">
 
             <div class="d-flex">
-                <span class="ndk-calendar-control" @onclick="(() => SetCurrentYear())">@Options.CurrentYearAlias</span>
-
                 <span class="ndk-calendar-control">
                     @($"{ControlYear - 6} - {ControlYear + 5}")
                 </span>
@@ -20,7 +18,7 @@
 
 
 
-            <div class="d-flex">
+            <div class="d-flex ">
 
                 <span class="ndk-calendar-control" onclick="@(() => SetBaseYear(-6))">
                     <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="M560-240 320-480l240-240 56 56-184 184 184 184-56 56Z" /></svg>
@@ -40,10 +38,8 @@
 
                     @foreach (var item in list.Items)
                     {
-                        <td class="ndk-dt-container-ui" onclick="@(() => SetYear(item))">
-                            <span class="@($"ndk-dt-item-ui {(item.IsSelected ? "ndk-dt-item-selected-ui" : "")} {(item.ShowEmpty ? "ndk-year-picker-item-disabled":"-")}")">
-                                @($"{(item.ShowEmpty ? "-" : item.Value)}")
-                            </span>
+                        <td class="@($"ndk-dt-item-ui {(item.IsSelected ? "ndk-dt-item-selected-ui" : "")} {(item.ShowEmpty ? "ndk-year-picker-item-disabled":"-")}")" onclick="@(() => SetYear(item))">
+                            @($"{(item.ShowEmpty ? "-" : item.Value)}")
                         </td>
                     }
 

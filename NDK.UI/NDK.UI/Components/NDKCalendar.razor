@@ -19,7 +19,7 @@
             </div>
 
 
-            <table class="ndk-calendar">
+            <table class="ndk-calendar-table">
                 <tr class="ndk-dt-header-ui">
                     <th class="ndk-dt-header-m-ui">
                         <span class="ndk-dt-item-ui">
@@ -65,11 +65,9 @@
                             @{
                                 foreach (var dayModel in item.DayList)
                                 {
-                                    <td class="ndk-dt-container-ui">
-                                        <span class="@($"ndk-dt-item-ui {(dayModel.IsSelected ? "ndk-dt-item-selected-ui" : "")} {(dayModel.ShowEmpty ? "ndk-dt-item-ui-disabled":"")}")"
-                                              onclick="@(() => OnDaySelect(dayModel))">
-                                            @(!dayModel.ShowEmpty ? dayModel.Day.ToString() : "-")
-                                        </span>
+                                    <td class="@($"ndk-dt-item-ui {(dayModel.IsSelected ? "ndk-dt-item-selected-ui" : "")} {(dayModel.ShowEmpty ? "ndk-dt-item-ui-disabled":"")}")"
+                                        onclick="@(() => OnDaySelect(dayModel))">
+                                        @(!dayModel.ShowEmpty ? dayModel.Day.ToString() : "-")
                                     </td>
                                 }
                             }
