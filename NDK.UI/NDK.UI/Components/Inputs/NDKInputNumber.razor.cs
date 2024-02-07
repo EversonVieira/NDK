@@ -113,52 +113,49 @@ namespace NDK.UI.Components.Inputs
                         return;
                     }
 
-                    if (!string.IsNullOrWhiteSpace(value))
+                    if (value.StartsWith($"{(Min.HasValue ? Min.ToString() : "0")}", StringComparison.Ordinal))
                     {
-                        if (value.StartsWith($"{(Min.HasValue ? Min.ToString() : "0")}", StringComparison.Ordinal))
-                        {
-                            value = value.Substring(1);
-                        }
+                        value = value.Substring(1);
+                    }
 
-                        if (Scale.HasValue && value.Contains(Decimal))
+                    if (Scale.HasValue && value.Contains(Decimal))
+                    {
+                        int counter = value.Length - value.IndexOf(Decimal);
+                        if (counter > Scale.Value + 1)
                         {
-                            int counter = value.Length - value.IndexOf(Decimal);
-                            if (counter > Scale.Value + 1)
-                            {
-                                value = value.Substring(0, value.Length - 1);
-                                await commonJsInterop.SetInputValue(Element, value!);
-                                return;
-                            }
+                            value = value.Substring(0, value.Length - 1);
+                            await commonJsInterop.SetInputValue(Element, value!);
+                            return;
                         }
+                    }
 
-                        if (!VerifyInputIntegrity(value))
+                    if (!VerifyInputIntegrity(value))
+                    {
+                        CurrentValueAsString = CurrentValueAsString;
+                        await commonJsInterop.SetInputValue(Element, CurrentValueAsString!);
+                        return;
+                    }
+
+                    if (value.Length == 1)
+                    {
+                        if (value.StartsWith("-"))
                         {
-                            CurrentValueAsString = CurrentValueAsString;
-                            await commonJsInterop.SetInputValue(Element, CurrentValueAsString!);
                             return;
                         }
 
-                        if (value.Length == 1)
+                        if (value.StartsWith(Thousands) || value.StartsWith(Decimal))
                         {
-                            if (value.StartsWith("-"))
-                            {
-                                return;
-                            }
-
-                            if (value.StartsWith(Thousands) || value.StartsWith(Decimal))
-                            {
-                                value = $"{(Min.HasValue ? Min.ToString() : "0")}";
-                                srcValueChanged = true;
-                            }
+                            value = $"{(Min.HasValue ? Min.ToString() : "0")}";
+                            srcValueChanged = true;
                         }
+                    }
 
 
-                        value = NormalizeValue(value);
+                    value = NormalizeValue(value);
 
-                        if (!BindConverter.TryConvertTo<TValue>(value,CultureInfo.InvariantCulture, out var tmpvalue))
-                        {
-                            value = value.Substring(0, value.Length - 1);
-                        }
+                    if (!BindConverter.TryConvertTo<TValue>(value, CultureInfo.InvariantCulture, out var tmpvalue))
+                    {
+                        value = value.Substring(0, value.Length - 1);
                     }
 
 
