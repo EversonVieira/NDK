@@ -26,19 +26,22 @@
 
 /*NDK CALENDAR*/
 .ndk-calendar-container {
-    width: fit-content;
-    padding: var(--p-1);
+    display: flex;
+    padding: var(--p-5);
     /* offset-x | offset-y | blur-radius | spread-radius | color */
     box-shadow: var(--box-shadow);
+    min-width: var(--calendar-width);
+    min-height: var(--calendar-height);
+    width: var(--calendar-width);
+    max-width: var(--calendar-width);
+    max-height: var(--calendar-height);
     border: var(--border);
     border-radius: var(--border-radius);
     background-color: var(--primary-theme-bg-color);
-    font-size: 12px;
-    min-width: 10vw;
-    min-height: 10vw;
-    max-width: 15vw;
-    max-height: 15vw;
+    font-size: 14px;
 }
+
+
 
 
 .ndk-dt-header-ui {
@@ -61,65 +64,16 @@
     border-top-right-radius: var(--border-radius);
 }
 
-.ndk-dt-container-ui {
-    padding: 2px;
-}
 
-.match-calendar {
-    min-width: 250px;
-    min-height: 250px;
-    max-width: 15vw;
-    max-height: 15vw;
-}
-
-    .match-calendar .ndk-month-picker-container {
-        min-width: 10vw;
-        min-height: 10vw;
-        max-width: 15vw;
-        max-height: 15vw;
-    }
-
-    .match-calendar .ndk-year-picker-container {
-        min-width: 10vw;
-        min-height: 10vw;
-        max-width: 15vw;
-        max-height: 15vw;
-    }
-
-.ndk-dt-item-ui {
-    display: flex;
-    border: none;
-    padding: var(--p-1);
-    border: var(--border);
-    border-radius: var(--border-radius);
-    min-width:2vw;
-    width:2vw;
-    justify-content: center;
-    align-items: center;
-    transition: background-color 0.3s;
-    transition: color 0.3s;
-    color: var(--primary-text-color);
-}
-
-    .ndk-dt-item-ui:hover {
-        cursor: pointer;
-        background-color: var(--hover-bg-color);
-    }
-
-.ndk-dt-item-ui-disabled {
-    cursor: not-allowed
-}
-
-    .ndk-dt-item-ui-disabled:hover {
-        cursor: not-allowed;
-        background-color: var(--primary-theme-bg-color);
-    }
-
-
-.ndk-calendar-controllers {
+.ndk-calendar-tool-controllers {
     display: flex;
     justify-content: space-between;
     padding: var(--p-2) 0;
+}
+
+.ndk-calendar {
+    width: calc(100% - var(--p-50) - var(--p-5));
+    height: calc(100% - var(--p-20) - var(--p-5));
 }
 
 .ndk-calendar-control {
@@ -128,7 +82,7 @@
     border: var(--border);
     border-radius: var(--border-radius);
     font-weight: bolder;
-    padding: var(--p-1) var(--p-2);
+    padding: var(--p-5) var(--p-5);
 }
 
     .ndk-calendar-control:hover {
@@ -144,61 +98,53 @@
 
 .ndk-dt-header-m-ui {
     padding: var(--p-2) var(--p-1);
+    max-width: 100%;
 }
 
-.ndk-calendar-tool {
-    width: 100%;
-    height: 100%;
-}
-
-.ndk-calendar {
-    width: 100%;
-    height: 100%;
-}
-
-
-/*NDK CALENDAR MONTH PICKER*/
-
-
-.ndk-month-picker-container {
+.ndk-calendar-tool-container {
+    position: relative;
+    z-index: 100;
     padding: var(--p-1);
+    min-width: var(--calendar-width);
+    min-height: var(--calendar-height);
+    width: var(--calendar-width);
+    max-width: var(--calendar-width);
+    max-height: var(--calendar-height);
     /* offset-x | offset-y | blur-radius | spread-radius | color */
     box-shadow: var(--box-shadow);
     border: var(--border);
     border-radius: var(--border-radius);
-    font-size: 12px;
     background-color: var(--primary-theme-bg-color);
+    font-size: 14px;
 }
 
-.ndk-month {
+.ndk-calendar-tool {
     border-radius: var(--border-radius);
-    width: 100%;
-    height: 100%;
+    width: calc(var(--calendar-width) - var(--p-5));
+    height: calc(var(--calendar-height) - var(--p-30));
 }
 
-    .ndk-month .ndk-dt-item-ui {
-        min-width: 2vw;
-        width: 2vw;
+    .ndk-calendar-tool .ndk-dt-item-ui {
+        width: 100%;
+        height: 100%;
     }
 
-.ndk-year {
-    width: 100%;
-    height: 100%;
+.ndk-monthpicker {
+    min-width: calc(var(--calendar-width) - var(--p-30) - var(--p-5));
+    min-height: calc(var(--calendar-height) - var(--p-20) - var(--p-5));
 }
 
-
+.ndk-yearpicker {
+    min-width: calc(var(--calendar-width) - var(--p-30) - var(--p-5));
+    min-height: calc(var(--calendar-height) - var(--p-20) - var(--p-5));
+}
 
 .ndk-dt-header-ui {
     padding: 2px;
     border-radius: var(--border-radius);
+    max-width: 100%;
 }
 
-.ndk-dt-row-ui {
-    background-color: none;
-}
-
-.ndk-dt-row-pair-ui {
-}
 
 .ndk-dt-header-s-ui {
     border-top-left-radius: var(--border-radius);
@@ -215,11 +161,14 @@
 .ndk-dt-item-ui {
     display: flex;
     border: none;
-    padding: var(--p-2);
     border: var(--border);
     border-radius: var(--border-radius);
-    min-width:2vw;
-    width:2vw;
+    min-width: 40px;
+    min-height: 40px;
+    width: 30px;
+    height: 30px;
+    max-width: 60px;
+    max-height: 60px;
     color: var(--primary-text-color);
     justify-content: center;
     align-items: center;
@@ -242,10 +191,10 @@
     }
 
 
-.ndk-month-controllers {
+.ndk-calendar-tool-controllers {
     display: flex;
     justify-content: space-between;
-    padding: var(--p-2) 0;
+    padding: var(--p-5) 0;
 }
 
 .ndk-dt-item-selected-ui {
@@ -255,117 +204,59 @@
 
 
 
-/*NDK CALENDAR YEAR PICKER*/
-.ndk-year-picker-container {
-    width: fit-content;
-    /* offset-x | offset-y | blur-radius | spread-radius | color */
-    box-shadow: var(--box-shadow);
-    border: var(--border);
-    border-radius: var(--border-radius);
-    font-size: 12px;
-    background-color: var(--primary-theme-bg-color);
-}
-
-.ndk-year-picker {
-    display: flex;
-    padding: var(--p-2);
-    flex-direction: column;
-}
-
-.ndk-year-picker-header {
-    display: flex;
-    justify-content: space-between;
-    padding: var(--p-2) 0;
-}
-
-.ndk-year-picker-line {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.ndk-year-picker-item {
-    display: flex;
-    border: none;
-    padding: var(--p-2);
-    border: var(--border);
-    border-radius: var(--border-radius);
-    min-width: 2vw;
-    width: 2vw;
-    color: var(--primary-text-color);
-    justify-content: center;
-    align-items: center;
-    transition: background-color 0.3s;
-    transition: color 0.3s;
-}
-
-    .ndk-year-picker-item:hover {
-        cursor: pointer;
-        background-color: var(--hover-bg-color);
-    }
-
-.ndk-year-picker-item-disabled {
-    cursor: not-allowed
-}
-
-    .ndk-year-picker-item-disabled:hover {
-        cursor: not-allowed;
-        background-color: var(--primary-theme-bg-color);
-    }
-
-.ndk-year-picker-item-selected-ui {
-    background-color: #ada7fc !important;
-    color: var(--secondary-text-color);
-}
-
-.ndk-year-picker-item-container {
-    padding: var(--p-2);
-}
 
 /*
     General
 */
 
-* {
-    color: var(--primary-text-color);
-}
+
 
 body {
     background-color: var(--primary-theme-bg-color);
 }
 
-.ndk-component *{
+.ndk-component * {
     -webkit-user-select: none;
     /* Safari */
     -ms-user-select: none;
     /* IE 10 and IE 11 */
     user-select: none;
     /* Standard syntax */
+    color: var(--primary-text-color);
 }
+
 .w-100p {
     width: 100%
 }
+
 .w-90p {
-    width: 40%
+    width: 90%
 }
+
 .w-80p {
     width: 80%;
 }
+
 .w-70p {
-    width: 40%
+    width: 70%
 }
+
 .w-60p {
-    width: 40%
+    width: 60%
 }
+
 .w-50p {
-    width: 40%
+    width: 50%
 }
+
 .w-40p {
     width: 40%
 }
+
 .w-30p {
     width: 30%
 }
+
 .w-20p {
     width: 20%
 }
@@ -379,5 +270,3 @@ body {
     justify-content: flex-start;
     align-items: center;
 }
-
-

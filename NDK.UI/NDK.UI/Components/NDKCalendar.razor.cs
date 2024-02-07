@@ -23,6 +23,8 @@ namespace NDK.UI.Components
         protected NDKYearPicker? NDKYearPickerRef { get; set; }
 
         private List<DayItem> AllDays = new List<DayItem>();
+
+
         private DayItem? SelectedDay;
         public NDKCalendar()
         {
@@ -348,6 +350,33 @@ namespace NDK.UI.Components
         {
             ShowYearPicker = true;
             await Task.CompletedTask;
+        }
+
+        protected string GetStyle()
+        {
+            string result = $"{Style} ";
+            if (ShowMonthPicker || ShowYearPicker)
+            {
+                result = $"{result} height:0px; width:0px;opacity:0;display:none;";
+            }
+
+            return result;
+        }
+
+        protected string GetStyleByCondition(bool value)
+        {
+            string result = $"";
+            if (value)
+            {
+                result = $"{result} height:1; width:1;opacity:1;display:flex;";
+            }
+            else
+            {
+                result = $"{result} height:0; width:0;opacity:0;display:none;";
+
+            }
+
+            return result;
         }
     }
 }

@@ -1,11 +1,11 @@
 ﻿@inherits NDKBaseInput<int>
 @if (Calendar is null || (Calendar is not null && Calendar.ShowMonthPicker))
 {
-    <div class="ndk-component ndk-month-picker-container @GetClass()">
+    <div class="ndk-calendar-tool-container" @attributes="AdditionalAttributes">
 
-        <div class="ndk-month-picker">
+        <div class="@GetClass()">
 
-            <div class="ndk-month-controllers">
+            <div class="ndk-calendar-tool-controllers">
                 @if(Calendar is  null)
                 {
                     <span class="ndk-calendar-control" @onclick="(() => Clear())">@Options.ClearAlias</span>
@@ -14,7 +14,7 @@
 
                 </div>
 
-                <table class="ndk-month">
+                <table class="ndk-calendar-tool">
                     @foreach (var list in DataSource)
                 {
                     bool isPair = DataSource.IndexOf(list) % 2 == 0;
@@ -37,7 +37,4 @@
         </div>
 
     </div>
-
-
-
 }

@@ -62,6 +62,9 @@ namespace NDK.UI.Components.Common
         [Parameter]
         public EventCallback<TValue?> AfterValueUpdate { get; set; }
 
+        [Parameter(CaptureUnmatchedValues = true)] 
+        public IReadOnlyDictionary<string, object>? AdditionalAttributes { get; set; }
+
         protected TValue? PreviousValue { get; set; }
 
         protected virtual string? FormatValueAsString(TValue? value)
@@ -134,9 +137,6 @@ namespace NDK.UI.Components.Common
 
         public virtual async Task UpdateState()
         {
-
-
-
             StateHasChanged();
 
             await Task.CompletedTask;

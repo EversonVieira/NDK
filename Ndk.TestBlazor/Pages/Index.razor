@@ -5,37 +5,7 @@
 
 @inject IJSRuntime _js
 
-
-@* <NDKInputNumber @bind-Value="Model.Decimal" Thousands="','" Decimal="'.'" Scale="2" Prefix="R$" Id="1"/> 
-<NDKInputText @bind-Value="Model.String" AfterValueUpdate="Log" Id="2" /> 
-
-<NDKInputDate @bind-Value="Model.DateTime" Id="3"></NDKInputDate> *@
-
-<NDKCalendar Id="Calendar"/>
-<EditForm Model="Model">
-
-    <InputDate @bind-Value="Model.DateTime"></InputDate>
-</EditForm>
-
-@* <NDKYearPicker Id="Year" CurrentYearAsDefaultValue="true" MinimalYear="1800" MaximumYear="2100"/>\ *@
-@* <NDKMonthPicker Id="Month"></NDKMonthPicker> *@
-
-
-@* <NDKForm Id="FormX" Model="Model">
-   <Sections>
-       <NDKFormSection Id="X" Collapsable="true">
-           TESTE 1
-           TESTE 1
-           TESTE 1
-       </NDKFormSection>
-
-        <NDKFormSection Id="X" Collapsable="true">
-            TESTE 2
-            TESTE 2
-            TESTE 2
-        </NDKFormSection>
-   </Sections>
-</NDKForm>  *@
+<NDKCalendar></NDKCalendar>
 @code {
     protected InputModel Model = new InputModel();
 
