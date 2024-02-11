@@ -5,6 +5,7 @@
 
 @inject IJSRuntime _js
 
+<NDKInputNumber @bind-Value="Model.Decimal"></NDKInputNumber>
 <NDKMaskedText Mask="aaa-aaa-aaa-aa" MatchCase="false"  @bind-Value="Model.String"></NDKMaskedText>
 @code {
     protected InputModel Model = new InputModel();

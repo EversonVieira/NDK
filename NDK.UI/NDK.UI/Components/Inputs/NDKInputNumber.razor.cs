@@ -155,7 +155,10 @@ namespace NDK.UI.Components.Inputs
 
                     if (!BindConverter.TryConvertTo<TValue>(value, CultureInfo.InvariantCulture, out var tmpvalue))
                     {
-                        value = value.Substring(0, value.Length - 1);
+                        if (value.Length > 0)
+                        {
+                            value = value.Substring(0, value.Length - 1);
+                        }
                     }
 
 
