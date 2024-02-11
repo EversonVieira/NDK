@@ -141,6 +141,16 @@ namespace NDK.UI.Components.Common
 
             await Task.CompletedTask;
         }
+
+        protected override async Task OnParametersSetAsync()
+        {
+            await base.OnParametersSetAsync();
+
+            if (Js is null)
+            {
+                throw new InvalidDataException("The JS property cannot be null for this component");
+            }
+        }
     }
 
 

@@ -5,7 +5,7 @@
 
 @inject IJSRuntime _js
 
-<NDKCalendar></NDKCalendar>
+<NDKMaskedText Mask="aaa-aaa-aaa-aa" MatchCase="false"  @bind-Value="Model.String"></NDKMaskedText>
 @code {
     protected InputModel Model = new InputModel();
 
