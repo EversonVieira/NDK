@@ -3,7 +3,7 @@ using NDK.UI.Components.Common;
 
 namespace NDK.UI.Components.Inputs
 {
-    public partial class NDKTextArea:NDKBaseInput<string?>
+    public partial class NDKInputTextArea: NDKBaseInput<string?>
     {
         [Parameter]
         public int? MaxLength { get; set; }

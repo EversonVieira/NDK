@@ -121,15 +121,16 @@
 }
 
     .ndk-calendar-tool .ndk-dt-item-ui {
-        min-width:60px;
-        min-height:60px;
-        height:60px;
+        min-width: 60px;
+        min-height: 60px;
+        height: 60px;
     }
 
 
-.transform--90{
+.transform--90 {
     transform: rotate(-90deg);
 }
+
 .ndk-monthpicker {
 }
 
@@ -185,7 +186,7 @@
     display: flex;
     justify-content: space-between;
     padding: var(--p-10) 0;
-    min-height:50px;
+    min-height: 50px;
 }
 
 .ndk-dt-item-selected-ui {
@@ -268,3 +269,38 @@ body {
 svg {
     fill: var(--primary-text-color);
 }
+
+.ndk-input-date-container {
+    position: relative;
+}
+
+.ndk-calendar-popup {
+    position: absolute;
+}
+
+.ndk-input-date-inputs {
+    justify-content: left;
+    align-items: center;
+    border: 1px solid var(--primary-text-color);
+    width: fit-content
+}
+
+ndk-input-date-inputs:focus {
+    outline:solid; 
+}
+
+.ndk-input-date-inputs .ndk-button {
+    background-color: var(--primary-theme-bg-color);
+    border: 0;
+}
+
+
+    .ndk-input-date-inputs input {
+        border: none;
+        width: fit-content;
+        margin: 0 8px 0 0;
+    }
+
+        .ndk-input-date-inputs input:focus {
+            outline: none;
+        }

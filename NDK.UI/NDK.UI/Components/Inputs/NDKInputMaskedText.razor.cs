@@ -4,7 +4,7 @@ using System.Text;
 
 namespace NDK.UI.Components.Inputs
 {
-    public partial class NDKMaskedText : NDKBaseInput<string?>
+    public partial class NDKInputMaskedText : NDKBaseInput<string?>
     {
         [Parameter, EditorRequired]
         public string? Mask { get; set; }
@@ -51,9 +51,6 @@ namespace NDK.UI.Components.Inputs
                     }
                 }
             }
-
-            Console.WriteLine(CurrentValueAsString);
-
 
         }
       

@@ -6,16 +6,15 @@ using System.Collections.ObjectModel;
 
 namespace NDK.UI.Components
 {
-    public partial class NDKCalendar : NDKBaseInput<DateTime>
+    public partial class NDKCalendar : NDKBaseInput<DateTime?>
     {
-        [Parameter]
-        public string DateFormat { get; set; } = "yyyy/MM/dd hh:mm:ss";
 
         [Parameter]
         public CalendarOptions Options { get; set; } = new CalendarOptions();
 
         public bool ShowMonthPicker { get; set; }
         public bool ShowYearPicker { get; set; }
+        private string DateFormat { get; set; } = "yyyy/MM/dd hh:mm:ss";
 
         protected ObservableCollection<WeekList> DataSource = new ObservableCollection<WeekList>();
 
@@ -34,8 +33,37 @@ namespace NDK.UI.Components
         protected override async Task OnInitializedAsync()
         {
             await base.OnInitializedAsync();
+
+           
         }
 
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            await base.OnAfterRenderAsync(firstRender);
+
+            if (firstRender)
+            {
+                if (Value is not null)
+                {
+                    Options.Year = Value.Value.Year;
+                    Options.Month = Value.Value.Month;
+
+                    await OnDaySelect(new DayItem
+                    {
+                        Day = Value.Value.Day,
+                    });
+
+
+                    await UpdateValue();
+                }
+                else if (CurrentValue is not null)
+                {
+                    await OnClear();
+                }
+
+                StateHasChanged();
+            }
+        }
         private async Task SetSelectedDateAsToday()
         {
             int day = DateTime.Now.Day;
@@ -62,6 +90,7 @@ namespace NDK.UI.Components
                 await NDKYearPickerRef.SetYear(new NDKYearPicker.YearItem { Value = Options.Year });
             }
         }
+
 
         public async Task OnClear()
         {
@@ -146,15 +175,14 @@ namespace NDK.UI.Components
 
             CurrentValueAsString = new DateTime(Options.Year, Options.Month, SelectedDay.Day).ToString(DateFormat);
 
-            StateHasChanged();
             await Task.CompletedTask;
         }
 
-        protected override DateTime ParseValueFromString(string value)
+        protected override DateTime? ParseValueFromString(string value)
         {
             if (string.IsNullOrWhiteSpace(value))
             {
-                var result = default(DateTime);
+                var result = default(DateTime?);
                 return result;
             }
 
@@ -171,7 +199,7 @@ namespace NDK.UI.Components
                                 hour: Convert.ToInt32(hourParts[0]),
                                 minute: Convert.ToInt32(hourParts[1]),
                                 second: Convert.ToInt32(hourParts[2]));
-            ;
+            
         }
 
 
@@ -181,9 +209,9 @@ namespace NDK.UI.Components
         {
             int AvailableDays = DateTime.DaysInMonth(Options.Year, Options.Month);
             int weekIndex = 1;
-            
 
-           
+
+
 
             ObservableCollection<WeekList> weekList = new ObservableCollection<WeekList>();
 
@@ -239,13 +267,13 @@ namespace NDK.UI.Components
 
             this.DataSource = weekList;
 
-            if (CurrentValue != default(DateTime))
+            if (CurrentValue is not null)
             {
-                if (Options.Year == CurrentValue.Year && Options.Month == CurrentValue.Month)
+                if (Options.Year == CurrentValue.Value.Year && Options.Month == CurrentValue.Value.Month)
                 {
                     await this.OnDaySelect(new DayItem
                     {
-                        Day = CurrentValue.Day,
+                        Day = CurrentValue.Value.Day,
                     });
                 }
             }
