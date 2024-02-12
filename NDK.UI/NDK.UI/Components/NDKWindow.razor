@@ -1,0 +1,27 @@
+﻿@if (IsVisible)
+{
+    <div class="ndk-popup">
+
+        @if (Header is not null)
+        {
+            <div class="ndk-popup-header">
+                @Header
+            </div>
+        }
+
+        @if (Body is not null)
+        {
+            <div class="ndk-popup-body">
+                @Body
+            </div>
+        }
+
+        @if (Footer is not null)
+        {
+            <div class="ndk-popup-footer">
+                @Footer
+            </div>
+        }
+    </div>
+
+}

@@ -304,3 +304,14 @@ ndk-input-date-inputs:focus {
         .ndk-input-date-inputs input:focus {
             outline: none;
         }
+
+input {
+    background-color: var(--primary-theme-bg-color);
+    color: var(--primary-text-color);
+}
+
+    input::placeholder {
+        color: var(--primary-text-color);
+        opacity: 60%;
+    }
+
