@@ -1,27 +1,31 @@
 ﻿@if (IsVisible)
 {
-    <div class="ndk-popup">
+    <div class="ndk-window-container">
+        <div class="ndk-window">
 
-        @if (Header is not null)
-        {
-            <div class="ndk-popup-header">
-                @Header
-            </div>
-        }
+            @if (Header is not null)
+            {
+                <div class="ndk-window-header">
+                    @Header
+                    <span class="ndk-window-header-close" @onclick="(async() => await OnClose())">
+                        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" /></svg>
+                    </span>
+                </div>
+            }
 
-        @if (Body is not null)
-        {
-            <div class="ndk-popup-body">
-                @Body
-            </div>
-        }
+            @if (Body is not null)
+            {
+                <div class="ndk-window-body">
+                    @Body
+                </div>
+            }
 
-        @if (Footer is not null)
-        {
-            <div class="ndk-popup-footer">
-                @Footer
-            </div>
-        }
+            @if (Footer is not null)
+            {
+                <div class="ndk-window-footer">
+                    @Footer
+                </div>
+            }
+        </div>
     </div>
-
 }

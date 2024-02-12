@@ -5,14 +5,18 @@
 
 @inject IJSRuntime _js
 
-<NDKInputDate @bind-Value="Model.DateTime"></NDKInputDate>
-
-<NDKInputText @bind-Value="Model.String"></NDKInputText>
-<NDKInputText @bind-Value="Model.String"></NDKInputText>
-<NDKInputText @bind-Value="Model.String"></NDKInputText>
-<NDKInputText @bind-Value="Model.String"></NDKInputText>
-<NDKInputText @bind-Value="Model.String"></NDKInputText>
-<NDKInputText @bind-Value="Model.String"></NDKInputText>
+<NDKButton OnClick="OpenCloseModal">Open/Close Modal</NDKButton>
+<NDKWindow @bind-IsVisible="Model.IsVisible">
+    <Header>
+        CABEÇALHO
+    </Header>
+    <Body>
+        CONTEUDO
+    </Body>
+    <Footer>
+        FOOTER
+    </Footer>
+</NDKWindow>
 
 @code {
     protected InputModel Model = new InputModel();
@@ -26,6 +30,14 @@
         public string String { get; set; } = "Tes";
         public DateTime? DateTime { get; set; }
         public DateTimeOffset dateTimeOffset { get; set; }
+        public bool IsVisible { get; set; }
+    }
+
+    public async Task OpenCloseModal()
+    {
+        Model.IsVisible = !Model.IsVisible;
+
+        await Task.CompletedTask;
     }
 
     public void Log(string value)

@@ -15,5 +15,16 @@ namespace NDK.UI.Components
 
         [Parameter]
         public bool IsVisible { get; set; }
+
+        [Parameter]
+        public EventCallback<bool> IsVisibleChanged { get; set; }
+
+        protected async Task OnClose()
+        {
+            if (IsVisibleChanged.HasDelegate)
+            {
+                await IsVisibleChanged.InvokeAsync(false);
+            }
+        }
     }
 }
