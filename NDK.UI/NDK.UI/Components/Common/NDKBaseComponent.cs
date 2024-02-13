@@ -33,6 +33,17 @@ namespace NDK.UI.Components.Common
         [Parameter]
         public bool Visible { get; set; }
 
+        protected bool IsRendered = false;
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            await base.OnAfterRenderAsync(firstRender);
+
+            if (firstRender )
+            {
+                IsRendered = true;
+            }
+        }
     }
 
 

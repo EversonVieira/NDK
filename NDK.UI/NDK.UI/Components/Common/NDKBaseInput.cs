@@ -15,6 +15,9 @@ namespace NDK.UI.Components.Common
         public ElementReference Element { get; protected set; }
 
         [Parameter]
+        public EventListenerEnum EventListener { get; set; } = EventListenerEnum.ONINPUT;
+
+        [Parameter]
         public string? Id { get; set; } = Guid.NewGuid().ToString();
 
         [Parameter]

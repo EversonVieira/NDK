@@ -14,14 +14,6 @@ namespace NDK.UI.Components
         [Parameter]
         public EventCallback<T?> ValueChanged { get; set; }
 
-        protected override async Task OnRemoveSelectedData(T item)
-        {
-            if (!base.RemoveSelectedDataFromList || Value is null) return;
-
-            _visibleSource?.Remove(item);
-
-            await Task.CompletedTask;
-        }
 
         protected override async Task OnSelect(T item)
         {
@@ -30,7 +22,11 @@ namespace NDK.UI.Components
                 await ValueChanged.InvokeAsync(item);
             }
 
-            await OnRemoveSelectedData(item);
+            if (base.RemoveSelectedDataFromList)
+            {
+                VisibleSource?.Remove(item);
+            } 
+
 
             await Task.CompletedTask;
         }
@@ -39,18 +35,19 @@ namespace NDK.UI.Components
         {
             if (ValueChanged.HasDelegate)
             {
-                await ValueChanged.InvokeAsync(item);
+                await ValueChanged.InvokeAsync(null);
             }
 
-            if (!_visibleSource?.Contains(item) ?? false) 
+            if (!VisibleSource?.Contains(item) ?? false) 
             {
-                var data = _visibleSource?.ToList();
+                var data = VisibleSource?.ToList();
                 data?.Add(item);
 
                 var ordered = data?.OrderBy(x => x.Id);
 
                 FillData(ordered);
             }
+
         }
     }
 }

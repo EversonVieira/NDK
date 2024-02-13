@@ -99,7 +99,7 @@ namespace NDK.UI.Components.Inputs
         }
         protected async Task Set(ChangeEventArgs? args)
         {
-            await using (var commonJsInterop = new CommonJsInterop(Js))
+            await using (var commonJsInterop = new CommonJsInterop(Js!))
             {
                 bool srcValueChanged = false;
                 if (args != null)
@@ -180,7 +180,7 @@ namespace NDK.UI.Components.Inputs
         }
         protected async Task SetChange(ChangeEventArgs args)
         {
-            await using (var commonJsInterop = new CommonJsInterop(Js))
+            await using (var commonJsInterop = new CommonJsInterop(Js!))
             {
                 bool srcValueChanged = false;
                 if (args != null)

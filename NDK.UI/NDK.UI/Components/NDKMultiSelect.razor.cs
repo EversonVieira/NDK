@@ -16,14 +16,7 @@ namespace NDK.UI.Components
 
         private ObservableCollection<T> SelectedData { get; set; } = new ObservableCollection<T>();
 
-        protected override async Task OnRemoveSelectedData(T item)
-        {
-            if (!base.RemoveSelectedDataFromList || Value is null) return;
-
-            _visibleSource?.Remove(item);
-
-            await Task.CompletedTask;
-        }
+      
 
         protected override async Task OnSelect(T item)
         {
@@ -34,7 +27,13 @@ namespace NDK.UI.Components
                 await ValueChanged.InvokeAsync(SelectedData.ToList());
             }
 
-            await OnRemoveSelectedData(item);
+            if (base.RemoveSelectedDataFromList)
+            {
+                if (VisibleSource is not null)
+                {
+                    VisibleSource.Remove(item);
+                }
+            }
 
             await Task.CompletedTask;
         }
@@ -42,20 +41,22 @@ namespace NDK.UI.Components
         protected override async Task OnRemoveItem(T item)
         {
             SelectedData.Remove(item);
+
             if (ValueChanged.HasDelegate)
             {
                 await ValueChanged.InvokeAsync(SelectedData.ToList());
             }
 
-            if (!_visibleSource?.Contains(item) ?? false)
+            if (!VisibleSource?.Contains(item) ?? false)
             {
-                var data = _visibleSource?.ToList();
+                var data = VisibleSource?.ToList();
                 data?.Add(item);
 
                 var ordered = data?.OrderBy(x => x.Id);
 
                 FillData(ordered);
             }
+
         }
     }
 }

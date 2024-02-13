@@ -1,16 +1,38 @@
 ﻿@inherits NDKBaseInput<string?>
 
-<input @ref="Element"
-       value="@CurrentValueAsString"
-       id="@Id"
-       name="@Name"
-       title="@Title"
-       class="@GetClass()"
-       style="@Style"
-       disabled="@Disabled"
-       maxlength="@MaxLength"
-       @attributes="@AdditionalAttributes"
-       oninput="@((ChangeEventArgs args) => Set(args))" />
+@{
+    if (EventListener == EventListenerEnum.ONINPUT)
+    {
+        <input @ref="Element"
+               value="@CurrentValueAsString"
+               id="@Id"
+               name="@Name"
+               title="@Title"
+               class="@GetClass()"
+               style="@Style"
+               disabled="@Disabled"
+               maxlength="@MaxLength"
+               @attributes="@AdditionalAttributes"
+               oninput="@((ChangeEventArgs args) => Set(args))" />
+    }
+    else if (EventListener == EventListenerEnum.ONCHANGE)
+    {
+        <input @ref="Element"
+               value="@CurrentValueAsString"
+               id="@Id"
+               name="@Name"
+               title="@Title"
+               class="@GetClass()"
+               style="@Style"
+               disabled="@Disabled"
+               maxlength="@MaxLength"
+               @attributes="@AdditionalAttributes"
+               onchange="@((ChangeEventArgs args) => Set(args))" />
+    }
 
-       
+}
+
+
+
+
 

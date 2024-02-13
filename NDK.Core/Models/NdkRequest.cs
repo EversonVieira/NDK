@@ -47,7 +47,12 @@ namespace NDK.Core.Models
 
         public void AddFilterToGroup(NdkFilter filter, NdkFilterGroup group)
         {
-            filter.Id = $"{group.Id}_{group.Filters.Count + 1}";
+            if (group is null) throw new ArgumentNullException(nameof(group));
+            
+            filter.Id = $"{group.Id}_{(group?.Filters?.Count ?? 0)+ 1}";
+
+            if (group!.Filters is null)
+                group.Filters = new List<NdkFilter>();
             group.Filters.Add(filter);
         }
     }

@@ -42,7 +42,7 @@ namespace NDK.UI.Components.Inputs
 
         protected async Task Set(ChangeEventArgs args)
         {
-            await using (var commonJsInterop = new CommonJsInterop(Js))
+            await using (var commonJsInterop = new CommonJsInterop(Js!))
             {
                 string? value = (string?)args.Value;
 
@@ -147,7 +147,7 @@ namespace NDK.UI.Components.Inputs
         protected async Task SetMask(ChangeEventArgs args)
         {
 
-            await using (var commonJsInterop = new CommonJsInterop(Js))
+            await using (var commonJsInterop = new CommonJsInterop(Js!))
             {
                 string? value = (string?)args.Value;
                 if (string.IsNullOrWhiteSpace(value))

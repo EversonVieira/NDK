@@ -7,13 +7,11 @@ using System.Threading.Tasks;
 
 namespace NDK.UI.Components.Interfaces
 {
-    public interface INDKIFinder<TInput,TOutput> 
+    public interface INDKFinder<TInput,TOutput> 
         where TInput:NDKFinderInput
         where TOutput:NDKFinderOutput
     {
         
-        public List<TOutput> FindByInput(TInput input);
-
-
+        public Task<List<TOutput>> FindAsync(TInput input);
     }
 }

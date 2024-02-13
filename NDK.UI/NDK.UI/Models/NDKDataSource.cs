@@ -18,11 +18,11 @@ namespace NDK.UI.Models
         private ObservableCollection<TOutput> _source;
         private ObservableCollection<TOutput> _visibleSource;
         private TOptions _options;
-        private NDKIDataSourceService<TOutput, TInput> _service;
+        private INDKDataSourceService<TOutput, TInput> _service;
         public ObservableCollection<TOutput> DataSource => _visibleSource;
         public ObservableCollection<TOutput> SelectedData { get; set; }
 
-        public NDKDataSource(NDKIDataSourceService<TOutput, TInput> service, TOptions options)
+        public NDKDataSource(INDKDataSourceService<TOutput, TInput> service, TOptions options)
         {
             _source = new ObservableCollection<TOutput>();
             _visibleSource = new ObservableCollection<TOutput>();
@@ -32,7 +32,7 @@ namespace NDK.UI.Models
         }
 
 
-        public virtual void FetchData(TInput input)
+        public virtual async Task FetchAsync(TInput input)
         {
             if (input == null) return;
 
@@ -60,7 +60,7 @@ namespace NDK.UI.Models
                 input.ClearPaging();
             }
 
-            var response = _service.FetchData(input);
+            var response = await _service.FetchAsync(input);
 
             var result = response.Result;
 

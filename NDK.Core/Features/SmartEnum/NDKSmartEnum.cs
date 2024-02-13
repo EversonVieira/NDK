@@ -73,7 +73,7 @@ namespace NDK.Core.Features.SmartEnum
             return fieldsForType.ToDictionary(x => x.Value);
         }
 
-        public static List<NDKSmartEnum<T>> EnumList()
+        public static List<NDKSmartEnum<T>?> EnumList()
         {
             return Enums.Select(x => new { Key = x.Key, Value = x.Value} as NDKSmartEnum<T>).ToList();
         }

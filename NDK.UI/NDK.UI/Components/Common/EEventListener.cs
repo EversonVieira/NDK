@@ -1,6 +1,6 @@
 ﻿namespace NDK.UI.Components.Common
 {
-    public enum EEventListener
+    public enum EventListenerEnum
     {
         ONCHANGE,
         ONINPUT,
@@ -12,5 +12,6 @@
         ONMOUSEMOVE,
         ONMOUSEOUT,
         ONMOUSEWHEEL,
+        ONFOCUSOUT,
     }
 }

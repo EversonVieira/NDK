@@ -2,48 +2,85 @@
 @using System.Text.Json
 @using NDK.UI.Components.Forms
 @using NDK.UI.Components
+@using NDK.UI.Components.Interfaces
+@using NDK.UI.Models
 
 @inject IJSRuntime _js
 
-<NDKButton OnClick="OpenCloseModal">Open/Close Modal</NDKButton>
-<NDKWindow @bind-IsVisible="Model.IsVisible">
-    <Header>
-        CABEÇALHO
-    </Header>
-    <Body>
-        CONTEUDO
-    </Body>
-    <Footer>
-        FOOTER
-    </Footer>
-</NDKWindow>
+<NDKMultiSelect @bind-Value="OutputList"
+                InMemoryFilter="false"
+                MinFilterLength="0"
+                Finder="Finder"/>
+
+
 
 @code {
-    protected InputModel Model = new InputModel();
+    public List<NDKFinderOutput>? OutputList { get; set; }
+    public NDKFinderOutput? Value { get; set; }
+    public ExampleFinder Finder { get; set; } = new ExampleFinder();
 
-    public class InputModel
+
+    public class ExampleFinder : INDKTextFinder<NDKFinderOutput>
     {
-        public decimal Decimal { get; set; }
-        public int Int { get; set; }
-        public long Long { get; set; }
-        public float Float { get; set; }
-        public string String { get; set; } = "Tes";
-        public DateTime? DateTime { get; set; }
-        public DateTimeOffset dateTimeOffset { get; set; }
-        public bool IsVisible { get; set; }
-    }
+        private List<NDKFinderOutput> Source;
 
-    public async Task OpenCloseModal()
-    {
-        Model.IsVisible = !Model.IsVisible;
 
-        await Task.CompletedTask;
-    }
+        public ExampleFinder()
+        {
+            Source = new List<NDKFinderOutput>();
 
-    public void Log(string value)
-    {
-        Console.WriteLine(value);
-        Console.WriteLine($"Updated Value?:{Model.String}");
+            for (int i = 0; i < 50; i++)
+            {
+                Source.Add(new NDKFinderOutput
+                    {
+                        Id = i,
+                        Text = $"TEST{i}"
+                    });
+            }
+        }
+
+        public async Task<List<NDKFinderOutput>> FindAsync(string? text = null, int? id = null, Func<NDKFinderOutput, string>? TextExpression = null)
+        {
+            if (string.IsNullOrWhiteSpace(text) && !id.HasValue)
+            {
+                return Source;
+            }
+
+            if (!string.IsNullOrWhiteSpace(text))
+            {
+                return Source.FindAll(x => x?.Text?.Contains(text, StringComparison.CurrentCultureIgnoreCase) ?? false);
+            }
+
+            await Task.CompletedTask;
+
+            return Source;
+        }
     }
+    // protected InputModel Model = new InputModel();
+
+    // public class InputModel
+    // {
+    //     public decimal Decimal { get; set; }
+    //     public int Int { get; set; }
+    //     public long Long { get; set; }
+    //     public float Float { get; set; }
+    //     public string String { get; set; } = "Tes";
+    //     public DateTime? DateTime { get; set; }
+    //     public DateTimeOffset dateTimeOffset { get; set; }
+    //     public bool IsVisible { get; set; }
+    // }
+
+    // public async Task OpenCloseModal()
+    // {
+    //     Model.IsVisible = !Model.IsVisible;
+
+    //     await Task.CompletedTask;
+    // }
+
+    // public void Log(string value)
+    // {
+    //     Console.WriteLine(value);
+    //     Console.WriteLine($"Updated Value?:{Model.String}");
+    // }
 }
 
