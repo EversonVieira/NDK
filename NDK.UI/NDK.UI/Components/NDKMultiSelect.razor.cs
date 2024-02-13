@@ -80,6 +80,16 @@ namespace NDK.UI.Components
 
         }
 
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            await base.OnAfterRenderAsync(firstRender);
+
+            if (firstRender && !AllowInitialFetch)
+            {
+                await HandleSelectedData();
+            }
+        }
+
         private async Task HandleSelectedData()
         {
             SelectedData.Clear();
@@ -120,7 +130,7 @@ namespace NDK.UI.Components
                 await ValueChanged.InvokeAsync(SelectedData.ToList());
             }
 
-            if (!VisibleSource?.Contains(item) ?? false)
+            if (!VisibleSource?.Contains(item) ?? false && InMemoryFilter)
             {
                 var data = VisibleSource?.ToList();
                 data?.Add(item);

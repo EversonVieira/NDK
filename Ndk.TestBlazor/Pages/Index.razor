@@ -9,6 +9,8 @@
 
 <NDKMultiSelect @bind-Value="OutputList"
                 InMemoryFilter="false"
+                AllowInitialFetch="false"
+                ClearInputOutput="true"
                 MinFilterLength="3"
                 Finder="Finder"/>
 
@@ -22,9 +24,9 @@
 @code {
     public List<NDKFinderOutput>? OutputList { get; set; } = new List<NDKFinderOutput>
     {
-        new NDKFinderOutput{Id = 1},
-        new NDKFinderOutput{Id = 2},
-        new NDKFinderOutput{Id = 3},
+        new NDKFinderOutput{Id = 1, Text = $"TEST1"},
+        new NDKFinderOutput{Id = 2, Text = $"TEST2"},
+        new NDKFinderOutput{Id = 3, Text = $"TEST3"},
     };
 
     public NDKFinderOutput? Value { get; set; } = new NDKFinderOutput

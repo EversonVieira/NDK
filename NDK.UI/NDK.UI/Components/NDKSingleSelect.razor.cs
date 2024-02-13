@@ -103,11 +103,24 @@ namespace NDK.UI.Components
                 {
                     SelectedValue = Value;
                 }
-               
+
             }
 
             await Task.CompletedTask;
         }
+
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            await base.OnAfterRenderAsync(firstRender);
+
+            if (firstRender && !AllowInitialFetch)
+            {
+                await HandleSelectedData();
+            }
+        }
+
+
         protected override async Task OnRemoveItem(TValue item)
         {
             if (ValueChanged.HasDelegate)
@@ -116,7 +129,7 @@ namespace NDK.UI.Components
                 await ValueChanged.InvokeAsync(null);
             }
 
-            if (!VisibleSource?.Contains(item) ?? false)
+            if (!VisibleSource?.Contains(item) ?? false && InMemoryFilter)
             {
                 var data = VisibleSource?.ToList();
                 data?.Add(item);

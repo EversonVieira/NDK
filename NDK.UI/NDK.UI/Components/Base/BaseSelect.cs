@@ -36,7 +36,7 @@ namespace NDK.UI.Components.Base
         /// If provided, will be used instead of just the Text property to show and filter on the display.
         /// </summary>
         [Parameter]
-        public Func<T?, string>? TextExpression { get; set; }
+        public Func<T, string>? TextExpression { get; set; }
 
         /// <summary>
         /// Min input lenght when attempting to filter, applys only on NOT in memory filter.
