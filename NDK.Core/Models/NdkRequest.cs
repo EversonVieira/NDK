@@ -10,16 +10,32 @@ namespace NDK.Core.Models
     {
         public NdkPaging? Paging { get; set; }
 
-        public Dictionary<long,bool> Options { get; set; }  = new Dictionary<long,bool>();
 
         private List<NdkFilterGroup> _filtersGroups = new List<NdkFilterGroup>();
 
-        public IReadOnlyList<NdkFilterGroup> FiltersGroup
+        public List<NdkOrderItem>? OrderBy { get; set; }
+
+        public IReadOnlyList<NdkFilterGroup> FiltersGroups
         {
             get
             {
                 return _filtersGroups;
             }
+        }
+
+        public void ClearFilters()
+        {
+            _filtersGroups.Clear();
+        }
+
+        public void ClearPaging()
+        {
+            Paging = null;
+        }
+
+        public void ClearOrderBy()
+        {
+            OrderBy = null;
         }
 
         public void AddFilterGroup(NdkFilterGroup filterGroup)
@@ -34,6 +50,5 @@ namespace NDK.Core.Models
             filter.Id = $"{group.Id}_{group.Filters.Count + 1}";
             group.Filters.Add(filter);
         }
-
     }
 }

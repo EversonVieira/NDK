@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NDK.UI.Components.Interfaces
+namespace NDK.UI.Models
 {
-    public interface IFinder<TInput, TOutput>
+    public class NDKFinderInput
     {
-        public TOutput Find(TInput input);
+        public int? Id { get; set; }
+        public string? Text { get; set; }
     }
 }
