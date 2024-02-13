@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NDK.UI.Components.Interfaces
 {
-    public interface NDKIFinder<TInput,TOutput> 
+    public interface INDKIFinder<TInput,TOutput> 
         where TInput:NDKFinderInput
         where TOutput:NDKFinderOutput
     {

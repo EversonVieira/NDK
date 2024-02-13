@@ -33,9 +33,9 @@ namespace NDK.Database.ExtensionMethods
                 parameters.Add(nameof(request.Paging.Page), request.Paging.Page);
             }
 
-            if (request.FiltersGroup.Any())
+            if (request.FiltersGroups.Any())
             {
-                foreach (var fg in request.FiltersGroup)
+                foreach (var fg in request.FiltersGroups)
                 {
                     parameters.AddDynamicParams(GetParametersByFilterGroup(fg, alias));
                 }
@@ -79,20 +79,20 @@ namespace NDK.Database.ExtensionMethods
                 _ => new StringBuilder(query)
             };
 
-            if (request.FiltersGroup.Any())
+            if (request.FiltersGroups.Any())
             {
                 if (configuration.Type == NdkDbType.ORACLE)
                 {
-                    if (request.FiltersGroup.Any())
+                    if (request.FiltersGroups.Any())
                     {
                         StringBuilder where = new StringBuilder();
 
 
                         where.AppendLine(" WHERE ");
 
-                        for (int i = 0; i < request.FiltersGroup.Count; i++)
+                        for (int i = 0; i < request.FiltersGroups.Count; i++)
                         {
-                            where.AppendLine(GetFilterGroup(request.FiltersGroup[i], i == request.FiltersGroup.Count - 1, configuration).ToString());
+                            where.AppendLine(GetFilterGroup(request.FiltersGroups[i], i == request.FiltersGroups.Count - 1, configuration).ToString());
 
                         }
 
@@ -104,9 +104,9 @@ namespace NDK.Database.ExtensionMethods
                 {
                     sb.AppendLine(" WHERE ");
 
-                    for (int i = 0; i < request.FiltersGroup.Count; i++)
+                    for (int i = 0; i < request.FiltersGroups.Count; i++)
                     {
-                        sb.AppendLine(GetFilterGroup(request.FiltersGroup[i], i == request.FiltersGroup.Count - 1, configuration).ToString());
+                        sb.AppendLine(GetFilterGroup(request.FiltersGroups[i], i == request.FiltersGroups.Count - 1, configuration).ToString());
 
                     }
                 }

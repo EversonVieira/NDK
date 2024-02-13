@@ -1,5 +1,37 @@
-﻿<h3>NDKMultiSelect</h3>
+﻿@using NDK.UI.Components.Base
+@using NDK.UI.Models
+@typeparam T where T : NDKFinderOutput
+@inherits BaseSelect<T>
 
-@code {
+<div class="ndk-multi-select-container">
+    <div class="ndk-multi-select-selected-items">
+        @foreach(var item in SelectedData)
+        {
+            <span class="ndk-multi-select-selected-item">
+                @GetText(item);
 
-}
+                <span class="ndk-circle-badge">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" /></svg>
+                </span>
+            </span>
+        }
+    </div>
+
+    <div class="ndk-multi-select-input">
+        <NDKInputText ValueChanged="OnFilter"></NDKInputText>
+    </div>
+
+    @if (_visibleSource?.Count > 0)
+    {
+        <div class="ndk-multi-select-popup">
+
+            @foreach (var item in _visibleSource)
+            {
+                <span class="ndk-multi-select-popup-item" @onclick="@(() => OnSelect(item))">
+                    @GetText(item);
+                </span>
+            }
+
+        </div>
+    }
+</div>

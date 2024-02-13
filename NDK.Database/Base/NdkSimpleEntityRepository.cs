@@ -66,7 +66,7 @@ namespace NDK.Database.Base
 
             queryParams = request.GetRequestData(GetSelectCountString(entity), this._connectionHandler._configuration);
 
-            response.AvailableItems = connection.Query<long>(queryParams.query, queryParams).ToList().FirstOrDefault();
+            response.TotalItems = connection.Query<long>(queryParams.query, queryParams).ToList().FirstOrDefault();
 
 
             return response;
