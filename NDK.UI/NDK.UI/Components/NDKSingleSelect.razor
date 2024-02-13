@@ -10,11 +10,11 @@
             <div class="ndk-select-selected-items">
                 @if (SelectedValue is not null)
                 {
-                    <span class="ndk-select-selected-item" @onclick=@(() => OnRemoveItem(SelectedValue))>
+                    <span class="ndk-select-selected-item">
                         <span class="ndk-select-selected-item-text">
                             @((MarkupString)GetText(SelectedValue)!)
                         </span>
-                        <span class="ndk-select-remove-circle-badge">
+                        <span class="ndk-select-remove-circle-badge" @onclick=@(() => OnRemoveItem(SelectedValue))>
                             <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" /></svg>
                         </span>
                     </span>
@@ -23,8 +23,8 @@
             </div>
             <div class="ndk-select-input-container">
                 <NDKInputText @onclick="() => ShowPopup = !ShowPopup"
-                              Class="ndk-select-input" 
-                              EventListener="EventListenerEnum.ONCHANGE" 
+                              Class="ndk-select-input"
+                              EventListener="EventListenerEnum.ONCHANGE"
                               ValueChanged="OnFilter"></NDKInputText>
             </div>
         </div>

@@ -38,9 +38,7 @@
     align-items: center;
 }
 
-    .ndk-select-selected-item:hover {
-        cursor: pointer;
-    }
+   
 
 .ndk-select-selected-item-text {
     padding: 0 5px;
@@ -72,7 +70,7 @@
 }
 
     .ndk-select-popup-item:hover {
-        background-color: rgba(0,0,0,0.35);
+        background-color: var(--hover-primary-bg-color);
         cursor: pointer;
         color: var(--secondary-text-color);
     }
@@ -85,7 +83,15 @@
     align-items: center;
     border-radius: 50%;
     padding: 2px;
-    background-color: rgba(255,255,255,0.50);
     width: fit-content;
     margin: 0 3px;
 }
+
+    .ndk-select-remove-circle-badge:hover {
+        background-color: var(--secondary-bg-color);
+        cursor:pointer;
+    }
+
+        .ndk-select-remove-circle-badge:hover svg {
+            fill: var(--secondary-text-color);
+        }

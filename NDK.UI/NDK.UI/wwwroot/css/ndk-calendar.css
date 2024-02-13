@@ -53,7 +53,7 @@
     .ndk-calendar-control:hover {
         cursor: pointer;
         color: var(--primary-bg-color);
-        background-color: var(--hover-bg-color);
+        background-color: var(--hover-primary-bg-color);
     }
 
 .ndk-dt-item-selected-ui {
@@ -122,7 +122,7 @@
 
     .ndk-dt-item-ui:hover {
         cursor: pointer;
-        background-color: var(--hover-bg-color);
+        background-color: var(--hover-primary-bg-color);
     }
 
 .ndk-dt-item-ui-disabled {
@@ -143,7 +143,7 @@
 }
 
 .ndk-dt-item-selected-ui {
-    background-color: #ada7fc !important;
+    background-color: var(--primary-bg-color);
     color: var(--secondary-text-color);
 }
 

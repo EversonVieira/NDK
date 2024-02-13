@@ -6,8 +6,10 @@
     --primary-bg-color: #ada7fc;
     --secondary-bg-color: #ff6666;
     --disabled-bg-color: #c3c3c3;
-    --hover-bg-color: #e2e1e1;
-    --hover-bg-border-color: #e2e1e1;
+    --hover-primary-bg-color: #e2e1e1;
+    --hover-secondary-bg-color: #e2e1e1;
+    --hover-primary-bg-border-color: #e2e1e1;
+    --hover-secondary-bg-border-color: #e2e1e1;
     /*colors*/
     --primary-text-color: #121212;
     --secondary-text-color: #fff;
@@ -17,14 +19,14 @@
     --border-radius: 8px;
     /*Box Shadow*/
     --box-shadow: var(--ndk-popup, 0 8px 10px rgba(0, 0, 0, 0.12), 0 4px 16px rgba(0, 0, 0, 0.12));
-
     /*CALENDAR*/
     --calendar-width: 250px;
     --calendar-height: 260px;
-
     /*SELECT*/
     --select-width: 350px;
     --select-height: 350px;
+    /*WINDOW*/
+    --window-background:  rgba(0,0,0,0.5);
 }
 /*-------------------- DARK MODE ------------*/
 
@@ -33,7 +35,7 @@
     --primary-theme-bg-color: #272727;
     --primary-theme-color: #fff;
     /*Background colors*/
-    --hover-bg-color: #373737;
+    --hover-primary-bg-color: #373737;
     --hover-bg-border-color: #000000;
     /*colors*/
     --primary-text-color: #fff;
