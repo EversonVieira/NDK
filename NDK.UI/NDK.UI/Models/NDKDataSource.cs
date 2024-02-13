@@ -13,6 +13,7 @@ namespace NDK.UI.Models
     public class NDKDataSource<TInput, TOutput, TOptions>
         where TInput : NdkRequest
         where TOptions : NDKDataSourceOptions<TOutput>
+        where TOutput : NdkBaseModel
     {
         private ObservableCollection<TOutput> _source;
         private ObservableCollection<TOutput> _visibleSource;
@@ -59,7 +60,9 @@ namespace NDK.UI.Models
                 input.ClearPaging();
             }
 
-            var result = _service.FetchData(input).ToList();
+            var response = _service.FetchData(input);
+
+            var result = response.Result;
 
             _source.Clear();
             _visibleSource.Clear();
@@ -189,11 +192,9 @@ namespace NDK.UI.Models
                 {
                     _visibleSource.Add(item);
                 }
-
             }
             else
             {
-
                 _visibleSource.Clear();
                 for (int x = (paging.Page - 1); x < (paging.Page * paging.ItemsPerPage); x++)
                 {

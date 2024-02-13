@@ -2,6 +2,7 @@
 {
     public class NdkListResponse<T> : NdkResponse<List<T>>
     {
-        public long AvailableItems { get; set; }
+        public long TotalItems  { get; set; }
+        public long TotalPages { get; set; }
     }
 }

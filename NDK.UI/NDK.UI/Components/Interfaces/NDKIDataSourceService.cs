@@ -7,8 +7,10 @@ using System.Threading.Tasks;
 
 namespace NDK.UI.Components.Interfaces
 {
-    public interface NDKIDataSourceService<TOutput, TInput> where TInput: NdkRequest
+    public interface NDKIDataSourceService<TOutput, TInput> 
+        where TInput: NdkRequest
+        where TOutput : NdkBaseModel
     {
-        public IEnumerable<TOutput> FetchData(TInput request);
+        public NdkListResponse<TOutput> FetchData(TInput request);
     }
 }
