@@ -1,17 +1,17 @@
 ﻿@using NDK.UI.Components.Base
 @using NDK.UI.Models
-@typeparam T where T : NDKFinderOutput
-@inherits BaseSelect<T>
+@typeparam TValue where TValue : NDKFinderOutput
+@inherits BaseSelect<TValue>
 @if (IsRendered)
 {
 
     <div class="ndk-single-select-container">
 
         <div class="ndk-single-select-selected-items">
-            @if (Value is not null)
+            @if (SelectedValue is not null)
             {
-                <span class="ndk-single-select-selected-item" @onclick=@(() => OnRemoveItem(Value))>
-                    @((MarkupString)GetText(Value)!)
+                <span class="ndk-single-select-selected-item" @onclick=@(() => OnRemoveItem(SelectedValue))>
+                    @((MarkupString)GetText(SelectedValue)!)
 
                     <span class="ndk-circle-badge">
                         <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960" width="24"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" /></svg>
@@ -28,9 +28,9 @@
 
             @foreach (var item in VisibleSource!)
             {
-                <span class="ndk-single-select-popup-item" @onclick="@(() => OnSelect(item))">
-                    @((MarkupString)GetText(Value)!)
-                </span>
+                <div class="ndk-single-select-popup-item" @onclick="@(() => OnSelect(item))">
+                    @((MarkupString)GetText(item)!)
+                </div>
             }
 
         </div>

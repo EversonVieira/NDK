@@ -37,22 +37,25 @@ namespace NDK.UI.Components.Base
         protected ObservableCollection<T> VisibleSource { get; set; }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
-        private DateTime? _filterDate { get; set; }
-
         private NDKWaiter _waiter = new NDKWaiter();
 
         protected async Task OnFilter(string filter)
         {
-            _filterDate = DateTime.Now;
 
             if (InMemoryFilter)
             {
-
                 var data = string.IsNullOrWhiteSpace(filter) ? _source : _source?.Where(x => GetText(x)?.Contains(filter, StringComparison.InvariantCultureIgnoreCase) ?? false);
                 FillData(data);
             }
             else
             {
+                if (string.IsNullOrWhiteSpace(filter))
+                {
+                    await OnFetch();
+                    return;
+                }
+
+
                 if (filter.Length < MinFilterLength)
                 {
                     return;
@@ -105,6 +108,7 @@ namespace NDK.UI.Components.Base
 
             var data = await Finder.FindAsync();
 
+            VisibleSource.Clear();
             data.ForEach(x =>
             {
                 _source?.Add(x);

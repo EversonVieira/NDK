@@ -6,19 +6,18 @@ using System.Collections.ObjectModel;
 
 namespace NDK.UI.Components
 {
-    public partial class NDKMultiSelect<T> : BaseSelect<T> where T : NDKFinderOutput
+    public partial class NDKMultiSelect<TValue> : BaseSelect<TValue> where TValue : NDKFinderOutput
     {
         [Parameter]
-        public List<T>? Value { get; set; }
+        public List<TValue>? Value { get; set; }
 
         [Parameter]
-        public EventCallback<List<T>?> ValueChanged { get; set; }
+        public EventCallback<List<TValue>?> ValueChanged { get; set; }
 
-        private ObservableCollection<T> SelectedData { get; set; } = new ObservableCollection<T>();
+        private ObservableCollection<TValue> SelectedData { get; set; } = new ObservableCollection<TValue>();
 
-      
 
-        protected override async Task OnSelect(T item)
+        protected override async Task OnSelect(TValue item)
         {
             SelectedData.Add(item);
 
@@ -38,7 +37,31 @@ namespace NDK.UI.Components
             await Task.CompletedTask;
         }
 
-        protected override async Task OnRemoveItem(T item)
+        protected override async Task OnFetch()
+        {
+            await base.OnFetch();
+
+            SelectedData.Clear();
+            if (Value is not null)
+            {
+                foreach (var item in Value)
+                {
+                    var recoveredItem = VisibleSource.Where(x => x.Id == item.Id).FirstOrDefault();
+                    if (recoveredItem is not null)
+                    {
+                        SelectedData.Add(recoveredItem);
+
+                        if (RemoveSelectedDataFromList)
+                        {
+                            VisibleSource.Remove(recoveredItem);
+                        }
+                    }
+                }
+            }
+
+        }
+
+        protected override async Task OnRemoveItem(TValue item)
         {
             SelectedData.Remove(item);
 

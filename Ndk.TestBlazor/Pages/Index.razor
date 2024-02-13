@@ -12,11 +12,26 @@
                 MinFilterLength="0"
                 Finder="Finder"/>
 
-
+<br />
+<NDKSingleSelect @bind-Value="Value"
+                 InMemoryFilter="true"
+                 MinFilterLength="0"
+                 TValue="NDKFinderOutput"
+                 Finder="Finder"/>
 
 @code {
-    public List<NDKFinderOutput>? OutputList { get; set; }
-    public NDKFinderOutput? Value { get; set; }
+    public List<NDKFinderOutput>? OutputList { get; set; } = new List<NDKFinderOutput>
+    {
+        new NDKFinderOutput{Id = 1},
+        new NDKFinderOutput{Id = 2},
+        new NDKFinderOutput{Id = 3},
+    };
+
+    public NDKFinderOutput? Value { get; set; } = new NDKFinderOutput
+        {
+            Id = 1
+        };
+
     public ExampleFinder Finder { get; set; } = new ExampleFinder();
 
 
@@ -29,7 +44,7 @@
         {
             Source = new List<NDKFinderOutput>();
 
-            for (int i = 0; i < 50; i++)
+            for (int i = 0; i < 10; i++)
             {
                 Source.Add(new NDKFinderOutput
                     {
