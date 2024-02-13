@@ -14,23 +14,77 @@ namespace NDK.UI.Components.Base
     public abstract class BaseSelect<T> : NDKBaseComponent
         where T : NDKFinderOutput
     {
+        /// <summary>
+        /// Interface that should be provided to do the Fetch
+        /// </summary>
         [Parameter]
         public INDKTextFinder<T>? Finder { get; set; }
 
+        /// <summary>
+        /// Will filter in memory if true
+        /// </summary>
         [Parameter]
         public bool InMemoryFilter { get; set; }
 
+        /// <summary>
+        /// Will keep the Selected data outside the DataSource
+        /// </summary>
         [Parameter]
         public bool RemoveSelectedDataFromList { get; set; } = true;
 
+        /// <summary>
+        /// If provided, will be used instead of just the Text property to show and filter on the display.
+        /// </summary>
         [Parameter]
         public Func<T?, string>? TextExpression { get; set; }
 
+        /// <summary>
+        /// Min input lenght when attempting to filter, applys only on NOT in memory filter.
+        /// </summary>
         [Parameter]
         public int MinFilterLength { get; set; } = 3;
 
+        /// <summary>
+        /// The waiter time to debounce the task
+        /// </summary>
         [Parameter]
         public int SearchWaiterMS { get; set; } = 500;
+
+        /// <summary>
+        /// The Searching Text "Searching..."
+        /// </summary>
+        [Parameter]
+        public string SearchingText { get; set; } = "Searching...";
+
+
+        /// <summary>
+        /// The No Data Found Text
+        /// </summary>
+        [Parameter]
+        public string NoDataFoundText { get; set; } = "No Data Found";
+
+        /// <summary>
+        /// If True, allows the component to do the fetch without providing any parameter
+        /// If false, it will use your provided values to set the SelectedData, this means the input can't be just the Id.
+        /// </summary>
+        [Parameter]
+        public bool AllowInitialFetch { get; set; }
+
+        /// <summary>
+        /// Provide a template to "Type more {0} to find"
+        /// Use {0} to provide the remaining number of characters to find.
+        /// </summary>
+        [Parameter]
+        public string TypeMoreStringTemplate { get; set; } = "Type more {0} to find";
+
+        /// <summary>
+        /// Set true if you want the VisibleSource and the Input to be cleared when Selecting a item
+        /// Only Applicable if not In Memory Filter
+        /// </summary>
+        [Parameter]
+        public bool ClearInputOutput { get; set; } = true;
+
+        protected string? SearchText { get; set; }
 
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
         private ObservableCollection<T> _source;
@@ -41,8 +95,16 @@ namespace NDK.UI.Components.Base
 
         protected bool ShowPopup { get; set; }
        
-        protected async Task OnFilter(string filter)
+        protected bool Searching {  get; set; }
+
+        protected string? FilterInput { get; set; }
+
+
+
+
+        protected virtual async Task OnFilter(string filter)
         {
+            FilterInput = filter;
 
             if (InMemoryFilter)
             {
@@ -51,11 +113,18 @@ namespace NDK.UI.Components.Base
             }
             else
             {
+                Searching = true;
+
                 if (string.IsNullOrWhiteSpace(filter))
                 {
-                    await OnFetch();
+                    if (MinFilterLength == 0)
+                    {
+                        await OnFetch();
+                    }
+
                     return;
                 }
+
 
 
                 if (filter.Length < MinFilterLength)
@@ -63,10 +132,17 @@ namespace NDK.UI.Components.Base
                     return;
                 }
 
-                var data = await Finder!.FindAsync(filter);
 
-                FillData(data);
-              
+                await _waiter.Debounce(SearchWaiterMS, async () =>
+                {
+                    var data = await Finder!.FindAsync(filter);
+
+                    FillData(data);
+
+                });
+
+                Searching = false;
+
             }
 
             await Task.CompletedTask;
@@ -86,13 +162,21 @@ namespace NDK.UI.Components.Base
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-
             if (firstRender)
             {
                 _source = new ObservableCollection<T>();
                 VisibleSource = InMemoryFilter ? new ObservableCollection<T>() : _source;
 
-                await OnFetch();
+                if (AllowInitialFetch)
+                {
+                    await OnFetch();
+                }
+
+                if (!AllowInitialFetch)
+                {
+                    Searching = true;
+                    SetSearchText(string.Empty);
+                }
 
                 StateHasChanged();
             }
@@ -102,7 +186,6 @@ namespace NDK.UI.Components.Base
 
         protected virtual async Task OnFetch()
         {
-
             if (Finder is null)
             {
                 throw new ArgumentNullException($"{nameof(Finder)} should be provided");
@@ -119,6 +202,7 @@ namespace NDK.UI.Components.Base
                     VisibleSource.Add(x);
                 }
             });
+
 
             await Task.CompletedTask;
         }
@@ -154,6 +238,24 @@ namespace NDK.UI.Components.Base
             }
 
             return item?.Text!;
+        }
+
+        protected virtual void SetSearchText(string input)
+        {
+            if (string.IsNullOrWhiteSpace(input))
+            {
+                SearchText = string.Format(TypeMoreStringTemplate, MinFilterLength);
+                return;
+            }
+
+            if (input.Length < MinFilterLength)
+            {
+                SearchText = string.Format(TypeMoreStringTemplate, MinFilterLength - input.Length);
+                return;
+            }
+
+            SearchText = SearchingText;
+
         }
     }
 }

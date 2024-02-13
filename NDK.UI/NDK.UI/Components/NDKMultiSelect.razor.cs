@@ -35,31 +35,80 @@ namespace NDK.UI.Components
             }
 
             ShowPopup = !ShowPopup;
+
+            if (ClearInputOutput)
+            {
+                FilterInput = string.Empty;
+                VisibleSource!.Clear();
+                SetSearchText(FilterInput);
+                Searching = true;
+            }
+
             await Task.CompletedTask;
         }
 
-        protected override async Task OnFetch()
+        protected override async Task OnFilter(string filter)
         {
-            await base.OnFetch();
+            SetSearchText(filter);
 
-            SelectedData.Clear();
-            if (Value is not null)
+            await base.OnFilter(filter);
+
+            if (RemoveSelectedDataFromList)
             {
-                foreach (var item in Value)
+                if (VisibleSource is not null)
                 {
-                    var recoveredItem = VisibleSource.Where(x => x.Id == item.Id).FirstOrDefault();
-                    if (recoveredItem is not null)
+                    foreach (var item in SelectedData)
                     {
-                        SelectedData.Add(recoveredItem);
-
-                        if (RemoveSelectedDataFromList)
+                        var recoveredItem = VisibleSource.Where(x => x.Id == item.Id).FirstOrDefault();
+                        if (recoveredItem is not null)
                         {
-                            VisibleSource.Remove(recoveredItem);
+                            if (RemoveSelectedDataFromList)
+                            {
+                                VisibleSource.Remove(recoveredItem);
+                            }
                         }
                     }
                 }
             }
 
+        }
+        protected override async Task OnFetch()
+        {
+            await base.OnFetch();
+
+            await HandleSelectedData();
+
+        }
+
+        private async Task HandleSelectedData()
+        {
+            SelectedData.Clear();
+            if (Value is not null)
+            {
+                foreach (var item in Value)
+                {
+                    if (AllowInitialFetch)
+                    {
+                        var recoveredItem = VisibleSource.Where(x => x.Id == item.Id).FirstOrDefault();
+                        if (recoveredItem is not null)
+                        {
+                            SelectedData.Add(recoveredItem);
+
+                            if (RemoveSelectedDataFromList)
+                            {
+                                VisibleSource.Remove(recoveredItem);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        SelectedData.Add(item);
+                    }
+                   
+                }
+            }
+
+            await Task.CompletedTask;
         }
 
         protected override async Task OnRemoveItem(TValue item)

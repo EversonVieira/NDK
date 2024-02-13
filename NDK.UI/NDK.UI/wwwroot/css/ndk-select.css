@@ -77,6 +77,12 @@
         color: var(--secondary-text-color);
     }
 
+.ndk-select-popup-search {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    padding: 0 5px;
+}
 
 
 .ndk-select-remove-circle-badge {

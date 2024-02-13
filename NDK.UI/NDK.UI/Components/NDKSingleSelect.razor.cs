@@ -17,6 +17,19 @@ namespace NDK.UI.Components
         private TValue? SelectedValue { get; set; }
 
 
+        protected override async Task OnFilter(string filter)
+        {
+            await base.OnFilter(filter);
+
+            if (base.RemoveSelectedDataFromList && SelectedValue is not null)
+            {
+                var item = VisibleSource.Where(x => x.Id == SelectedValue.Id).FirstOrDefault();
+                if (item != null)
+                {
+                    VisibleSource?.Remove(item);
+                }
+            }
+        }
         protected override async Task OnSelect(TValue item)
         {
             if (SelectedValue is not null)
@@ -46,6 +59,14 @@ namespace NDK.UI.Components
 
             ShowPopup = !ShowPopup;
 
+            if (ClearInputOutput)
+            {
+                FilterInput = string.Empty;
+                VisibleSource!.Clear();
+                SetSearchText(FilterInput);
+                Searching = true;
+            }
+
             await Task.CompletedTask;
         }
 
@@ -53,24 +74,39 @@ namespace NDK.UI.Components
         {
             await base.OnFetch();
 
+            await HandleSelectedData();
+        }
+
+        private async Task HandleSelectedData()
+        {
             if (Value is not null)
             {
-                var recoveredItem = VisibleSource.Where(x => x.Id == Value.Id).FirstOrDefault();
-                if (recoveredItem is not null)
+                if (AllowInitialFetch)
                 {
-                    SelectedValue = recoveredItem;
-
-                    if (ValueChanged.HasDelegate)
+                    var recoveredItem = VisibleSource.Where(x => x.Id == Value.Id).FirstOrDefault();
+                    if (recoveredItem is not null)
                     {
-                        await ValueChanged.InvokeAsync(recoveredItem);
-                    }
+                        SelectedValue = recoveredItem;
 
-                    if (RemoveSelectedDataFromList)
-                    {
-                        VisibleSource.Remove(recoveredItem);
+                        if (ValueChanged.HasDelegate)
+                        {
+                            await ValueChanged.InvokeAsync(recoveredItem);
+                        }
+
+                        if (RemoveSelectedDataFromList)
+                        {
+                            VisibleSource.Remove(recoveredItem);
+                        }
                     }
                 }
+                else
+                {
+                    SelectedValue = Value;
+                }
+               
             }
+
+            await Task.CompletedTask;
         }
         protected override async Task OnRemoveItem(TValue item)
         {

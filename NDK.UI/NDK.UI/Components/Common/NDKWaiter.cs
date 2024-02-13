@@ -9,31 +9,22 @@ namespace NDK.UI.Components.Common
     public class NDKWaiter
     {
 
-        private List<Func<bool>> Functions = new List<Func<bool>>();
         private List<Action> Actions = new List<Action>();
 
-        public async Task Wait(Func<bool> waitFunction, Action act)
+        public async Task Debounce(int ms, Action act)
         {
-            Functions.Clear();
             Actions.Clear();
 
-            Functions.Add(waitFunction); 
             Actions.Add(act);
+            
+            await Task.Delay(ms);
 
-            if (Functions.Contains(waitFunction))
+
+            if (Actions.Contains(act))
             {
-                while (!waitFunction())
-                {
-
-                }
-
-                if (Actions.Contains(act))
-                {
-                    act();
-                }
+                act();
             }
 
-          
 
             await Task.CompletedTask;
 

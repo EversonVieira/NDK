@@ -26,6 +26,7 @@
             <div class="ndk-select-input-container" >
                 <NDKInputText @onclick="() => ShowPopup = !ShowPopup"
                               Class="ndk-select-input"
+                              Value="@FilterInput"
                               ValueChanged="OnFilter"></NDKInputText>
             </div>
         </div>
@@ -34,13 +35,36 @@
         @if (ShowPopup)
         {
             <div class="ndk-select-popup">
-
-                @foreach (var item in VisibleSource!)
+                @if(InMemoryFilter)
                 {
-                    <div class="ndk-select-popup-item" @onclick="@(() => OnSelect(item))">
-                        @((MarkupString)GetText(item)!)
-                    </div>
+                    @foreach (var item in VisibleSource!)
+                    {
+                        <div class="ndk-select-popup-item" @onclick="@(() => OnSelect(item))">
+                            @((MarkupString)GetText(item)!)
+                        </div>
+                    }
                 }
+                else
+                {
+                    if (Searching)
+                    {
+                        <div class="ndk-select-popup-search">@SearchText</div>
+                    }
+                    else
+                    {
+                        @if (VisibleSource!.Count == 0)
+                        {
+                            <div class="ndk-select-popup-search">@NoDataFoundText</div>
+                        }
+                        @foreach (var item in VisibleSource!)
+                        {
+                            <div class="ndk-select-popup-item" @onclick="@(() => OnSelect(item))">
+                                @((MarkupString)GetText(item)!)
+                            </div>
+                        }
+                    }
+                }
+
 
             </div>
         }
