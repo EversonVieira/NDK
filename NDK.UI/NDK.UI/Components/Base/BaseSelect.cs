@@ -22,6 +22,8 @@ namespace NDK.UI.Components.Base
 
         /// <summary>
         /// Will filter in memory if true
+        /// If True, allows the component to do the fetch without providing any parameter
+        /// If false, it will use your provided values to set the SelectedData, this means the input can't be just the Id.
         /// </summary>
         [Parameter]
         public bool InMemoryFilter { get; set; }
@@ -56,19 +58,11 @@ namespace NDK.UI.Components.Base
         [Parameter]
         public string SearchingText { get; set; } = "Searching...";
 
-
         /// <summary>
         /// The No Data Found Text
         /// </summary>
         [Parameter]
         public string NoDataFoundText { get; set; } = "No Data Found";
-
-        /// <summary>
-        /// If True, allows the component to do the fetch without providing any parameter
-        /// If false, it will use your provided values to set the SelectedData, this means the input can't be just the Id.
-        /// </summary>
-        [Parameter]
-        public bool AllowInitialFetch { get; set; }
 
         /// <summary>
         /// Provide a template to "Type more {0} to find"
@@ -167,12 +161,11 @@ namespace NDK.UI.Components.Base
                 _source = new ObservableCollection<T>();
                 VisibleSource = InMemoryFilter ? new ObservableCollection<T>() : _source;
 
-                if (AllowInitialFetch)
+                if (InMemoryFilter)
                 {
                     await OnFetch();
                 }
-
-                if (!AllowInitialFetch)
+                else
                 {
                     Searching = true;
                     SetSearchText(string.Empty);

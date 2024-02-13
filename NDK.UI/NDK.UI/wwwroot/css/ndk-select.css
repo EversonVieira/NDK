@@ -62,6 +62,7 @@
     box-shadow: var(--box-shadow);
     padding: 5px;
     background-color: var(--primary-theme-bg-color);
+    z-index:150;
 }
 
 .ndk-select-popup-item {

@@ -8,18 +8,11 @@
 @inject IJSRuntime _js
 
 <NDKMultiSelect @bind-Value="OutputList"
-                InMemoryFilter="false"
-                AllowInitialFetch="false"
-                ClearInputOutput="true"
+                InMemoryFilter="true"
                 MinFilterLength="3"
-                Finder="Finder"/>
+                Finder="Finder" />
 
-@* <br />
-<NDKSingleSelect @bind-Value="Value"
-                 InMemoryFilter="true"
-                 MinFilterLength="0"
-                 TValue="NDKFinderOutput"
-                 Finder="Finder"/> *@
+
 
 @code {
     public List<NDKFinderOutput>? OutputList { get; set; } = new List<NDKFinderOutput>
@@ -29,9 +22,14 @@
         new NDKFinderOutput{Id = 3, Text = $"TEST3"},
     };
 
+    public string TextExpression(NDKFinderOutput item)
+    {
+        return $"{item.Id} - {item.Text}";
+    }
     public NDKFinderOutput? Value { get; set; } = new NDKFinderOutput
         {
-            Id = 1
+            Id = 1,
+            Text = "TEST1"
         };
 
     public ExampleFinder Finder { get; set; } = new ExampleFinder();

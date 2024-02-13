@@ -59,7 +59,7 @@ namespace NDK.UI.Components
 
             ShowPopup = !ShowPopup;
 
-            if (ClearInputOutput)
+            if (ClearInputOutput && !InMemoryFilter)
             {
                 FilterInput = string.Empty;
                 VisibleSource!.Clear();
@@ -81,7 +81,7 @@ namespace NDK.UI.Components
         {
             if (Value is not null)
             {
-                if (AllowInitialFetch)
+                if (InMemoryFilter)
                 {
                     var recoveredItem = VisibleSource.Where(x => x.Id == Value.Id).FirstOrDefault();
                     if (recoveredItem is not null)
@@ -114,7 +114,7 @@ namespace NDK.UI.Components
         {
             await base.OnAfterRenderAsync(firstRender);
 
-            if (firstRender && !AllowInitialFetch)
+            if (firstRender && !InMemoryFilter)
             {
                 await HandleSelectedData();
             }
