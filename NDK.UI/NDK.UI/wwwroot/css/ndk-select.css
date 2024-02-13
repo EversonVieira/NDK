@@ -20,20 +20,24 @@
 .ndk-select-selected-items {
     display: flex;
     max-width: var(--select-width);
-    max-height: 100px;
+    max-height: 50px;
+    min-height: 50px;
     flex-wrap: wrap;
     overflow-y: auto;
-    margin: 0 0 5px 0;
     padding: 5px 0;
+    background-color: var(--toolcontainer-background-color);
+    border-top-left-radius: var(--border-radius);
+    border-top-right-radius: var(--border-radius);
 }
 
 .ndk-select-selected-item {
     display: flex;
     width: fit-content;
     background-color: var(--primary-bg-color);
-    padding: 5px;
+    padding: 2px 5px;
     border-radius: calc(var(--border-radius) * 2);
-    font-size: 14px;
+    font-size: 12px;
+    max-height: 25px;
     margin: 2px 3px;
     align-items: center;
 }

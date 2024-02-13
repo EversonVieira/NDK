@@ -15,7 +15,7 @@
                             @((MarkupString)GetText(SelectedValue)!)
                         </span>
                         <span class="ndk-select-remove-circle-badge" @onclick=@(() => OnRemoveItem(SelectedValue))>
-                            <svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="20"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" /></svg>
+                            <svg xmlns="http://www.w3.org/2000/svg" height="16" viewBox="0 -960 960 960" width="16"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" /></svg>
                         </span>
                     </span>
                 }
@@ -35,6 +35,10 @@
 
                 @if (InMemoryFilter)
                 {
+                    @if (VisibleSource!.Count == 0)
+                    {
+                        <div class="ndk-select-popup-search">@NoDataFoundText</div>
+                    }
                     @foreach (var item in VisibleSource!)
                     {
                         <div class="ndk-select-popup-item" @onclick="@(() => OnSelect(item))">
