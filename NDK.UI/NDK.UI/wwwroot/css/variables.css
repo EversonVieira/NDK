@@ -1,17 +1,17 @@
 ﻿:root {
     /*Theme*/
     --primary-theme-bg-color: #fff;
-    --primary-theme-color: #121212;
+    --primary-theme-color: rgba(32,36,52);
     /*Background colors*/
     --primary-bg-color: #ada7fc;
     --secondary-bg-color: #ff6666;
     --disabled-bg-color: #c3c3c3;
-    --hover-primary-bg-color: #e2e1e1;
+    --hover-primary-bg-color: #6b6b6b;
     --hover-secondary-bg-color: #e2e1e1;
     --hover-primary-bg-border-color: #e2e1e1;
     --hover-secondary-bg-border-color: #e2e1e1;
     /*colors*/
-    --primary-text-color: #121212;
+    --primary-text-color: rgba(32,36,52);
     --secondary-text-color: #fff;
     --span-control: #9c0303;
     /*Border*/
@@ -26,16 +26,16 @@
     --select-width: 350px;
     --select-height: 350px;
     /*WINDOW*/
-    --window-background:  rgba(0,0,0,0.5);
+    --window-background: rgba(0,0,0,0.5);
 }
 /*-------------------- DARK MODE ------------*/
 
 .dark-mode {
     /*Theme*/
-    --primary-theme-bg-color: #272727;
+    --primary-theme-bg-color: rgba(32,36,42);
     --primary-theme-color: #fff;
     /*Background colors*/
-    --hover-primary-bg-color: #373737;
+    --hover-primary-bg-color: #cccccc;
     --hover-bg-border-color: #000000;
     /*colors*/
     --primary-text-color: #fff;

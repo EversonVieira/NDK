@@ -46,6 +46,7 @@
 
 .ndk-select-input-container {
     width: 100%;
+
 }
 
 .ndk-select-input {
@@ -60,6 +61,7 @@
     margin-top: 3px;
     box-shadow: var(--box-shadow);
     padding: 5px;
+    background-color: var(--primary-theme-bg-color);
 }
 
 .ndk-select-popup-item {

@@ -14,7 +14,7 @@ body {
     /* IE 10 and IE 11 */
     user-select: none;
     /* Standard syntax */
-    color: var(--primary-text-color);
+    color: var(--primary-theme-color);
 }
 
 .w-100p {
