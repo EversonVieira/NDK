@@ -12,25 +12,24 @@ namespace NDK.UI.Models
 {
     public class NDKDataSource<TInput, TOutput, TOptions>
         where TInput : NdkRequest
-        where TOptions : NDKDataSourceOptions
+        where TOptions : NDKDataSourceOptions<TOutput>
     {
         private ObservableCollection<TOutput> _source;
         private ObservableCollection<TOutput> _visibleSource;
-        private ObservableCollection<TOutput> _selectedData;
         private TOptions _options;
         private NDKIDataSourceService<TOutput, TInput> _service;
-
+        public ObservableCollection<TOutput> DataSource => _visibleSource;
+        public ObservableCollection<TOutput> SelectedData { get; set; }
 
         public NDKDataSource(NDKIDataSourceService<TOutput, TInput> service, TOptions options)
         {
             _source = new ObservableCollection<TOutput>();
             _visibleSource = new ObservableCollection<TOutput>();
-            _selectedData = new ObservableCollection<TOutput>();
             _service = service;
             _options = options;
+            SelectedData = new ObservableCollection<TOutput>();
         }
 
-        public ObservableCollection<TOutput> DataSource => _visibleSource;
 
         public virtual void FetchData(TInput input)
         {
@@ -90,6 +89,16 @@ namespace NDK.UI.Models
                 }
             }
 
+            if (_options.RemoveSelectedDataFunction is not null)
+            {
+                var data = _visibleSource.Where(x => _options.RemoveSelectedDataFunction(x));
+                _visibleSource.Clear();
+                foreach (var item in data)
+                {
+                    _visibleSource.Add(item);
+                }
+
+            }
         }
 
         private void HandleFilterGroups(List<TOutput> result, List<NdkFilterGroup>? filterGroups)
