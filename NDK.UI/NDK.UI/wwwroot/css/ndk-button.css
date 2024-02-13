@@ -1,0 +1,26 @@
+﻿@import 'variables.css';
+
+/*NDK BUTTON*/
+.ndk-button {
+    background-color: var(--primary-bg-color);
+    color: var(--primary-text-color);
+    -webkit-appearance: none;
+    border: var(--border);
+    border-radius: var(--border-radius);
+    font-weight: bold;
+}
+
+    .ndk-button:hover {
+        color: var(--secondary-text-color);
+        opacity: 75%;
+    }
+
+.ndk-button-secondary {
+    background-color: var(--secondary-bg-color);
+    color: var(--secondary-text-color);
+}
+
+.ndk-button-disabled {
+    background-color: var(--disabled-bg-color);
+    color: var(--secondary-text-color);
+}

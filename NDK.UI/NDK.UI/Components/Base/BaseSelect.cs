@@ -39,6 +39,8 @@ namespace NDK.UI.Components.Base
 
         private NDKWaiter _waiter = new NDKWaiter();
 
+        protected bool ShowPopup { get; set; }
+       
         protected async Task OnFilter(string filter)
         {
 

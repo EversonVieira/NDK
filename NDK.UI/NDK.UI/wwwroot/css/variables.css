@@ -17,65 +17,14 @@
     --border-radius: 8px;
     /*Box Shadow*/
     --box-shadow: var(--ndk-popup, 0 8px 10px rgba(0, 0, 0, 0.12), 0 4px 16px rgba(0, 0, 0, 0.12));
-    /*Spacing*/
-    --p-4: 4px;
-    --p-5: 5px;
-    --p-6: 6px;
-    --p-7: 7px;
-    --p-8: 8px;
-    --p-9: 9px;
-    --p-10: 10px;
-    --p-11: 11px;
-    --p-12: 12px;
-    --p-13: 13px;
-    --p-14: 14px;
-    --p-15: 15px;
-    --p-16: 16px;
-    --p-17: 17px;
-    --p-18: 18px;
-    --p-19: 19px;
-    --p-20: 20px;
-    --p-21: 21px;
-    --p-22: 22px;
-    --p-23: 23px;
-    --p-24: 24px;
-    --p-25: 25px;
-    --p-26: 26px;
-    --p-27: 27px;
-    --p-28: 28px;
-    --p-29: 29px;
-    --p-30: 30px;
-    --m-4: 4px;
-    --m-5: 5px;
-    --m-6: 6px;
-    --m-7: 7px;
-    --m-8: 8px;
-    --m-9: 9px;
-    --m-10: 10px;
-    --m-11: 11px;
-    --m-12: 12px;
-    --m-13: 13px;
-    --m-14: 14px;
-    --m-15: 15px;
-    --m-16: 16px;
-    --m-17: 17px;
-    --m-18: 18px;
-    --m-19: 19px;
-    --m-20: 20px;
-    --m-21: 21px;
-    --m-22: 22px;
-    --m-23: 23px;
-    --m-24: 24px;
-    --m-25: 25px;
-    --m-26: 26px;
-    --m-27: 27px;
-    --m-28: 28px;
-    --m-29: 29px;
-    --m-30: 30px;
+
     /*CALENDAR*/
     --calendar-width: 250px;
     --calendar-height: 260px;
 
+    /*SELECT*/
+    --select-width: 350px;
+    --select-height: 350px;
 }
 /*-------------------- DARK MODE ------------*/
 

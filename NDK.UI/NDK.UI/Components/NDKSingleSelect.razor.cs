@@ -44,6 +44,8 @@ namespace NDK.UI.Components
 
             SelectedValue = item;
 
+            ShowPopup = !ShowPopup;
+
             await Task.CompletedTask;
         }
 

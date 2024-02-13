@@ -1,0 +1,154 @@
+﻿@import 'variables.css';
+
+/*NDK CALENDAR*/
+.ndk-calendar-container {
+    padding: 4px;
+    /* offset-x | offset-y | blur-radius | spread-radius | color */
+    box-shadow: var(--box-shadow);
+    min-width: var(--calendar-width);
+    min-height: var(--calendar-height);
+    width: var(--calendar-width);
+    max-width: var(--calendar-width);
+    max-height: var(--calendar-height);
+    border: var(--border);
+    border-radius: var(--border-radius);
+    background-color: var(--primary-theme-bg-color);
+    font-size: 14px;
+}
+
+.ndk-dt-row-ui {
+    width: 100%;
+    text-align: center;
+    background-color: none;
+}
+
+.ndk-dt-header-ui {
+    background-color: none;
+    align-items: center;
+    justify-content: center;
+}
+
+.ndk-dt-row-pair-ui {
+}
+
+
+.ndk-dt-header-e-ui {
+    border-top-right-radius: var(--border-radius);
+}
+
+.ndk-calendar {
+    width: calc(inherit - 8px);
+    height: calc(inherit - 8px);
+}
+
+.ndk-calendar-control {
+    color: var(--primary-text-color);
+    -webkit-appearance: none;
+    border: var(--border);
+    border-radius: var(--border-radius);
+    font-weight: bolder;
+    padding: 4px 4px;
+}
+
+    .ndk-calendar-control:hover {
+        cursor: pointer;
+        color: var(--primary-bg-color);
+        background-color: var(--hover-bg-color);
+    }
+
+.ndk-dt-item-selected-ui {
+    background-color: var(--primary-bg-color);
+    color: var(--secondary-text-color);
+}
+
+.ndk-calendar-tool-container {
+    position: relative;
+    z-index: 100;
+    padding: 4px;
+    min-width: var(--calendar-width);
+    min-height: var(--calendar-height);
+    width: var(--calendar-width);
+    max-width: var(--calendar-width);
+    max-height: var(--calendar-height);
+    /* offset-x | offset-y | blur-radius | spread-radius | color */
+    box-shadow: var(--box-shadow);
+    border: var(--border);
+    border-radius: var(--border-radius);
+    background-color: var(--primary-theme-bg-color);
+    transition: max-height 0.3s;
+    font-size: 14px;
+}
+
+.ndk-calendar-tool {
+    border-radius: var(--border-radius);
+    width: calc(var(--calendar-width) - 8px);
+    min-height: calc(var(--calendar-height)- 8px);
+}
+
+    .ndk-calendar-tool .ndk-dt-item-ui {
+        min-width: 60px;
+        min-height: 60px;
+        height: 60px;
+    }
+
+
+.transform--90 {
+    transform: rotate(-90deg);
+}
+
+.ndk-monthpicker {
+}
+
+.ndk-yearpicker {
+}
+
+.ndk-dt-item-ui {
+    border: none;
+    border: var(--border);
+    border-radius: var(--border-radius);
+    padding: 4px;
+    min-width: 30px;
+    min-height: 30px;
+    width: 30px;
+    height: 30px;
+    max-width: 60px;
+    max-height: 60px;
+    color: var(--primary-text-color);
+    justify-content: center;
+    align-items: center;
+    transition: background-color 0.3s;
+    transition: color 0.3s;
+}
+
+    .ndk-dt-item-ui:hover {
+        cursor: pointer;
+        background-color: var(--hover-bg-color);
+    }
+
+.ndk-dt-item-ui-disabled {
+    cursor: not-allowed
+}
+
+    .ndk-dt-item-ui-disabled:hover {
+        cursor: not-allowed;
+        background-color: var(--primary-theme-bg-color);
+    }
+
+
+.ndk-calendar-tool-controllers {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 0;
+    min-height: 50px;
+}
+
+.ndk-dt-item-selected-ui {
+    background-color: #ada7fc !important;
+    color: var(--secondary-text-color);
+}
+
+.ndk-calendar-table {
+    width: 100%;
+    height: stretch;
+    text-align: center
+}

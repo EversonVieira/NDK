@@ -34,6 +34,7 @@ namespace NDK.UI.Components
                 }
             }
 
+            ShowPopup = !ShowPopup;
             await Task.CompletedTask;
         }
 

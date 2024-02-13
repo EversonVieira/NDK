@@ -1,0 +1,91 @@
+﻿@import 'variables.css';
+
+/*SELECT*/
+
+.ndk-select-container {
+    display: flex;
+    flex-direction: column;
+    min-width: var(--select-width);
+    max-width: var(--select-width);
+    max-height: var(--select-width);
+    position: relative;
+}
+
+.ndk-select-container-controllers {
+    justify-content: left;
+    align-items: center;
+    width: fit-content
+}
+
+.ndk-select-selected-items {
+    display: flex;
+    max-width: var(--select-width);
+    max-height: 100px;
+    flex-wrap: wrap;
+    overflow-y: auto;
+    margin: 0 0 5px 0;
+    padding: 5px 0;
+}
+
+.ndk-select-selected-item {
+    display: flex;
+    width: fit-content;
+    background-color: var(--primary-bg-color);
+    padding: 5px;
+    border-radius: calc(var(--border-radius) * 2);
+    font-size: 14px;
+    margin: 2px 3px;
+    align-items: center;
+}
+
+    .ndk-select-selected-item:hover {
+        cursor: pointer;
+    }
+
+.ndk-select-selected-item-text {
+    padding: 0 5px;
+}
+
+.ndk-select-input-container {
+    width: 100%;
+}
+
+.ndk-select-input {
+    width: 100%;
+    min-width: var(--select-width);
+}
+
+.ndk-select-popup {
+    position: absolute;
+    top: 100%;
+    width: 100%;
+    margin-top: 3px;
+    box-shadow: var(--box-shadow);
+    padding: 5px;
+}
+
+.ndk-select-popup-item {
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    padding: 0 5px;
+}
+
+    .ndk-select-popup-item:hover {
+        background-color: rgba(0,0,0,0.35);
+        cursor: pointer;
+        color: var(--secondary-text-color);
+    }
+
+
+
+.ndk-select-remove-circle-badge {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+    padding: 2px;
+    background-color: rgba(255,255,255,0.50);
+    width: fit-content;
+    margin: 0 3px;
+}

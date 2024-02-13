@@ -1,0 +1,73 @@
+﻿@import 'variables.css';
+
+/*WINDOW*/
+
+.ndk-window-container {
+    width: 100vw;
+    height: 100vh;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 299;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.ndk-window {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    z-index: 300;
+    min-width: 300px;
+    min-height: 300px;
+    max-width: 900px;
+    max-height: 900px;
+    background-color: var(--primary-theme-bg-color);
+    border: var(--border);
+    border-radius: var(--border-radius);
+    padding: 15px;
+    opacity: 100%;
+    width: 100%;
+    height: 100%;
+    box-shadow: var(--box-shadow);
+}
+
+.ndk-window-header {
+    position: relative;
+    display: flex;
+    padding: 5px;
+    justify-content: space-between;
+    align-items: center;
+    max-height: 25%;
+    border-bottom: 1px solid var(--primary-text-color);
+}
+
+.ndk-window-body {
+    display: flex;
+    position: relative;
+    padding: 5px;
+    min-height: 75%;
+    max-height: 100%;
+    justify-content: flex-start;
+    align-items: flex-start;
+    border-bottom: 1px solid var(--primary-text-color);
+}
+
+.ndk-window-footer {
+    position: relative;
+    display: flex;
+    padding: 5px;
+    justify-content: space-between;
+    align-items: center;
+    max-height: 25%;
+}
+
+.ndk-window-header-close {
+    display: flex;
+    padding: 5px;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
