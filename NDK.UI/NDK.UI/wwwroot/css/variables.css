@@ -32,7 +32,7 @@
 
 .dark-mode {
     /*Theme*/
-    --primary-theme-bg-color: rgba(32,36,42);
+    --primary-theme-bg-color: #1e1e1e;
     --primary-theme-color: #fff;
     /*Background colors*/
     --hover-primary-bg-color: #cccccc;
