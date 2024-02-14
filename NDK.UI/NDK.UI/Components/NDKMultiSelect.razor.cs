@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using NDK.UI.Components.Base;
 using NDK.UI.Components.Common;
 using NDK.UI.Models;
@@ -121,6 +122,20 @@ namespace NDK.UI.Components
             await Task.CompletedTask;
         }
 
+        protected override async Task OnKeyPress(KeyboardEventArgs args)
+        {
+            if (!string.IsNullOrWhiteSpace(FilterInput) || string.IsNullOrWhiteSpace(args.Key)) return;
+
+            if (args.Key.Equals("Backspace", StringComparison.InvariantCultureIgnoreCase))
+            {
+                if (SelectedData.Count > 0)
+                {
+                    await OnRemoveItem(SelectedData.Last());
+                }
+            }
+
+            await Task.CompletedTask;
+        }
         protected override async Task OnRemoveItem(TValue item)
         {
             SelectedData.Remove(item);

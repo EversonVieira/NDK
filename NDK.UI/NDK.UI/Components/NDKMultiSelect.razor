@@ -25,7 +25,8 @@
                 <NDKInputText @ref="InputRef"
                               Class="ndk-select-input"
                               Value="@FilterInput"
-                              ValueChanged="OnFilter" />
+                              ValueChanged="OnFilter"
+                              @onkeydown="(args) => OnKeyPress(args)" />
             </div>
         </div>
 

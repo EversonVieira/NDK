@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using NDK.UI.Components.Common;
 using NDK.UI.Components.Inputs;
 using NDK.UI.Components.Interfaces;
@@ -111,6 +112,11 @@ namespace NDK.UI.Components.Base
             await Task.CompletedTask;
         }
 
+        protected virtual async Task OnKeyPress(KeyboardEventArgs args)
+        {
+
+            await Task.CompletedTask;
+        }
         protected virtual async Task OnFilter(string filter)
         {
             FilterInput = filter;

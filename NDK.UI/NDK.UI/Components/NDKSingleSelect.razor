@@ -24,34 +24,16 @@
                 <NDKInputText @ref="InputRef"
                               Class="ndk-select-input"
                               Value="@FilterInput"
-                              ValueChanged="OnFilter" />
+                              ValueChanged="OnFilter"
+                              @onkeydown="OnKeyPress" />
             </div>
         </div>
 
         @if (ShowPopup)
         {
             <div class="ndk-select-popup">
-
-                @if (InMemoryFilter)
-                {
-                    @if (VisibleSource!.Count == 0)
-                    {
-                        <div class="ndk-select-popup-search">@NoDataFoundText</div>
-                    }
-                    @foreach (var item in VisibleSource!)
-                    {
-                        <div class="ndk-select-popup-item" @onclick="@(() => OnSelect(item))">
-                            @((MarkupString)GetText(item)!)
-                        </div>
-                    }
-                }
-                else
-                {
-                    if (Searching)
-                    {
-                        <div class="ndk-select-popup-search">@SearchText</div>
-                    }
-                    else
+                <div class="ndk-select-popup-container w-90p">
+                    @if (InMemoryFilter)
                     {
                         @if (VisibleSource!.Count == 0)
                         {
@@ -64,7 +46,31 @@
                             </div>
                         }
                     }
-                }
+                    else
+                    {
+                        if (Searching)
+                        {
+                            <div class="ndk-select-popup-search">@SearchText</div>
+                        }
+                        else
+                        {
+                            @if (VisibleSource!.Count == 0)
+                            {
+                                <div class="ndk-select-popup-search">@NoDataFoundText</div>
+                            }
+                            @foreach (var item in VisibleSource!)
+                            {
+                                <div class="ndk-select-popup-item" @onclick="@(() => OnSelect(item))">
+                                    @((MarkupString)GetText(item)!)
+                                </div>
+                            }
+                        }
+                    }
+                </div>
+                <div class="ndk-select-popup-container w-10p ndk-select-popup-close">
+                    <svg xmlns="http://www.w3.org/2000/svg" height="16" viewBox="0 -960 960 960" width="16"><path d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" /></svg>
+                </div>
+
             </div>
         }
     </div>

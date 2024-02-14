@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Web;
 using NDK.Core.Utility;
 using NDK.UI.Components.Base;
 using NDK.UI.Components.Common;
@@ -29,6 +30,21 @@ namespace NDK.UI.Components
                     VisibleSource?.Remove(item);
                 }
             }
+        }
+
+        protected override async Task OnKeyPress(KeyboardEventArgs args)
+        {
+            if (!string.IsNullOrWhiteSpace(FilterInput) || string.IsNullOrWhiteSpace(args.Key)) return;
+
+            if (args.Key.Equals("Backspace", StringComparison.InvariantCultureIgnoreCase))
+            {
+                if (Value is not null)
+                {
+                    await OnRemoveItem(Value);
+                }
+            }
+
+            await Task.CompletedTask;
         }
         protected override async Task OnSelect(TValue item)
         {
