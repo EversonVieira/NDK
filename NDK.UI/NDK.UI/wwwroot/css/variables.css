@@ -6,7 +6,7 @@
     --primary-bg-color: #ada7fc;
     --secondary-bg-color: #ff6666;
     --disabled-bg-color: #c3c3c3;
-    --hover-primary-bg-color: #6b6b6b;
+    --hover-primary-bg-color: #ccc;
     --hover-secondary-bg-color: #e2e1e1;
     --hover-primary-bg-border-color: #e2e1e1;
     --hover-secondary-bg-border-color: #e2e1e1;
@@ -25,7 +25,8 @@
     --calendar-width: 250px;
     --calendar-height: 260px;
     /*SELECT*/
-    --select-width: 350px;
+    --select-min-width: 350px;
+    --select-max-width: 100%;
     --select-height: 350px;
     /*WINDOW*/
     --window-background: rgba(0,0,0,0.5);

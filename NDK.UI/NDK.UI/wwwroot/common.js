@@ -12,3 +12,9 @@ export function getInputValue(element) {
     return element.value;
 
 }
+
+export function setFocus(element) {
+    if (element) {
+        element.focus();
+    }
+}

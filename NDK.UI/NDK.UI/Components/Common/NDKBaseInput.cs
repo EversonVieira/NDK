@@ -24,9 +24,6 @@ namespace NDK.UI.Components.Common
         public string? Name { get; set; }
 
         [Parameter]
-        public string? Description { get; set; }
-
-        [Parameter]
         public string? Title { get; set; }
 
         [Parameter]

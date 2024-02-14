@@ -5,9 +5,10 @@
 @if (IsRendered)
 {
 
-    <div class="ndk-component ndk-select-container">
+    <div class="ndk-component ndk-select-container" @onclick="async () => await OnFocus()" style="@GetStyle()">
         <div class="ndk-select-container-controllers">
-            <div class="ndk-select-selected-items">
+            <div class="ndk-select-input-container">
+
                 @if (SelectedValue is not null)
                 {
                     <span class="ndk-select-selected-item">
@@ -20,12 +21,10 @@
                     </span>
                 }
 
-            </div>
-            <div class="ndk-select-input-container">
-                <NDKInputText @onclick="() => ShowPopup = !ShowPopup"
+                <NDKInputText @ref="InputRef"
                               Class="ndk-select-input"
                               Value="@FilterInput"
-                              ValueChanged="OnFilter"/>
+                              ValueChanged="OnFilter" />
             </div>
         </div>
 
@@ -54,7 +53,7 @@
                     }
                     else
                     {
-                        @if(VisibleSource!.Count == 0)
+                        @if (VisibleSource!.Count == 0)
                         {
                             <div class="ndk-select-popup-search">@NoDataFoundText</div>
                         }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using NDK.UI.Components.Common;
+using NDK.UI.Components.Inputs;
 using NDK.UI.Components.Interfaces;
 using NDK.UI.Models;
 using System;
@@ -93,8 +94,22 @@ namespace NDK.UI.Components.Base
 
         protected string? FilterInput { get; set; }
 
+        protected NDKInputText? InputRef { get; set; }
 
+        protected async Task OnFocus()
+        {
+            if (JSRuntime is not null && InputRef is not null)
+            {
+                await using (var commonJsRuntime = new CommonJsInterop(JSRuntime))
+                {
+                    await commonJsRuntime.SetFocus(InputRef.Element);
+                }
+            }
 
+            ShowPopup = !ShowPopup;
+           
+            await Task.CompletedTask;
+        }
 
         protected virtual async Task OnFilter(string filter)
         {

@@ -6,29 +6,25 @@
     display: flex;
     flex-direction: column;
     min-width: var(--select-width);
-    max-width: var(--select-width);
-    max-height: var(--select-width);
+    max-width: var(--select-max-width);
+    max-height: var(--select-height);
     position: relative;
+    box-shadow: var(--box-shadow);
+    border-radius: var(--border-radius);
+    cursor: text;
 }
 
 .ndk-select-container-controllers {
     justify-content: left;
     align-items: center;
-    width: fit-content
 }
 
-.ndk-select-selected-items {
-    display: flex;
-    max-width: var(--select-width);
-    max-height: 50px;
-    min-height: 50px;
-    flex-wrap: wrap;
-    overflow-y: auto;
-    padding: 5px 0;
-    background-color: var(--toolcontainer-background-color);
-    border-top-left-radius: var(--border-radius);
-    border-top-right-radius: var(--border-radius);
+.ndk-select-input{
+    border: 1px solid rgba(255,255,255,0);
+    border-radius: var(--border-radius);
 }
+
+
 
 .ndk-select-selected-item {
     display: flex;
@@ -42,19 +38,21 @@
     align-items: center;
 }
 
-   
+.ndk-select-input-container{
+    display:flex;
+    flex-wrap:wrap;
+    border-radius: var(--border-radius);
+}
+
+
 
 .ndk-select-selected-item-text {
     padding: 0 5px;
 }
 
-.ndk-select-input-container {
-    width: 100%;
 
-}
 
 .ndk-select-input {
-    width: 100%;
     min-width: var(--select-width);
 }
 
@@ -62,18 +60,34 @@
     position: absolute;
     top: 100%;
     width: 100%;
-    margin-top: 3px;
+    margin-top: 10px;
     box-shadow: var(--box-shadow);
     padding: 5px;
     background-color: var(--primary-theme-bg-color);
-    z-index:150;
+    z-index: 150;
+    border-radius: var(--border-radius);
+    display:flex;
 }
+
+.ndk-select-popup-container{
+    display: flex;
+    flex-direction:column;
+}
+
+.ndk-select-popup-close{
+    justify-content:flex-start;
+    align-items:flex-end;
+    cursor:pointer;
+}
+
+
 
 .ndk-select-popup-item {
     display: flex;
     justify-content: left;
     align-items: center;
     padding: 0 5px;
+    border-radius: var(--border-radius);
 }
 
     .ndk-select-popup-item:hover {

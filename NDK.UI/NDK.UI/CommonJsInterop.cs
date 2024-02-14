@@ -21,7 +21,7 @@ namespace NDK.UI
         public async Task SetInputValue(ElementReference element,string value)
         {
             var module = await moduleTask.Value;
-            await module.InvokeAsync<string>("setInputValue",element, value);
+            await module.InvokeVoidAsync("setInputValue",element, value);
         }
 
         public async Task<string?> GetInputValue(ElementReference element)
@@ -30,6 +30,11 @@ namespace NDK.UI
             return await module.InvokeAsync<string>("getInputValue", element);
         }
 
+        public async Task SetFocus(ElementReference element)
+        {
+            var module = await moduleTask.Value;
+            await module.InvokeVoidAsync("setFocus", element);
+        }
         public async ValueTask DisposeAsync()
         {
             if (moduleTask.IsValueCreated)

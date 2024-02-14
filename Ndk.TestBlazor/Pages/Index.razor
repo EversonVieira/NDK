@@ -8,8 +8,10 @@
 @inject IJSRuntime _js
 
 <NDKMultiSelect @bind-Value="OutputList"
-                InMemoryFilter="true"
+                InMemoryFilter="false"
                 MinFilterLength="3"
+                Width="500px"
+                ClearInputOutput="false"
                 Finder="Finder" />
 
 
