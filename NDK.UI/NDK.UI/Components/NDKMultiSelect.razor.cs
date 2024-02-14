@@ -50,8 +50,6 @@ namespace NDK.UI.Components
 
         protected override async Task OnFilter(string filter)
         {
-            SetSearchText(filter);
-
             await base.OnFilter(filter);
 
             if (RemoveSelectedDataFromList)

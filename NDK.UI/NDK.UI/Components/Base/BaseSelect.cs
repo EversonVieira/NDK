@@ -119,6 +119,8 @@ namespace NDK.UI.Components.Base
         }
         protected virtual async Task OnFilter(string filter)
         {
+            SetSearchText(filter);
+
             FilterInput = filter;
 
             if (InMemoryFilter)

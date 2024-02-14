@@ -13,8 +13,17 @@
                 Width="800px"
                 ClearInputOutput="false"
                 Finder="Finder" />
-
-
+<br />
+<br />
+<br />
+<br />
+<NDKSingleSelect @bind-Value="Value"
+                 InMemoryFilter="false"
+                 MinFilterLength="3"
+                 Width="800px"
+                 ClearInputOutput="false"
+                 TValue="NDKFinderOutput"
+                 Finder="Finder"></NDKSingleSelect>
 
 @code {
     public List<NDKFinderOutput>? OutputList { get; set; } = new List<NDKFinderOutput>
