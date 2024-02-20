@@ -14,8 +14,4 @@
     <ProjectReference Include="..\NDK.Core\NDK.Core.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ExtensionMethods\" />
-  </ItemGroup>
-
 </Project>

@@ -1,4 +1,6 @@
-﻿using NDK.Auth.Attributes;
+﻿ using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Features;
+using NDK.Auth.Attributes;
 using NDK.Auth.Interfaces;
 using NDK.Core.Models;
 using System;

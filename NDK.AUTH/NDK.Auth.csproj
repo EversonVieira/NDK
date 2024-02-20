@@ -15,8 +15,4 @@
     <ProjectReference Include="..\NDK.PublicAUTH\NDK.PublicAuth.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ExtensionMethods\" />
-  </ItemGroup>
-
 </Project>
