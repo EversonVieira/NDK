@@ -3,22 +3,22 @@
     public class NDKFilterGroup
     {
         public int Id { get; private set; }
-        
+
         private List<NDKFilter> _filters = new List<NDKFilter>();
         public IReadOnlyCollection<NDKFilter> Filters => _filters;
-        
+
         public NDKConditionType ConditionType { get; set; }
-        
+
         private List<NDKFilterGroup> _InternalGroups = new List<NDKFilterGroup>();
         public IReadOnlyCollection<NDKFilterGroup> InternalGroups => _InternalGroups;
-        
-        
+
+
         public NDKFilterGroup? Parent { get; set; }
         private NDKRef<int> _strucutreId { get; set; }
 
 
-        private List<(IdentifierType Type,int Id, object obj)> _orderList = new List<(IdentifierType Type, int Id, object obj)>();
-        public IReadOnlyCollection<(IdentifierType Type, int Id, object Value)> OrderList => _orderList;
+        private List<InternalMap> _orderList = new List<InternalMap>();
+        public IReadOnlyCollection<InternalMap> OrderList => _orderList;
 
         internal NDKFilterGroup(NDKRef<int> structureId, NDKFilterGroup? filterGroup = null)
         {
@@ -32,7 +32,19 @@
         {
             var item = new NDKFilter(_strucutreId, this);
 
-            _orderList.Add(new (IdentifierType.Filter, item.Id, item));
+            _orderList.FindAll(x => x.IsLastOne && x.Type == IdentifierType.Filter).ForEach(e =>
+            {
+                e.IsLastOne = false;
+            });
+            _orderList.Add(new InternalMap
+            {
+                Type = IdentifierType.Filter,
+                Id = item.Id,
+                Value = item,
+                IsLastOne = true
+            });
+
+
             _filters.Add(item);
 
 
@@ -43,9 +55,22 @@
 
         public NDKFilterGroup CreateFilterGroup()
         {
-            var item = new NDKFilterGroup(_strucutreId,this);
+            var item = new NDKFilterGroup(_strucutreId, this);
 
-            _orderList.Add(new (IdentifierType.FilterGroup, item.Id, item));
+
+            _orderList.FindAll(x => x.IsLastOne && x.Type == IdentifierType.FilterGroup).ForEach(e =>
+            {
+                e.IsLastOne = false;
+            });
+
+            _orderList.Add(new InternalMap
+            {
+                Type = IdentifierType.FilterGroup,
+                Id = item.Id,
+                Value = item,
+                IsLastOne = true
+            });
+
             _InternalGroups.Add(item);
             _strucutreId.Value++;
 
@@ -56,6 +81,14 @@
         {
             Filter,
             FilterGroup,
+        }
+
+        public class InternalMap
+        {
+            public IdentifierType Type { get; set; }
+            public int Id { get; set; }
+            public object? Value { get; set; }
+            public bool IsLastOne { get; set; }
         }
     }
 }
