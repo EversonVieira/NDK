@@ -12,7 +12,7 @@ namespace NDK.Auth.Core.Attributes
 
         public NDKRequirePermissions(params string[] permissions)
         {
-            Permissions = permissions.ToArray();
+            Permissions = permissions;
         }
     }
 }

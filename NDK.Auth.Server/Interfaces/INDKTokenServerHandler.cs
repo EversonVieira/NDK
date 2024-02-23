@@ -9,11 +9,10 @@ using System.Threading.Tasks;
 
 namespace NDK.Auth.Server.Interfaces
 {
-    public interface INDKTokenServerHandler<TToken,TUser>:INDKTokenHandler<TToken> 
+    public interface INDKTokenServerHandler<TToken,TUser>:INDKTokenHandler<TToken, TUser> 
         where TToken : NDKToken
         where TUser :NDKUser
     {
         Task<NDKResponse<TToken>> CreateTokenAsync(TUser input);
-        Task<NDKResponse<TUser>> RetrieveUserByToken(TToken token);
     }
 }
