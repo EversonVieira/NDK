@@ -1,0 +1,6 @@
+@NDK.API.Sandbox_HostAddress = http://localhost:5133
+
+GET {{NDK.API.Sandbox_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
