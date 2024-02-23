@@ -62,7 +62,7 @@ namespace NDK.Database.Base
             response.Result = connection.Query<T>(queryParams.query, queryParams).ToList();
 
             var countRequest = request.Clone();
-            countRequest.Paging = null;
+            countRequest.Pager = null;
 
             queryParams = request.GetRequestData(GetSelectCountString(entity), this._connectionHandler._configuration);
 

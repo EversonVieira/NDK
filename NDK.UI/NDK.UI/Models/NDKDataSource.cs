@@ -32,102 +32,175 @@ namespace NDK.UI.Models
         }
 
 
-        public virtual async Task FetchAsync(TInput input)
+        public virtual async Task<NDKResponse?> FetchAsync(TInput input)
         {
-            if (input == null) return;
+            _source.Clear();
+            _visibleSource.Clear();
 
-            NDKPaging? paging = null;
-            List<NDKOrderItem>? orderBy = null;
-            List<NDKFilterGroup>? filterGroups = null;
+            if (input == null) return null;
 
+            NDKPagerModel? pager = null;
+            NDKSortBy? sortBy = null;
+            NDKFilterStructure? filterStructure = null;
 
-            bool isDbOperation = _options.DataBaseFiltering && _options.DataBaseOrdering && _options.DataBasePagination;
-            if (!_options.DataBaseOrdering)
+            if (!_options.DataBaseFilter)
             {
-                filterGroups = input.FiltersGroups.ToList();
-                input.ClearFilters();
+                filterStructure = input.FilterStructure;
+                input.FilterStructure = null;
             }
 
-            if (!_options.DataBaseFiltering)
+            if (!_options.DataBasePager)
             {
-                orderBy = input.OrderBy;
-                input.ClearOrderBy();
+                pager = input.Pager;
+                input.Pager = null;
             }
 
-            if (!_options.DataBasePagination)
+            if (!_options.DataBaseSort)
             {
-                paging = input.Paging;
-                input.ClearPaging();
+                sortBy = input.SortBy;
+                input.SortBy = null;
             }
 
             var response = await _service.FetchAsync(input);
 
-            var result = response.Result;
-
-            _source.Clear();
-            _visibleSource.Clear();
-            if (result is null)
+            if (response is null)
             {
-                return;
+                return response;
             }
 
-            for (int i = 0; i < result.Count; i++)
+            var data = response.Result;
+
+            if (response.HasStopFlowMessages || response?.Result?.Count == 0)
             {
-                _source.Add(result[i]);
-                if (isDbOperation)
-                {
-                    _visibleSource.Add(result[i]);
-                }
+                return response;
             }
 
-            if (!isDbOperation)
+            if (data is null)
             {
-                if (!_options.DataBaseFiltering) HandleFilterGroups(result, filterGroups);
-                if (!_options.DataBasePagination) HandlePaging(result, paging);
-                if (!_options.DataBaseOrdering) HandleOrderBy(result, orderBy);
-
-                for (int i = 0; i < result.Count; i++)
-                {
-                    _visibleSource.Add(result[i]);
-                }
+                return response;
             }
 
-            if (_options.RemoveSelectedDataFunction is not null)
+            foreach (var item in data)
             {
-                var data = _visibleSource.Where(x => _options.RemoveSelectedDataFunction(x));
-                _visibleSource.Clear();
-                foreach (var item in data)
-                {
-                    _visibleSource.Add(item);
-                }
-
+                _source.Add(item);
             }
+
+            if (_options.DataBaseSort && _options.DataBasePager && _options.DataBaseFilter)
+            {
+                _visibleSource = _source;
+
+                return response;
+            };
+
+
+            HandleFilterStructure(filterStructure, new NDKRef<List<TOutput>>(data));
+            HandleSorter(sortBy, new NDKRef<List<TOutput>>(data));
+            HandlePager(pager, new NDKRef<List<TOutput>>(data));
+
+            foreach (var item in data)
+            {
+                _visibleSource.Add(item);
+            }
+
+
+            await Task.CompletedTask;
+
+            return null;
         }
 
-        private void HandleFilterGroups(List<TOutput> result, List<NDKFilterGroup>? filterGroups)
+        private void HandlePager(NDKPagerModel? pager, NDKRef<List<TOutput>> output)
         {
-            if (filterGroups is null) return;
+            if (pager is null) return;
+            if (output is null || output.Value is null) return;
 
-            var tempResult = new List<TOutput>();
-            tempResult.AddRange(result);
+            int count = pager.Page * pager.ItemsPerPage;
 
-            filterGroups.ForEach(group =>
-            {
-                if (group.Filters is not null)
-                {
-                    group.Filters.ForEach(f =>
-                    {
+            output.Value = output.Value.Take(new Range(pager.Page - 1, count - 1 > output.Value.Count ? output.Value.Count - 1 : count - 1)).ToList();
 
-                        tempResult = tempResult.FindAll(x => ByOperationType(x, f));
-                    });
-                }
-            });
-
-            result.Clear();
-            result.AddRange(tempResult);
         }
 
-        private bool ByOperationType(TOutput item, NDKFilter f)
+        private void HandleSorter(NDKSortBy? sorter, NDKRef<List<TOutput>> output)
+        {
+            if (sorter is null) return;
+            if (output is null || output.Value is null) return;
+
+            var data = output.Value.Order();
+
+            if (sorter.Data is not null)
+            {
+                foreach (var sort in sorter.Data)
+                {
+                    if (string.IsNullOrWhiteSpace(sort.Field))
+                        continue;
+
+                    var property = typeof(TOutput).GetProperty(sort.Field);
+
+                    if (property is null)
+                        continue;
+
+                    if (sort.SortType == NDKSortType.ASC)
+                    {
+                        data = data.ThenBy(x => property.GetValue(x));
+                    }
+                    else
+                    {
+                        data = data.ThenByDescending(x => property.GetValue(x));
+                    }
+                }
+            }
+
+            output.Value = data.ToList();
+        }
+
+        private void HandleFilterStructure(NDKFilterStructure? filterStructure, NDKRef<List<TOutput>> output)
+        {
+            if (filterStructure is null) return;
+            if (output is null || output.Value is null) return;
+
+            foreach(var fg in filterStructure.FilterGroups)
+            {
+                output.Value = output.Value.FindAll(x => ByGroup(x,fg));
+            }
+
+        }
+
+        private bool ByGroup(TOutput item, NDKFilterGroup fg)
+        {
+            var result = true;
+            foreach(var obj in fg.OrderList)
+            {
+                if (obj.Type == NDKFilterGroup.IdentifierType.Filter && obj.Value is not null)
+                {
+                    var model = (NDKFilter)obj.Value;
+
+                    if (model.ConditionType == NDKConditionType.AND)
+                    {
+                        result = result && ByFilter(item, model);
+                    }
+                    else
+                    {
+                        result = result || ByFilter(item, model);
+                    }
+                }
+                else if (obj.Type == NDKFilterGroup.IdentifierType.FilterGroup && obj.Value is not null)
+                {
+                    var model = (NDKFilterGroup)obj.Value;
+
+                    if (model.ConditionType == NDKConditionType.AND)
+                    {
+                        result = result && ByGroup(item, model);
+                    }
+                    else
+                    {
+                        result = result || ByGroup(item, model);
+                    }
+                }
+            }
+
+            
+            return result;
+        }
+        private bool ByFilter(TOutput item, NDKFilter f)
         {
             if (item is null) return false;
 
@@ -142,7 +215,7 @@ namespace NDK.UI.Models
 
             if ((value?.GetType().IsAssignableFrom(typeof(IComparable)) ?? false) &&
                 (f.Value?.GetType().IsAssignableFrom(typeof(IComparable)) ?? false) &&
-                (f.NDKOperatorType is not NDKOperatorType.IN and not NDKOperatorType.NOTIN))
+                (f.OperatorType is not NDKOperatorType.IN and not NDKOperatorType.NOTIN))
             {
                 IComparable value1 = (IComparable)value;
                 IComparable value2 = (IComparable)f.Value;
@@ -154,7 +227,7 @@ namespace NDK.UI.Models
                 }
 
 
-                return f.NDKOperatorType switch
+                return f.OperatorType switch
                 {
                     NDKOperatorType.EQUAL => value1 == value2,
                     NDKOperatorType.NOTEQUAL => value1 != value2,
@@ -166,7 +239,7 @@ namespace NDK.UI.Models
                     _ => true
                 };
             }
-            else if (f.NDKOperatorType is NDKOperatorType.IN or NDKOperatorType.NOTIN)
+            else if (f.OperatorType is NDKOperatorType.IN or NDKOperatorType.NOTIN)
             {
 
                 if (f.Value?.GetType().IsAssignableFrom(typeof(IEnumerable<object>)) ?? false)
@@ -175,67 +248,14 @@ namespace NDK.UI.Models
 
                     if (list.GetType().GetEnumUnderlyingType() == value?.GetType())
                     {
-                        return (f.NDKOperatorType == NDKOperatorType.IN && list.Contains(value)) || (f.NDKOperatorType == NDKOperatorType.NOTIN && list.Contains(value));
+                        return (f.OperatorType == NDKOperatorType.IN && list.Contains(value)) || (f.OperatorType == NDKOperatorType.NOTIN && list.Contains(value));
                     }
                 }
             }
 
             return true;
         }
-
-        private void HandlePaging(List<TOutput> result, NDKPaging? paging)
-        {
-
-            if (paging is null)
-            {
-                foreach (var item in _source)
-                {
-                    _visibleSource.Add(item);
-                }
-            }
-            else
-            {
-                _visibleSource.Clear();
-                for (int x = (paging.Page - 1); x < (paging.Page * paging.ItemsPerPage); x++)
-                {
-                    _visibleSource.Add(result[x]);
-                }
-            }
-        }
-
-        private void HandleOrderBy(List<TOutput> result, List<NDKOrderItem>? orderList)
-        {
-            if (orderList is null) return;
-
-            var tempResult = result.Order();
-
-            bool firstOperation = true;
-
-            foreach (var orderBy in orderList)
-            {
-                if (orderBy is null || string.IsNullOrWhiteSpace(orderBy.Column)) continue;
-
-                var property = typeof(TOutput).GetProperty(orderBy.Column);
-
-                if (property is null) continue;
-
-                if (firstOperation)
-                {
-                    tempResult = orderBy.OrderType == NDKOrderType.ASC ? tempResult.OrderBy(x => property.GetValue(x)) : tempResult.OrderByDescending(x => property.GetValue(x));
-                }
-                else
-                {
-                    tempResult = orderBy.OrderType == NDKOrderType.ASC ? tempResult.ThenBy(x => property.GetValue(x)) : tempResult.ThenByDescending(x => property.GetValue(x));
-
-                }
-
-            }
-
-            result.Clear();
-
-            result.AddRange(tempResult);
-        }
-
+       
 
     }
 }

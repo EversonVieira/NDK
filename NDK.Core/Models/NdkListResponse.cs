@@ -4,5 +4,6 @@
     {
         public long TotalItems  { get; set; }
         public long TotalPages { get; set; }
+
     }
 }

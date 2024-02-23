@@ -1,7 +1,9 @@
 ﻿using Dapper;
 using NDK.Core.Models;
+using NDK.Core.Extensions;
 using NDK.Database.ExtensionMethods.Internal;
 using NDK.Database.Models;
+
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
@@ -27,15 +29,15 @@ namespace NDK.Database.ExtensionMethods
 
             string alias = configuration.GetParamSymbol();
 
-            if (request.Paging is not null)
+            if (request.Pager is not null)
             {
-                parameters.Add(nameof(request.Paging.ItemsPerPage), request.Paging.ItemsPerPage);
-                parameters.Add(nameof(request.Paging.Page), request.Paging.Page);
+                parameters.Add(nameof(request.Pager.ItemsPerPage), request.Pager.ItemsPerPage);
+                parameters.Add(nameof(request.Pager.Page), request.Pager.Page);
             }
 
-            if (request.FiltersGroups.Any())
+            if (request?.FilterStructure?.FilterGroups.Count == 0)
             {
-                foreach (var fg in request.FiltersGroups)
+                foreach (var fg in request.FilterStructure.FilterGroups)
                 {
                     parameters.AddDynamicParams(GetParametersByFilterGroup(fg, alias));
                 }
@@ -58,7 +60,7 @@ namespace NDK.Database.ExtensionMethods
                 }
             }
 
-            if (group.InternalGroups.Any())
+            if (group.InternalGroups.HasAny())
             {
                 foreach (var g in group.InternalGroups)
                 {
@@ -79,20 +81,20 @@ namespace NDK.Database.ExtensionMethods
                 _ => new StringBuilder(query)
             };
 
-            if (request.FiltersGroups.Any())
+            if (request?.FilterStructure?.FilterGroups.HasAny() ?? false)
             {
                 if (configuration.Type == NDKDbType.ORACLE)
                 {
-                    if (request.FiltersGroups.Any())
+                    if (request.FilterStructure.FilterGroups.HasAny())
                     {
                         StringBuilder where = new StringBuilder();
 
 
                         where.AppendLine(" WHERE ");
 
-                        for (int i = 0; i < request.FiltersGroups.Count; i++)
+                        for (int i = 0; i < request.FilterStructure.FilterGroups.Count; i++)
                         {
-                            where.AppendLine(GetFilterGroup(request.FiltersGroups[i], i == request.FiltersGroups.Count - 1, configuration).ToString());
+                            where.AppendLine(GetFilterGroup(request.FilterStructure.FilterGroups.ElementAt(i), i == request.FilterStructure.FilterGroups.Count - 1, configuration).ToString());
 
                         }
 
@@ -104,15 +106,15 @@ namespace NDK.Database.ExtensionMethods
                 {
                     sb.AppendLine(" WHERE ");
 
-                    for (int i = 0; i < request.FiltersGroups.Count; i++)
+                    for (int i = 0; i < request.FilterStructure.FilterGroups.Count; i++)
                     {
-                        sb.AppendLine(GetFilterGroup(request.FiltersGroups[i], i == request.FiltersGroups.Count - 1, configuration).ToString());
+                        sb.AppendLine(GetFilterGroup(request.FilterStructure.FilterGroups.ElementAt(i), i == request.FilterStructure.FilterGroups.Count - 1, configuration).ToString());
 
                     }
                 }
             }
 
-            if (request.Paging is not null)
+            if (request?.Pager is not null)
             {
                 sb.AppendLine(configuration.Type switch
                 {
@@ -136,14 +138,14 @@ namespace NDK.Database.ExtensionMethods
 
             for (int i = 0; i < filterGroup.Filters.Count; i++)
             {
-                sb.AppendLine(GetFilter(filterGroup.Filters[i], i == filterGroup.Filters.Count - 1, configuration).ToString());
+                sb.AppendLine(GetFilter(filterGroup.Filters.ElementAt(i), i == filterGroup.Filters.Count - 1, configuration).ToString());
             }
 
             if (filterGroup.InternalGroups is not null)
             {
                 for (int i = 0; i <= filterGroup.InternalGroups.Count; i++)
                 {
-                    sb.AppendLine(GetFilterGroup(filterGroup.InternalGroups[i], i == filterGroup.Filters.Count - 1, configuration).ToString());
+                    sb.AppendLine(GetFilterGroup(filterGroup.InternalGroups.ElementAt(i), i == filterGroup.Filters.Count - 1, configuration).ToString());
                 }
             }
 
@@ -169,7 +171,7 @@ namespace NDK.Database.ExtensionMethods
                 _ => "@"
             };
 
-            if (filter.NDKOperatorType.Equals(NDKOperatorType.BETWEEN))
+            if (filter.OperatorType.Equals(NDKOperatorType.BETWEEN))
             {
                 sb.Append($"({alias}{filter.PropertyName}{filter.Id} AND {alias}{filter.PropertyName2}{filter.Id}) ");
             }
@@ -180,7 +182,7 @@ namespace NDK.Database.ExtensionMethods
 
             if (!isLastOne)
             {
-                sb.AppendLine($" {filter.NDKConditionType.ToString()} ");
+                sb.AppendLine($" {filter.ConditionType.ToString()} ");
             }
 
 
@@ -189,7 +191,7 @@ namespace NDK.Database.ExtensionMethods
 
         private static string GetOperator(NDKFilter filter, NDKDbConnectionConfiguration configuration)
         {
-            return filter.NDKOperatorType switch
+            return filter.OperatorType switch
             {
                 NDKOperatorType.EQUAL => "=",
                 NDKOperatorType.NOTEQUAL => "<>",

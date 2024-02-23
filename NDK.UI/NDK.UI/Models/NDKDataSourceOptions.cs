@@ -2,9 +2,9 @@
 {
     public class NDKDataSourceOptions<TOutput, TSignature>
     {
-        public bool DataBasePagination { get; set; }
-        public bool DataBaseOrdering { get; set; }
-        public bool DataBaseFiltering { get; set; }
+        public bool DataBasePager { get; set; }
+        public bool DataBaseSort { get; set; }
+        public bool DataBaseFilter { get; set; }
 
         /// <summary>
         /// Provide a function to remove the Selected Data from the current List

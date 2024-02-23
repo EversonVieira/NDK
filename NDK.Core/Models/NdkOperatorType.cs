@@ -17,6 +17,10 @@
 
         BETWEEN,
 
+        STARTSWITH,
+        ENDSWITH,
+        CONTAINS,
+
 
     }
 

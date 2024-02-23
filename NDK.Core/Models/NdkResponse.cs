@@ -14,7 +14,7 @@ namespace NDK.Core.Models
 
         public bool HasMessageByType(NDKMessageType type)
         {
-            return Messages.Any(x => x.Type == type);
+            return Messages.Exists(x => x.Type == type);
         }
 
         public bool HasStopFlowMessages => Messages.Exists(x => x.Type > NDKMessageType.CAUTION);
