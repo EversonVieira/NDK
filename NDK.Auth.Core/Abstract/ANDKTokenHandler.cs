@@ -3,10 +3,11 @@ using NDK.Core.Models;
 using NDK.Core.Extensions;
 using System.Text.Json;
 using System.Text;
+using NDK.Auth.Core.Interfaces;
 
 namespace NDK.Auth.Core.Abstract
 {
-    public abstract class ANDKTokenHandler<T> where T : NDKToken
+    public abstract class ANDKTokenHandler<T> : INDKTokenHandler<T> where T : NDKToken
     {
         public virtual T RetrieveTokenByString(string token)
         {
@@ -25,7 +26,5 @@ namespace NDK.Auth.Core.Abstract
                 return vlr.HandleBase64String().Replace("-", "+").Replace("_", @"//");
             }
         }
-
-        public abstract NDKResponse<bool> ValidateToken(T token);
     }
 }
