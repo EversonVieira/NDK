@@ -1,9 +1,5 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.DependencyInjection;
-using NDK.Auth.Core.Models;
+﻿using Microsoft.Extensions.DependencyInjection;
 using NDK.Auth.Server.Builders;
-using NDK.Auth.Server.Interfaces;
-using NDK.Core.Models;
 
 namespace NDK.Auth.Server.Extensions
 {
