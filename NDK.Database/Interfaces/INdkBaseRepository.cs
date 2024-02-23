@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace NDK.Database.Interfaces
 {
-    public interface INdkBaseRepository
+    public interface INDKBaseRepository
     {
-        public void HandleException(Exception exception, NdkResponse response, ILogger logger);
+        public void HandleException(Exception exception, NDKResponse response, ILogger logger);
     }
 }

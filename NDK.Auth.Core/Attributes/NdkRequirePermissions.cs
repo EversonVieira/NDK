@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace NDK.Auth.Core.Attributes
 {
-    internal class NdkRequirePermissions : Attribute
+    internal class NDKRequirePermissions : Attribute
     {
         public string[] Permissions { get; set; }
 
-        public NdkRequirePermissions(params string[] permissions)
+        public NDKRequirePermissions(params string[] permissions)
         {
             Permissions = permissions.ToArray();
         }

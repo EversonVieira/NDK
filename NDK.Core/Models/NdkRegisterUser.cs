@@ -1,6 +1,6 @@
 ﻿namespace NDK.Core.Models
 {
-    public class NdkRegisterUser : NdkUser
+    public class NDKRegisterUser : NDKUser
     {
         public string? ConfirmPassword { get; set; }
     }

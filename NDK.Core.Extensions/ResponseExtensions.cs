@@ -10,18 +10,18 @@ namespace NDK.Core.Extensions
 {
     public static class ResponseExtensions
     {
-        public static void HandleException(this NdkResponse response, Exception ex, string? payloadJson = null)
+        public static void HandleException(this NDKResponse response, Exception ex, string? payloadJson = null)
         {
-            response.AddMessage(new NdkMessage
+            response.AddMessage(new NDKMessage
             {
                 Code = Guid.NewGuid().ToString(),
                 Text = ex.Message,
-                Type = NdkMessageType.ERROR,
+                Type = NDKMessageType.ERROR,
                 AdditionalInfo = $"{JsonSerializer.Serialize(ex)} {(payloadJson is not null ? $"\n PAYLOAD: {payloadJson}" : "")}"
             });
         }
 
-        public static void Merge(this NdkResponse ndkResponse, NdkResponse response)
+        public static void Merge(this NDKResponse ndkResponse, NDKResponse response)
         {
             response.Messages.ForEach(message =>
             {

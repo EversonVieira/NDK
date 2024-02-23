@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NDK.Auth.Core.Attributes
 {
-    public class NdkAllowAnonymous : Attribute
+    public class NDKAllowAnonymous : Attribute
     {
     }
 }

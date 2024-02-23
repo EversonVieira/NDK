@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace NDK.Core.Models
 {
-    public class NdkRequest
+    public class NDKRequest
     {
-        public NdkPaging? Paging { get; set; }
+        public NDKPaging? Paging { get; set; }
 
 
-        private List<NdkFilterGroup> _filtersGroups = new List<NdkFilterGroup>();
+        private List<NDKFilterGroup> _filtersGroups = new List<NDKFilterGroup>();
 
-        public List<NdkOrderItem>? OrderBy { get; set; }
+        public List<NDKOrderItem>? OrderBy { get; set; }
 
-        public IReadOnlyList<NdkFilterGroup> FiltersGroups
+        public IReadOnlyList<NDKFilterGroup> FiltersGroups
         {
             get
             {
@@ -38,21 +38,21 @@ namespace NDK.Core.Models
             OrderBy = null;
         }
 
-        public void AddFilterGroup(NdkFilterGroup filterGroup)
+        public void AddFilterGroup(NDKFilterGroup filterGroup)
         {
             filterGroup.Id = (_filtersGroups.Count + 1).ToString();
 
             _filtersGroups.Add(filterGroup);
         }
 
-        public void AddFilterToGroup(NdkFilter filter, NdkFilterGroup group)
+        public void AddFilterToGroup(NDKFilter filter, NDKFilterGroup group)
         {
             if (group is null) throw new ArgumentNullException(nameof(group));
             
             filter.Id = $"{group.Id}_{(group?.Filters?.Count ?? 0)+ 1}";
 
             if (group!.Filters is null)
-                group.Filters = new List<NdkFilter>();
+                group.Filters = new List<NDKFilter>();
             group.Filters.Add(filter);
         }
     }

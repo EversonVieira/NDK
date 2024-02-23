@@ -1,6 +1,6 @@
 ﻿namespace NDK.Core.Interfaces
 {
-    public interface INdkUser
+    public interface INDKUser
     {
         string? Email { get; set; }
         string? FirstName { get; set; }

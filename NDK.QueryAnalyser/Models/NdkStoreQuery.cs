@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace NDK.QueryAnalyser.Core.Models
 {
-    public class NdkStoreQuery
+    public class NDKStoreQuery
     {
         public long Id { get; set; }
         public string? QueryMD5 { get; set; }

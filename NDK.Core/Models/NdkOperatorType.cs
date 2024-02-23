@@ -1,6 +1,6 @@
 ﻿namespace NDK.Core.Models
 {
-    public enum NdkOperatorType
+    public enum NDKOperatorType
     {
 
         EQUAL,

@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 namespace NDK.UI.Components.Interfaces
 {
     public interface INDKDataSourceService<TOutput, TInput> 
-        where TInput: NdkRequest
-        where TOutput : NdkBaseModel
+        where TInput: NDKRequest
+        where TOutput : NDKBaseModel
     {
-        public Task<NdkListResponse<TOutput>> FetchAsync(TInput request);
+        public Task<NDKListResponse<TOutput>> FetchAsync(TInput request);
     }
 }

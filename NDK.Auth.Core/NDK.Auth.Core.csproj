@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\NDK.Core.Extensions\NDK.Core.Extensions.csproj" />
     <ProjectReference Include="..\NDK.Core\NDK.Core.csproj" />
   </ItemGroup>
 

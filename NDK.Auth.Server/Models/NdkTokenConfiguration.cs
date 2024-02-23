@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NDK.Auth.Server.Models
 {
-    public class NdkTokenConfiguration
+    public class NDKTokenConfiguration
     {
         public string? PrivateKey { get; set; }
         public string? Signer { get; set; }

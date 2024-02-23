@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace NDK.Auth.Core.Models
 {
-    public class NdkToken
+    public class NDKToken
     {
-        public NdkTokenHeader? Header { get; set; }
-        public NdkTokenPayload? Payload { get; set; }
-        public NdkTokenSignature? Signature { get; set; }
+        public NDKTokenHeader? Header { get; set; }
+        public NDKTokenPayload? Payload { get; set; }
+        public NDKTokenSignature? Signature { get; set; }
 
     }
 

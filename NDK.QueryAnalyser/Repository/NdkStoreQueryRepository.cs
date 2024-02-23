@@ -6,10 +6,10 @@ using NDK.QueryAnalyser.Core.Models;
 
 namespace NDK.QueryAnalyser.Core.Repository
 {
-    public class NdkStoreQueryRepository
+    public class NDKStoreQueryRepository
     {
         private SqlAnalyserConnectionHandler _sqlAnalyserConnectionFactory;
-        public NdkStoreQueryRepository(SqlAnalyserConnectionHandler sqlAnalyserConnectionFactory)
+        public NDKStoreQueryRepository(SqlAnalyserConnectionHandler sqlAnalyserConnectionFactory)
         {
             _sqlAnalyserConnectionFactory = sqlAnalyserConnectionFactory;
         }
@@ -22,7 +22,7 @@ namespace NDK.QueryAnalyser.Core.Repository
             @"SELECT Id, QueryMD5, TriggeredBy, FullQuery, BaseQuery, RequestJson, RunnedAt, RunnedUntil FROM STOREQUERY ";
 
 
-        public async Task Insert(NdkStoreQuery storeQuery)
+        public async Task Insert(NDKStoreQuery storeQuery)
         {
             using (var conn = _sqlAnalyserConnectionFactory.GetDbConnection())
             {
@@ -32,9 +32,9 @@ namespace NDK.QueryAnalyser.Core.Repository
             }
         }
 
-        public async Task<List<NdkStoreQuery>> SelectByRequest(NdkRequest request)
+        public async Task<List<NDKStoreQuery>> SelectByRequest(NDKRequest request)
         {
-            List<NdkStoreQuery> result = new List<NdkStoreQuery>();
+            List<NDKStoreQuery> result = new List<NDKStoreQuery>();
 
 
             using (var conn = _sqlAnalyserConnectionFactory.GetDbConnection())
@@ -44,7 +44,7 @@ namespace NDK.QueryAnalyser.Core.Repository
                 var data = request.GetRequestData(SELECT, _sqlAnalyserConnectionFactory._configuration);
                 string command = data.query;
 
-                result = (await conn.QueryAsync<NdkStoreQuery>(command, data.parameters)).ToList();
+                result = (await conn.QueryAsync<NDKStoreQuery>(command, data.parameters)).ToList();
             }
 
             return result;

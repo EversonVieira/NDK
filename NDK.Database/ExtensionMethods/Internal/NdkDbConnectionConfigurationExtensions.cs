@@ -8,51 +8,51 @@ using System.Threading.Tasks;
 
 namespace NDK.Database.ExtensionMethods.Internal
 {
-    internal static class NdkDbConnectionConfigurationExtensions
+    internal static class NDKDbConnectionConfigurationExtensions
     {
-        public static string GetParamSymbol(this NdkDbConnectionConfiguration configuration)
+        public static string GetParamSymbol(this NDKDbConnectionConfiguration configuration)
         {
-            if (configuration == null)  throw new InvalidOperationException("NdkDbConnectionConfiguration wasn't provided.");
+            if (configuration == null)  throw new InvalidOperationException("NDKDbConnectionConfiguration wasn't provided.");
 
             return configuration.Type switch
             {
-                NdkDbType.ORACLE => ":",
+                NDKDbType.ORACLE => ":",
                 _ => "@"
             };
         }
 
-        public static string GetInsertSelectResult(this NdkDbConnectionConfiguration configuration)
+        public static string GetInsertSelectResult(this NDKDbConnectionConfiguration configuration)
         {
-            if (configuration == null) throw new InvalidOperationException("NdkDbConnectionConfiguration wasn't provided.");
+            if (configuration == null) throw new InvalidOperationException("NDKDbConnectionConfiguration wasn't provided.");
 
             return configuration.Type switch
             {
-                NdkDbType.SQLSERVER => "SELECT SCOPE_IDENTITY()",
-                NdkDbType.MYSQL => "SELECT last_insert_id()",
+                NDKDbType.SQLSERVER => "SELECT SCOPE_IDENTITY()",
+                NDKDbType.MYSQL => "SELECT last_insert_id()",
                 _ => "SELECT 0"
             };
         }
 
-        public static string GetUpdateSelectResult(this NdkDbConnectionConfiguration configuration)
+        public static string GetUpdateSelectResult(this NDKDbConnectionConfiguration configuration)
         {
-            if (configuration == null) throw new InvalidOperationException("NdkDbConnectionConfiguration wasn't provided.");
+            if (configuration == null) throw new InvalidOperationException("NDKDbConnectionConfiguration wasn't provided.");
 
             return configuration.Type switch
             {
-                NdkDbType.SQLSERVER => "SELECT SCOPE_IDENTITY()",
-                NdkDbType.MYSQL => "SELECT last_insert_id()",
+                NDKDbType.SQLSERVER => "SELECT SCOPE_IDENTITY()",
+                NDKDbType.MYSQL => "SELECT last_insert_id()",
                 _ => "SELECT 0"
             };
         }
 
-        public static string GetUpdateOrDeleteResult(this NdkDbConnectionConfiguration configuration)
+        public static string GetUpdateOrDeleteResult(this NDKDbConnectionConfiguration configuration)
         {
-            if (configuration == null) throw new InvalidOperationException("NdkDbConnectionConfiguration wasn't provided.");
+            if (configuration == null) throw new InvalidOperationException("NDKDbConnectionConfiguration wasn't provided.");
 
             return configuration.Type switch
             {
-                NdkDbType.SQLSERVER => "SELECT SELECT @@ROWCOUNT",
-                NdkDbType.MYSQL => "SSELECT ROW_COUNT()",
+                NDKDbType.SQLSERVER => "SELECT SELECT @@ROWCOUNT",
+                NDKDbType.MYSQL => "SSELECT ROW_COUNT()",
                 _ => "SELECT 0"
             };
         }

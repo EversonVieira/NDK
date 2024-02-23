@@ -8,11 +8,11 @@ using System.Threading.Tasks;
 
 namespace NDK.Core.Interfaces
 {
-    public interface INdkBusiness<T>
+    public interface INDKBusiness<T>
     {
-        public NdkResponse<long> Insert(T entity);
-        public NdkResponse<long> Update(T entity);
-        public NdkResponse<long> Delete(T entity);
-        public NdkListResponse<T> GetByRequest(NdkRequest request);
+        public NDKResponse<long> Insert(T entity);
+        public NDKResponse<long> Update(T entity);
+        public NDKResponse<long> Delete(T entity);
+        public NDKListResponse<T> GetByRequest(NDKRequest request);
     }
 }

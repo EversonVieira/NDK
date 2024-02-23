@@ -11,9 +11,9 @@ using System.Threading.Tasks;
 namespace NDK.UI.Models
 {
     public class NDKDataSource<TInput, TOutput, TOptions>
-        where TInput : NdkRequest
+        where TInput : NDKRequest
         where TOptions : NDKDataSourceOptions<TOutput>
-        where TOutput : NdkBaseModel
+        where TOutput : NDKBaseModel
     {
         private ObservableCollection<TOutput> _source;
         private ObservableCollection<TOutput> _visibleSource;
@@ -36,9 +36,9 @@ namespace NDK.UI.Models
         {
             if (input == null) return;
 
-            NdkPaging? paging = null;
-            List<NdkOrderItem>? orderBy = null;
-            List<NdkFilterGroup>? filterGroups = null;
+            NDKPaging? paging = null;
+            List<NDKOrderItem>? orderBy = null;
+            List<NDKFilterGroup>? filterGroups = null;
 
 
             bool isDbOperation = _options.DataBaseFiltering && _options.DataBaseOrdering && _options.DataBasePagination;
@@ -104,7 +104,7 @@ namespace NDK.UI.Models
             }
         }
 
-        private void HandleFilterGroups(List<TOutput> result, List<NdkFilterGroup>? filterGroups)
+        private void HandleFilterGroups(List<TOutput> result, List<NDKFilterGroup>? filterGroups)
         {
             if (filterGroups is null) return;
 
@@ -127,7 +127,7 @@ namespace NDK.UI.Models
             result.AddRange(tempResult);
         }
 
-        private bool ByOperationType(TOutput item, NdkFilter f)
+        private bool ByOperationType(TOutput item, NDKFilter f)
         {
             if (item is null) return false;
 
@@ -142,7 +142,7 @@ namespace NDK.UI.Models
 
             if ((value?.GetType().IsAssignableFrom(typeof(IComparable)) ?? false) &&
                 (f.Value?.GetType().IsAssignableFrom(typeof(IComparable)) ?? false) &&
-                (f.NdkOperatorType is not NdkOperatorType.IN and not NdkOperatorType.NOTIN))
+                (f.NDKOperatorType is not NDKOperatorType.IN and not NDKOperatorType.NOTIN))
             {
                 IComparable value1 = (IComparable)value;
                 IComparable value2 = (IComparable)f.Value;
@@ -154,19 +154,19 @@ namespace NDK.UI.Models
                 }
 
 
-                return f.NdkOperatorType switch
+                return f.NDKOperatorType switch
                 {
-                    NdkOperatorType.EQUAL => value1 == value2,
-                    NdkOperatorType.NOTEQUAL => value1 != value2,
-                    NdkOperatorType.LESSTHAN => value1.CompareTo(value2) < 0,
-                    NdkOperatorType.LESSTHANOREQUAL => value1.CompareTo(value2) <= 0,
-                    NdkOperatorType.GREATERTHAN => value1.CompareTo(value2) > 0,
-                    NdkOperatorType.GREATERTHANOREQUAL => value1.CompareTo(value2) >= 0,
-                    NdkOperatorType.BETWEEN => (value3 is null && value1.CompareTo(value2) >= 0) || (value3 is not null && value1.CompareTo(value2) >= 0 && value1.CompareTo(value3) <= 0),
+                    NDKOperatorType.EQUAL => value1 == value2,
+                    NDKOperatorType.NOTEQUAL => value1 != value2,
+                    NDKOperatorType.LESSTHAN => value1.CompareTo(value2) < 0,
+                    NDKOperatorType.LESSTHANOREQUAL => value1.CompareTo(value2) <= 0,
+                    NDKOperatorType.GREATERTHAN => value1.CompareTo(value2) > 0,
+                    NDKOperatorType.GREATERTHANOREQUAL => value1.CompareTo(value2) >= 0,
+                    NDKOperatorType.BETWEEN => (value3 is null && value1.CompareTo(value2) >= 0) || (value3 is not null && value1.CompareTo(value2) >= 0 && value1.CompareTo(value3) <= 0),
                     _ => true
                 };
             }
-            else if (f.NdkOperatorType is NdkOperatorType.IN or NdkOperatorType.NOTIN)
+            else if (f.NDKOperatorType is NDKOperatorType.IN or NDKOperatorType.NOTIN)
             {
 
                 if (f.Value?.GetType().IsAssignableFrom(typeof(IEnumerable<object>)) ?? false)
@@ -175,7 +175,7 @@ namespace NDK.UI.Models
 
                     if (list.GetType().GetEnumUnderlyingType() == value?.GetType())
                     {
-                        return (f.NdkOperatorType == NdkOperatorType.IN && list.Contains(value)) || (f.NdkOperatorType == NdkOperatorType.NOTIN && list.Contains(value));
+                        return (f.NDKOperatorType == NDKOperatorType.IN && list.Contains(value)) || (f.NDKOperatorType == NDKOperatorType.NOTIN && list.Contains(value));
                     }
                 }
             }
@@ -183,7 +183,7 @@ namespace NDK.UI.Models
             return true;
         }
 
-        private void HandlePaging(List<TOutput> result, NdkPaging? paging)
+        private void HandlePaging(List<TOutput> result, NDKPaging? paging)
         {
 
             if (paging is null)
@@ -203,7 +203,7 @@ namespace NDK.UI.Models
             }
         }
 
-        private void HandleOrderBy(List<TOutput> result, List<NdkOrderItem>? orderList)
+        private void HandleOrderBy(List<TOutput> result, List<NDKOrderItem>? orderList)
         {
             if (orderList is null) return;
 
@@ -221,11 +221,11 @@ namespace NDK.UI.Models
 
                 if (firstOperation)
                 {
-                    tempResult = orderBy.OrderType == NdkOrderType.ASC ? tempResult.OrderBy(x => property.GetValue(x)) : tempResult.OrderByDescending(x => property.GetValue(x));
+                    tempResult = orderBy.OrderType == NDKOrderType.ASC ? tempResult.OrderBy(x => property.GetValue(x)) : tempResult.OrderByDescending(x => property.GetValue(x));
                 }
                 else
                 {
-                    tempResult = orderBy.OrderType == NdkOrderType.ASC ? tempResult.ThenBy(x => property.GetValue(x)) : tempResult.ThenByDescending(x => property.GetValue(x));
+                    tempResult = orderBy.OrderType == NDKOrderType.ASC ? tempResult.ThenBy(x => property.GetValue(x)) : tempResult.ThenByDescending(x => property.GetValue(x));
 
                 }
 

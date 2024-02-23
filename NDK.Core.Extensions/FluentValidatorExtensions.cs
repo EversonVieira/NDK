@@ -1,18 +1,13 @@
 ﻿using FluentValidation;
 using NDK.Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace NDK.Core.Extensions
 {
     public static class FluentValidatorExtensions
     {
-        public static NdkResponse ValidateAsNdkResponse<T>(this AbstractValidator<T> validator, T obj)
+        public static NDKResponse ValidateAsNDKResponse<T>(this AbstractValidator<T> validator, T obj)
         {
-            NdkResponse response = new NdkResponse();
+            NDKResponse response = new NDKResponse();
 
             var result = validator.Validate(obj);
 
@@ -20,11 +15,11 @@ namespace NDK.Core.Extensions
             {
                 result.Errors.ForEach(e =>
                 {
-                    response.AddMessage(new NdkMessage
+                    response.AddMessage(new NDKMessage
                     {
                         Code = e.ErrorCode,
                         Text = e.ErrorMessage,
-                        Type = NdkMessageType.VALIDATION
+                        Type = NDKMessageType.VALIDATION
                     });
                 });
             }

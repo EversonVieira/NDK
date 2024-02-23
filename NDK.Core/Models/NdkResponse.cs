@@ -6,25 +6,25 @@ using System.Threading.Tasks;
 
 namespace NDK.Core.Models
 {
-    public class NdkResponse
+    public class NDKResponse
     {
-        public List<NdkMessage> Messages { get; set; } = new List<NdkMessage>();
+        public List<NDKMessage> Messages { get; set; } = new List<NDKMessage>();
 
         public bool HasAnyMessage => Messages.Count > 0;
 
-        public bool HasMessageByType(NdkMessageType type)
+        public bool HasMessageByType(NDKMessageType type)
         {
             return Messages.Any(x => x.Type == type);
         }
 
-        public bool HasStopFlowMessages => Messages.Exists(x => x.Type > NdkMessageType.CAUTION);
+        public bool HasStopFlowMessages => Messages.Exists(x => x.Type > NDKMessageType.CAUTION);
 
 
-        public bool HasMessageByTypes(params NdkMessageType[] types)
+        public bool HasMessageByTypes(params NDKMessageType[] types)
         {
             bool result = false;
 
-            foreach (NdkMessageType type in types)
+            foreach (NDKMessageType type in types)
             {
                 result = result || HasMessageByType(type);
             }
@@ -32,7 +32,7 @@ namespace NDK.Core.Models
             return result;
         }
 
-        public void AddMessage(NdkMessage message)
+        public void AddMessage(NDKMessage message)
         {
             Messages.Add(message);
         }
@@ -40,7 +40,7 @@ namespace NDK.Core.Models
       
     }
 
-    public class NdkResponse<T> : NdkResponse
+    public class NDKResponse<T> : NDKResponse
     {
         public T? Result { get; set; }
 

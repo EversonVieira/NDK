@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace NDK.Query
 {
-    public class NdkQueryBuilder
+    public class NDKQueryBuilder
     {
-        private NdkDbType _dbType;
+        private NDKDbType _dbType;
 
-        public NdkQueryBuilder(NdkDbType dbType)
+        public NDKQueryBuilder(NDKDbType dbType)
         {
             _dbType = dbType;
         }

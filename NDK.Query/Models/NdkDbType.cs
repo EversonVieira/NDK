@@ -1,6 +1,6 @@
 ﻿namespace NDK.Query.Models
 {
-    public enum NdkDbType
+    public enum NDKDbType
     {
         SQLSERVER = 0,
         MYSQL = 1,

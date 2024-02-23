@@ -1,9 +1,9 @@
 ﻿namespace NDK.Database.Models
 {
-    public class NdkDbConnectionConfiguration
+    public class NDKDbConnectionConfiguration
     {
         public string? ConnectionString { get; set; }
-        public NdkDbType Type { get; set; }
+        public NDKDbType Type { get; set; }
 
     }
 }

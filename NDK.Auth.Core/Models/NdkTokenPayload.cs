@@ -1,12 +1,12 @@
 ﻿namespace NDK.Auth.Core.Models
 {
-    public class NdkTokenPayload
+    public class NDKTokenPayload
     {
         public string? UserId { get; set; }
 
-        public List<NdkTokenClaim> Claims { get; set; } = new List<NdkTokenClaim>();
+        public List<NDKTokenRole> Roles { get; set; } = new List<NDKTokenRole>();
+        public List<NDKTokenRolePermission> Permissions { get; set; } = new List<NDKTokenRolePermission>();
 
-        public List<NdkTokenRole> Roles { get; set; } = new List<NdkTokenRole>();
     }
 
 }

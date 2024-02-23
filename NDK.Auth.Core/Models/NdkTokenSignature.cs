@@ -1,6 +1,6 @@
 ﻿namespace NDK.Auth.Core.Models
 {
-    public class NdkTokenSignature
+    public class NDKTokenSignature
     {
         public string? SignedBy { get; set; }
         public string? TwoWaySignature { get; set; }

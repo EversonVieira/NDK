@@ -1,6 +1,6 @@
 ﻿namespace NDK.Core.Models
 {
-    public enum NdkOrderType
+    public enum NDKOrderType
     {
         ASC,
         DESC,

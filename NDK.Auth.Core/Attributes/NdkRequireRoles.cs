@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace NDK.Auth.Core.Attributes
 {
-    public class NdkRequireRoles
+    public class NDKRequireRoles
     {
         public string[] Roles { get; set; }
 
-        public NdkRequireRoles(params string[] roles)
+        public NDKRequireRoles(params string[] roles)
         {
             Roles = roles;
         }

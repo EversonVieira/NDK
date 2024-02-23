@@ -14,14 +14,14 @@ namespace NDK.Database.ExtensionMethods
     public static class RequestExtensions
     {
 
-        public static (string query, DynamicParameters parameters) GetRequestData(this NdkRequest request, string query, NdkDbConnectionConfiguration configuration)
+        public static (string query, DynamicParameters parameters) GetRequestData(this NDKRequest request, string query, NDKDbConnectionConfiguration configuration)
         {
             return (request.GetRequestSql(query, configuration).ToString(),
                     request.GetParameters(configuration));
         }
 
 
-        private static DynamicParameters GetParameters(this NdkRequest request, NdkDbConnectionConfiguration configuration)
+        private static DynamicParameters GetParameters(this NDKRequest request, NDKDbConnectionConfiguration configuration)
         {
             var parameters = new DynamicParameters();
 
@@ -44,7 +44,7 @@ namespace NDK.Database.ExtensionMethods
             return parameters;
         }
 
-        private static DynamicParameters GetParametersByFilterGroup(NdkFilterGroup group, string alias)
+        private static DynamicParameters GetParametersByFilterGroup(NDKFilterGroup group, string alias)
         {
             var parameters = new DynamicParameters();
 
@@ -69,19 +69,19 @@ namespace NDK.Database.ExtensionMethods
             return parameters;
         }
 
-        private static StringBuilder GetRequestSql(this NdkRequest request, string query, NdkDbConnectionConfiguration configuration)
+        private static StringBuilder GetRequestSql(this NDKRequest request, string query, NDKDbConnectionConfiguration configuration)
         {
             StringBuilder sb;
 
             sb = configuration.Type switch
             {
-                NdkDbType.ORACLE => new StringBuilder($"SELECT * FROM ( {query} <<where>> )"),
+                NDKDbType.ORACLE => new StringBuilder($"SELECT * FROM ( {query} <<where>> )"),
                 _ => new StringBuilder(query)
             };
 
             if (request.FiltersGroups.Any())
             {
-                if (configuration.Type == NdkDbType.ORACLE)
+                if (configuration.Type == NDKDbType.ORACLE)
                 {
                     if (request.FiltersGroups.Any())
                     {
@@ -116,9 +116,9 @@ namespace NDK.Database.ExtensionMethods
             {
                 sb.AppendLine(configuration.Type switch
                 {
-                    NdkDbType.ORACLE => " WHERE rownum < ((:Page * :ItemsPerPage) + 1 ) ",
-                    NdkDbType.MYSQL => " LIMIT (@Page * @ItemsPerPage),@ItemsPerPage ",
-                    NdkDbType.SQLSERVER => " OFFSET @ItemsPerPage ROWS FETCH NEXT (@Page * @ItemsPerPage) ",
+                    NDKDbType.ORACLE => " WHERE rownum < ((:Page * :ItemsPerPage) + 1 ) ",
+                    NDKDbType.MYSQL => " LIMIT (@Page * @ItemsPerPage),@ItemsPerPage ",
+                    NDKDbType.SQLSERVER => " OFFSET @ItemsPerPage ROWS FETCH NEXT (@Page * @ItemsPerPage) ",
                     _ => throw new NotSupportedException()
                 }); ;
 
@@ -128,7 +128,7 @@ namespace NDK.Database.ExtensionMethods
             return sb;
         }
 
-        private static StringBuilder GetFilterGroup(NdkFilterGroup filterGroup, bool isLastOne, NdkDbConnectionConfiguration configuration)
+        private static StringBuilder GetFilterGroup(NDKFilterGroup filterGroup, bool isLastOne, NDKDbConnectionConfiguration configuration)
         {
             StringBuilder sb = new StringBuilder();
 
@@ -157,7 +157,7 @@ namespace NDK.Database.ExtensionMethods
             return sb;
         }
 
-        private static StringBuilder GetFilter(NdkFilter filter, bool isLastOne, NdkDbConnectionConfiguration configuration)
+        private static StringBuilder GetFilter(NDKFilter filter, bool isLastOne, NDKDbConnectionConfiguration configuration)
         {
             StringBuilder sb = new StringBuilder();
 
@@ -165,11 +165,11 @@ namespace NDK.Database.ExtensionMethods
 
             string alias = configuration.Type switch
             {
-                NdkDbType.ORACLE => ":",
+                NDKDbType.ORACLE => ":",
                 _ => "@"
             };
 
-            if (filter.NdkOperatorType.Equals(NdkOperatorType.BETWEEN))
+            if (filter.NDKOperatorType.Equals(NDKOperatorType.BETWEEN))
             {
                 sb.Append($"({alias}{filter.PropertyName}{filter.Id} AND {alias}{filter.PropertyName2}{filter.Id}) ");
             }
@@ -180,28 +180,28 @@ namespace NDK.Database.ExtensionMethods
 
             if (!isLastOne)
             {
-                sb.AppendLine($" {filter.NdkConditionType.ToString()} ");
+                sb.AppendLine($" {filter.NDKConditionType.ToString()} ");
             }
 
 
             return sb;
         }
 
-        private static string GetOperator(NdkFilter filter, NdkDbConnectionConfiguration configuration)
+        private static string GetOperator(NDKFilter filter, NDKDbConnectionConfiguration configuration)
         {
-            return filter.NdkOperatorType switch
+            return filter.NDKOperatorType switch
             {
-                NdkOperatorType.EQUAL => "=",
-                NdkOperatorType.NOTEQUAL => "<>",
+                NDKOperatorType.EQUAL => "=",
+                NDKOperatorType.NOTEQUAL => "<>",
 
-                NdkOperatorType.LESSTHAN => "<",
-                NdkOperatorType.LESSTHANOREQUAL => "<=",
+                NDKOperatorType.LESSTHAN => "<",
+                NDKOperatorType.LESSTHANOREQUAL => "<=",
 
-                NdkOperatorType.GREATERTHAN => ">",
-                NdkOperatorType.GREATERTHANOREQUAL => ">=",
+                NDKOperatorType.GREATERTHAN => ">",
+                NDKOperatorType.GREATERTHANOREQUAL => ">=",
 
-                NdkOperatorType.IN => "IN",
-                NdkOperatorType.BETWEEN => "BETWEEN",
+                NDKOperatorType.IN => "IN",
+                NDKOperatorType.BETWEEN => "BETWEEN",
 
                 _ => "="
             };

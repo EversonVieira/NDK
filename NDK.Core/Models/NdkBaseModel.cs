@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace NDK.Core.Models
 {
-    public class NdkBaseModel:IPersistable, IComparable<NdkBaseModel>
+    public class NDKBaseModel:IPersistable, IComparable<NDKBaseModel>
     {
         public long Id { get; set; }
         public Guid Uuid { get; set; }
@@ -19,12 +19,12 @@ namespace NDK.Core.Models
         public bool IsActive { get; set; }
         public bool IsDeleted { get; set; }
 
-        public NdkBaseModel() 
+        public NDKBaseModel() 
         {
             Uuid = Guid.NewGuid();
         }
 
-        public int CompareTo(NdkBaseModel? other)
+        public int CompareTo(NDKBaseModel? other)
         {
             if (other is null) return 1;
 

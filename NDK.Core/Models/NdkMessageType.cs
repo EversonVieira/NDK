@@ -1,6 +1,6 @@
 ﻿namespace NDK.Core.Models
 {
-    public enum NdkMessageType
+    public enum NDKMessageType
     {
         INFORMATION = 0,
         SUCCESS = 1,

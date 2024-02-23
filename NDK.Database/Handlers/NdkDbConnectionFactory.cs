@@ -5,11 +5,11 @@ using System.Data.SqlClient;
 
 namespace NDK.Database.Handlers
 {
-    public class NdkDbConnectionFactory
+    public class NDKDbConnectionFactory
     {
-        public NdkDbConnectionConfiguration _configuration { get; set; }
+        public NDKDbConnectionConfiguration _configuration { get; set; }
 
-        public NdkDbConnectionFactory(NdkDbConnectionConfiguration configuration)
+        public NDKDbConnectionFactory(NDKDbConnectionConfiguration configuration)
         {
             _configuration = configuration;
         }
@@ -18,8 +18,8 @@ namespace NDK.Database.Handlers
         {
             DbConnection conn = _configuration.Type switch
             {
-                NdkDbType.SQLSERVER => new SqlConnection(_configuration.ConnectionString),
-                NdkDbType.MYSQL => new MySqlConnection(_configuration.ConnectionString),
+                NDKDbType.SQLSERVER => new SqlConnection(_configuration.ConnectionString),
+                NDKDbType.MYSQL => new MySqlConnection(_configuration.ConnectionString),
                 // TO DO, IMPLEMENT ORACLE, POSTGREE AND MARIADB
                 _ => throw new Exception("Not implemented")
             };

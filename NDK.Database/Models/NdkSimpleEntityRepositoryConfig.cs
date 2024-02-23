@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace NDK.Database.Models
 {
-    public abstract class NdkSimpleEntityRepositoryConfig
+    public abstract class NDKSimpleEntityRepositoryConfig
     {
         private Dictionary<Type, string> _entityTableMap = new Dictionary<Type, string>();
 
