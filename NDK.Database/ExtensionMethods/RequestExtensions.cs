@@ -23,7 +23,7 @@ namespace NDK.Database.ExtensionMethods
         }
 
 
-        private static DynamicParameters GetParameters(this NDKRequest request, NDKDbConnectionConfiguration configuration, bool childGroup = false)
+        private static DynamicParameters GetParameters(this NDKRequest request, NDKDbConnectionConfiguration configuration)
         {
             var parameters = new DynamicParameters();
 
@@ -40,19 +40,12 @@ namespace NDK.Database.ExtensionMethods
                 foreach (var fg in request.FilterStructure.FilterGroups)
                 {
                     parameters.AddDynamicParams(GetParametersByFilterGroup(fg, alias));
-
-                    if (fg.InternalGroups.HasAny())
-                    {
-                        foreach(var ig in fg.InternalGroups)
-                        {
-                            parameters.AddDynamicParams(GetParametersByFilterGroup(ig, alias));
-                        }
-                    }
                 }
             }
 
             return parameters;
         }
+
 
         private static DynamicParameters GetParametersByFilterGroup(NDKFilterGroup group, string alias)
         {
@@ -63,11 +56,11 @@ namespace NDK.Database.ExtensionMethods
                 f.Value = f.OperatorType switch
                 {
                     NDKOperatorType.STARTSWITH => $"{f.Value}%",
-                    NDKOperatorType.ENDSWITH=> $"%{f.Value}",
-                    NDKOperatorType.CONTAINS=> $"%{f.Value}%",
+                    NDKOperatorType.ENDSWITH => $"%{f.Value}",
+                    NDKOperatorType.CONTAINS => $"%{f.Value}%",
                     _ => f.Value
                 };
-                
+
                 parameters.Add($"{alias}{f.PropertyName}{f.Id}", f.Value);
 
                 if (!string.IsNullOrWhiteSpace(f.PropertyName2))
@@ -151,17 +144,17 @@ namespace NDK.Database.ExtensionMethods
 
             sb.AppendLine(" ( ");
 
-            foreach(var item in filterGroup.OrderList)
+            foreach (var item in filterGroup.OrderList)
             {
                 if (item.Value is null) continue;
 
                 if (item.Type == NDKFilterGroup.IdentifierType.Filter)
                 {
-                    sb.AppendLine(GetFilter((NDKFilter) item.Value, item.IsLastOne, configuration).ToString());
+                    sb.AppendLine(GetFilter((NDKFilter)item.Value, item.IsLastOne, configuration).ToString());
                 }
                 else if (item.Type == NDKFilterGroup.IdentifierType.FilterGroup)
                 {
-                    sb.AppendLine(GetFilterGroup((NDKFilterGroup) item.Value, item.IsLastOne, configuration).ToString());
+                    sb.AppendLine(GetFilterGroup((NDKFilterGroup)item.Value, item.IsLastOne, configuration).ToString());
                 }
             }
 
@@ -222,7 +215,7 @@ namespace NDK.Database.ExtensionMethods
                 NDKOperatorType.BETWEEN => "BETWEEN",
 
                 NDKOperatorType.STARTSWITH or
-                NDKOperatorType.ENDSWITH or 
+                NDKOperatorType.ENDSWITH or
                 NDKOperatorType.CONTAINS =>
                     "LIKE",
 
