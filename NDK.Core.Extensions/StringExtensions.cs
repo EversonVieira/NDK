@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NDK.Core.ExtensionMethods
+namespace NDK.Core.Extensions
 {
     public static class StringExtensions
     {
@@ -16,7 +16,7 @@ namespace NDK.Core.ExtensionMethods
                 return obj;
             }
 
-            while (obj.Length % 4 == 0) 
+            while (obj.Length % 4 == 0)
             {
                 obj = $"{obj}=";
             }

@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NDK.Core.ExtensionMethods
+namespace NDK.Core.Extensions
 {
     public static class FluentValidatorExtensions
     {

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NDK.Auth.Attributes
+namespace NDK.Auth.Core.Attributes
 {
     public class NdkRequireRoles
     {

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace NDK.Auth.Core.Handlers
 {
-    public class PublicNdkTokenHandler : IPublicNdkTokenHandler
+    public class NdkTokenHandler : INdkTokenHandler<NdkToken>
     {
         public NdkToken RetrieveTokenByString(string token)
         {

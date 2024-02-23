@@ -6,18 +6,18 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace NDK.Core.ExtensionMethods
+namespace NDK.Core.Extensions
 {
     public static class ResponseExtensions
     {
-        public static void HandleException(this NdkResponse response, Exception ex, string? payloadJson = null) 
+        public static void HandleException(this NdkResponse response, Exception ex, string? payloadJson = null)
         {
             response.AddMessage(new NdkMessage
             {
                 Code = Guid.NewGuid().ToString(),
                 Text = ex.Message,
                 Type = NdkMessageType.ERROR,
-                AdditionalInfo = $"{JsonSerializer.Serialize(ex)} {(payloadJson is not null ? $"\n PAYLOAD: {payloadJson}":"")}"
+                AdditionalInfo = $"{JsonSerializer.Serialize(ex)} {(payloadJson is not null ? $"\n PAYLOAD: {payloadJson}" : "")}"
             });
         }
 

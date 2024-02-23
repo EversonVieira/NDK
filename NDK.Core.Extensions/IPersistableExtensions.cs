@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace NDK.Core.ExtensionMethods
+namespace NDK.Core.Extensions
 {
     public static class IPersistableExtensions
     {
@@ -23,7 +23,7 @@ namespace NDK.Core.ExtensionMethods
             }
         }
 
-        public static void RefineDate(this IPersistable obj, string startDateAlias, string endDateAlias) 
+        public static void RefineDate(this IPersistable obj, string startDateAlias, string endDateAlias)
         {
             var properties = obj.GetType().GetProperties();
 
@@ -35,7 +35,7 @@ namespace NDK.Core.ExtensionMethods
                     if (property.Name.Contains(startDateAlias))
                     {
                         DateTime dt = Convert.ToDateTime(property.GetValue(startDateAlias));
-                        property.SetValue(obj, new DateTime(dt.Year, dt.Month, dt.Day,0,0,0, DateTimeKind.Utc));
+                        property.SetValue(obj, new DateTime(dt.Year, dt.Month, dt.Day, 0, 0, 0, DateTimeKind.Utc));
                     }
                     else if (property.Name.Contains(endDateAlias))
                     {
