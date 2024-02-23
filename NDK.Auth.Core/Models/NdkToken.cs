@@ -8,6 +8,7 @@ namespace NDK.Auth.Core.Models
 {
     public class NDKToken
     {
+        public Guid Id { get; set; } = Guid.NewGuid();
         public NDKTokenHeader? Header { get; set; }
         public NDKTokenPayload? Payload { get; set; }
         public NDKTokenSignature? Signature { get; set; }

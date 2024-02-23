@@ -7,7 +7,7 @@ using NDK.Core.Interfaces;
 
 namespace NDK.Core.Models
 {
-    public class NDKUser : NDKBaseModel, INDKUser
+    public abstract class NDKUser : NDKBaseModel
     {
         public string? FirstName { get; set; }
         public string? LastName { get; set; }

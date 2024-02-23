@@ -3,8 +3,9 @@ using NDK.Core.Models;
 
 namespace NDK.Auth.Core.Interfaces
 {
-    public interface INDKTokenHandler<T> where T : NDKToken
+    public interface INDKTokenHandler<TToken> where TToken : NDKToken
     {
-        T RetrieveTokenByString(string token);
+        Task<TToken> RetrieveTokenByStringAsync(string token);
+        Task<NDKResponse<bool>> ValidateTokenAsync(TToken token);
     }
 }
