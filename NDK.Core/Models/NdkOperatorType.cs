@@ -3,26 +3,24 @@
     public enum NDKOperatorType
     {
 
-        EQUAL,
-        NOTEQUAL,
+        EQUAL = 100,
+        NOTEQUAL = 101,
+        ISNULL = 102,
+        ISNOTNULL = 103,
 
-        LESSTHANOREQUAL,
-        LESSTHAN,
+        LESSTHANOREQUAL = 104,
+        LESSTHAN = 105,
 
-        GREATERTHAN,
-        GREATERTHANOREQUAL,
+        GREATERTHAN = 106,
+        GREATERTHANOREQUAL = 107,
 
-        IN,
-        NOTIN,
+        BETWEEN = 201,
 
-        BETWEEN,
+        STARTSWITH = 202,
+        ENDSWITH = 203,
+        CONTAINS = 204,
 
-        STARTSWITH,
-        ENDSWITH,
-        CONTAINS,
-
-
+        IN = 301,
+        NOTIN = 302,
     }
-
-
 }
