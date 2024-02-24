@@ -11,6 +11,6 @@ namespace NDK.Core.Models
         public NDKPagerModel? Pager { get; set; }
         public NDKFilterStructure? FilterStructure { get; set; }
         public NDKSortBy? SortBy { get; set; }
-
+        public NDKFieldsModel? Fields { get; set; }
     }
 }

@@ -20,5 +20,7 @@ namespace NDK.Database.Models
         {
             _entityTableMap.Add(type, Table);
         }
+
+        protected abstract void SetupMap();
     }
 }
