@@ -20,8 +20,8 @@ namespace NDK.Database.Base
         public const string BASE_SELECT_SQL = "Uuid, IsActive, IsDeleted, CreatedBy, CreatedAt, LastUpdatedBy, LastUpdatedAt";
         public const string BASE_UPDATE_SQL = "Uuid = @Uuid, IsActive = @IsActive, IsDeleted = @IsDeleted, CreatedBy = @CreatedBy, CreatedAt = @CreatedAt, LastUpdatedBy = @LastUpdatedBy, LastUpdatedAt = @LastUpdatedAt";
 
-        private readonly NDKDbConnectionHandler _connectionHandler;
-        private readonly NDKDbCommandConfiguration _commandConfiguration;
+        protected readonly NDKDbConnectionHandler _connectionHandler;
+        protected readonly NDKDbCommandConfiguration _commandConfiguration;
         private readonly ILogger _logger;
 
         protected NDKBaseRepository(NDKDbConnectionHandler connectionHandler,

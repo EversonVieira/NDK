@@ -16,10 +16,11 @@ namespace NDK.Database.ExtensionMethods
     public static class RequestExtensions
     {
 
-        public static (string query, DynamicParameters parameters) GetRequestData(this NDKRequest request, string query, NDKDbConnectionConfiguration configuration)
+        public static (string query, string where, DynamicParameters parameters) GetRequestData(this NDKRequest request, string query, NDKDbConnectionConfiguration configuration)
         {
-            return (request.GetRequestSql(query, configuration).ToString(),
-                    request.GetParameters(configuration));
+            var queryData = request.GetRequestSql(query, configuration);
+
+            return (queryData.queryFull.ToString(), queryData.where.ToString(),request.GetParameters(configuration));
         }
 
 
@@ -80,9 +81,10 @@ namespace NDK.Database.ExtensionMethods
             return parameters;
         }
 
-        private static StringBuilder GetRequestSql(this NDKRequest request, string query, NDKDbConnectionConfiguration configuration)
+        private static (StringBuilder queryFull, StringBuilder where) GetRequestSql(this NDKRequest request, string query, NDKDbConnectionConfiguration configuration)
         {
             StringBuilder sb;
+            StringBuilder where = new StringBuilder();
 
             sb = configuration.Type switch
             {
@@ -92,34 +94,22 @@ namespace NDK.Database.ExtensionMethods
 
             if (request?.FilterStructure?.FilterGroups.HasAny() ?? false)
             {
+                where.AppendLine(" WHERE ");
+
+                for (int i = 0; i < request.FilterStructure.FilterGroups.Count; i++)
+                {
+                    where.AppendLine(GetFilterGroup(request.FilterStructure.FilterGroups.ElementAt(i), i == request.FilterStructure.FilterGroups.Count - 1, configuration).ToString());
+                }
+
                 if (configuration.Type == NDKDbType.ORACLE)
                 {
-                    if (request.FilterStructure.FilterGroups.HasAny())
-                    {
-                        StringBuilder where = new StringBuilder();
-
-
-                        where.AppendLine(" WHERE ");
-
-                        for (int i = 0; i < request.FilterStructure.FilterGroups.Count; i++)
-                        {
-                            where.AppendLine(GetFilterGroup(request.FilterStructure.FilterGroups.ElementAt(i), i == request.FilterStructure.FilterGroups.Count - 1, configuration).ToString());
-
-                        }
-
-
-                        sb.Replace("<<where>>", where.ToString());
-                    }
+                    sb.Replace("<<where>>", where.ToString());
                 }
                 else
                 {
                     sb.AppendLine(" WHERE ");
 
-                    for (int i = 0; i < request.FilterStructure.FilterGroups.Count; i++)
-                    {
-                        sb.AppendLine(GetFilterGroup(request.FilterStructure.FilterGroups.ElementAt(i), i == request.FilterStructure.FilterGroups.Count - 1, configuration).ToString());
-
-                    }
+                    sb.AppendLine(where.ToString());
                 }
             }
 
@@ -135,7 +125,7 @@ namespace NDK.Database.ExtensionMethods
 
             }
 
-            return sb;
+            return (sb, where);
         }
 
         private static StringBuilder GetFilterGroup(NDKFilterGroup filterGroup, bool isLastOne, NDKDbConnectionConfiguration configuration)

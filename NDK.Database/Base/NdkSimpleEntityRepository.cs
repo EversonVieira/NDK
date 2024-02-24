@@ -13,24 +13,22 @@ using System.Text;
 
 namespace NDK.Database.Base
 {
-    public class NDKSimpleEntityRepository<TModel, TUser> 
+    public class NDKSimpleEntityRepository<TModel, TUser> :NDKBaseRepository<TModel,TUser>
         where TModel : NDKBaseModel 
         where TUser:NDKUser
     {
         private readonly TUser _loggedUser;
-        private readonly NDKDbConnectionHandler _connectionHandler;
         private readonly NDKSimpleEntityRepositoryConfig _config;
         private readonly ILogger _logger;
 
         public NDKSimpleEntityRepository(TUser loggedUser,
                                          NDKDbConnectionHandler connectionHandler,
                                          NDKSimpleEntityRepositoryConfig config,
-                                         ILogger<NDKSimpleEntityRepository<TModel, TUser>> logger)
+                                         NDKDbCommandConfiguration commandConfiguration,
+                                         ILogger<NDKSimpleEntityRepository<TModel, TUser>> logger):base(connectionHandler, commandConfiguration ,logger)
         {
             _loggedUser = loggedUser;
-            _connectionHandler = connectionHandler;
             _config = config;
-            _handler = handler;
             _logger = logger;
         }
 
@@ -38,7 +36,7 @@ namespace NDK.Database.Base
         {
             NDKResponse<long> response = new();
 
-            _handler.ApplyBaseModelValues(_loggedUser, entity);
+            base.ApplyBaseModelValues(_loggedUser, entity);
 
             try
             {
@@ -48,7 +46,7 @@ namespace NDK.Database.Base
             }
             catch (Exception ex)
             {
-                _handler.HandleException(ex, response, _logger);
+                base.HandleException(ex, response, _logger);
             }
 
             return response;
@@ -78,7 +76,7 @@ namespace NDK.Database.Base
         {
             NDKResponse<long> response = new();
 
-            _handler.ApplyBaseModelValues(_loggedUser, entity);
+            base.ApplyBaseModelValues(_loggedUser, entity);
 
             try
             {
@@ -88,7 +86,7 @@ namespace NDK.Database.Base
             }
             catch(Exception ex)
             {
-                _handler.HandleException(ex, response, _logger);
+                base.HandleException(ex, response, _logger);
             }
             
 
@@ -99,7 +97,7 @@ namespace NDK.Database.Base
         {
             NDKResponse<long> response = new();
 
-            _handler.ApplyBaseModelValues(_loggedUser, entity);
+            base.ApplyBaseModelValues(_loggedUser, entity);
 
             try
             {
@@ -109,7 +107,7 @@ namespace NDK.Database.Base
             }
             catch (Exception ex)
             {
-                _handler.HandleException(ex, response, _logger);
+                base.HandleException(ex, response, _logger);
             }
 
             return response;
