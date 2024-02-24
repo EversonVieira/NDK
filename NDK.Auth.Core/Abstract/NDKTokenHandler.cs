@@ -7,8 +7,15 @@ using NDK.Auth.Core.Interfaces;
 
 namespace NDK.Auth.Core.Abstract
 {
-    public abstract class NDKTokenHandler<TToken> : INDKTokenHandler<TToken> where TToken : NDKToken
+    public abstract class NDKTokenHandler<TToken,TUser> : INDKTokenHandler<TToken,TUser> 
+        where TToken : NDKToken
+        where TUser : NDKUser
     {
+        public abstract Task<NDKResponse<bool>> HasPermissionAsync(string permission);
+
+        public abstract Task<NDKResponse<bool>> HasRoleAsync(string permission);
+        
+
         public virtual async Task<TToken> RetrieveTokenByStringAsync(string token)
         {
             TToken result = Activator.CreateInstance<TToken>();
@@ -28,6 +35,8 @@ namespace NDK.Auth.Core.Abstract
                 return vlr.HandleBase64String().Replace("-", "+").Replace("_", @"//");
             }
         }
+
+        public abstract Task<NDKResponse<TUser>> RetrieveUserByTokenAsync(TToken token);
 
         public abstract Task<NDKResponse<bool>> ValidateTokenAsync(TToken token);
     }

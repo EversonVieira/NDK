@@ -12,7 +12,5 @@ namespace NDK.Core.Models
         public NDKFilterStructure? FilterStructure { get; set; }
         public NDKSortBy? SortBy { get; set; }
 
-
-
     }
 }

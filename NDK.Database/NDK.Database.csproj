@@ -18,4 +18,8 @@
     <ProjectReference Include="..\NDK.Core\NDK.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
+  </ItemGroup>
+
 </Project>

@@ -6,7 +6,6 @@ using NDK.Core.Utility;
 using NDK.Database.ExtensionMethods;
 using NDK.Database.ExtensionMethods.Internal;
 using NDK.Database.Handlers;
-using NDK.Database.Interfaces;
 using NDK.Database.Models;
 using System.Data.Common;
 using System.Reflection;
@@ -14,29 +13,32 @@ using System.Text;
 
 namespace NDK.Database.Base
 {
-    public class NDKSimpleEntityRepository<T, TUser> : NDKBaseRepository, INDKRepository<T> where T : NDKBaseModel where TUser:NDKUser
+    public class NDKSimpleEntityRepository<TModel, TUser> 
+        where TModel : NDKBaseModel 
+        where TUser:NDKUser
     {
         private readonly TUser _loggedUser;
-        private readonly NDKDbConnectionFactory _connectionHandler;
+        private readonly NDKDbConnectionHandler _connectionHandler;
         private readonly NDKSimpleEntityRepositoryConfig _config;
         private readonly ILogger _logger;
 
         public NDKSimpleEntityRepository(TUser loggedUser,
-                                         NDKDbConnectionFactory connectionHandler, 
-                                         NDKSimpleEntityRepositoryConfig config, 
-                                         ILogger<NDKSimpleEntityRepository<T,TUser>> logger)
+                                         NDKDbConnectionHandler connectionHandler,
+                                         NDKSimpleEntityRepositoryConfig config,
+                                         ILogger<NDKSimpleEntityRepository<TModel, TUser>> logger)
         {
             _loggedUser = loggedUser;
             _connectionHandler = connectionHandler;
             _config = config;
+            _handler = handler;
             _logger = logger;
         }
 
-        public virtual NDKResponse<long> Delete(T entity, DbConnection connection)
+        public virtual NDKResponse<long> Delete(TModel entity, DbConnection connection)
         {
             NDKResponse<long> response = new();
 
-            base.ApplyBaseModelValues(_loggedUser, entity);
+            _handler.ApplyBaseModelValues(_loggedUser, entity);
 
             try
             {
@@ -46,20 +48,20 @@ namespace NDK.Database.Base
             }
             catch (Exception ex)
             {
-                base.HandleException(ex, response, _logger);
+                _handler.HandleException(ex, response, _logger);
             }
 
             return response;
         }
 
-        public virtual NDKListResponse<T> GetByRequest(NDKRequest request, DbConnection connection)
+        public virtual NDKListResponse<TModel> GetByRequest(NDKRequest request, DbConnection connection)
         {
-            NDKListResponse<T> response = new();
+            NDKListResponse<TModel> response = new();
 
-            T entity = Activator.CreateInstance<T>();
+            TModel entity = Activator.CreateInstance<TModel>();
             var queryParams = request.GetRequestData(GetSelectString(entity), this._connectionHandler._configuration);
 
-            response.Result = connection.Query<T>(queryParams.query, queryParams).ToList();
+            response.Result = connection.Query<TModel>(queryParams.query, queryParams).ToList();
 
             var countRequest = request.Clone();
             countRequest.Pager = null;
@@ -72,11 +74,11 @@ namespace NDK.Database.Base
             return response;
         }
 
-        public virtual NDKResponse<long> Insert(T entity, DbConnection connection)
+        public virtual NDKResponse<long> Insert(TModel entity, DbConnection connection)
         {
             NDKResponse<long> response = new();
 
-            base.ApplyBaseModelValues(_loggedUser, entity);
+            _handler.ApplyBaseModelValues(_loggedUser, entity);
 
             try
             {
@@ -86,18 +88,18 @@ namespace NDK.Database.Base
             }
             catch(Exception ex)
             {
-                base.HandleException(ex, response, _logger);
+                _handler.HandleException(ex, response, _logger);
             }
             
 
             return response;
         }
 
-        public virtual NDKResponse<long> Update(T entity, DbConnection connection)
+        public virtual NDKResponse<long> Update(TModel entity, DbConnection connection)
         {
             NDKResponse<long> response = new();
 
-            base.ApplyBaseModelValues(_loggedUser, entity);
+            _handler.ApplyBaseModelValues(_loggedUser, entity);
 
             try
             {
@@ -107,13 +109,13 @@ namespace NDK.Database.Base
             }
             catch (Exception ex)
             {
-                base.HandleException(ex, response, _logger);
+                _handler.HandleException(ex, response, _logger);
             }
 
             return response;
         }
 
-        private string GetInsertSql(T entity)
+        private string GetInsertSql(TModel entity)
         {
             StringBuilder sb = new StringBuilder();
 
@@ -131,7 +133,7 @@ namespace NDK.Database.Base
             return sb.ToString();
         }
 
-        private string GetUpdateSql(T entity)
+        private string GetUpdateSql(TModel entity)
         {
             StringBuilder sb = new StringBuilder();
 
@@ -148,7 +150,7 @@ namespace NDK.Database.Base
             return sb.ToString();
         }
 
-        private string GetDeleteString(T entity)
+        private string GetDeleteString(TModel entity)
         {
             StringBuilder sb = new StringBuilder();
 
@@ -164,7 +166,7 @@ namespace NDK.Database.Base
             return sb.ToString();
         }
 
-        private string GetSelectString(T entity)
+        private string GetSelectString(TModel entity)
         {
             StringBuilder sb = new StringBuilder();
 
@@ -177,7 +179,7 @@ namespace NDK.Database.Base
             return sb.ToString();
         }
 
-        private string GetSelectCountString(T entity)
+        private string GetSelectCountString(TModel entity)
         {
             StringBuilder sb = new StringBuilder();
 
@@ -190,7 +192,7 @@ namespace NDK.Database.Base
             return sb.ToString();
         }
 
-        private void ValidateInput(T entity)
+        private void ValidateInput(TModel entity)
         {
             var props = entity.GetType().GetProperties();
 

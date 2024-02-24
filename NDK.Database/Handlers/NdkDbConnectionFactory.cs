@@ -5,11 +5,11 @@ using System.Data.SqlClient;
 
 namespace NDK.Database.Handlers
 {
-    public class NDKDbConnectionFactory
+    public class NDKDbConnectionHandler
     {
         public NDKDbConnectionConfiguration _configuration { get; set; }
 
-        public NDKDbConnectionFactory(NDKDbConnectionConfiguration configuration)
+        public NDKDbConnectionHandler(NDKDbConnectionConfiguration configuration)
         {
             _configuration = configuration;
         }

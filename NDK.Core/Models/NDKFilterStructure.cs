@@ -2,8 +2,6 @@
 {
     public class NDKFilterStructure
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
-
         private List<NDKFilterGroup> _groups = new List<NDKFilterGroup>();
         public IReadOnlyCollection<NDKFilterGroup> FilterGroups => _groups;
 
@@ -12,11 +10,9 @@
             Value = 1,
         };
 
-
         public NDKFilterGroup CreateFilterGroup()
         {
             var item = new NDKFilterGroup(structureId);
-
 
             _groups.Add(item);
             structureId.Value++;
