@@ -166,7 +166,8 @@ namespace NDK.UI.Models
 
         private bool ByGroup(TOutput item, NDKFilterGroup fg)
         {
-            var result = true;
+            bool? result = null;
+
             foreach(var obj in fg.OrderList)
             {
                 if (obj.Type == NDKFilterGroup.IdentifierType.Filter && obj.Value is not null)
@@ -175,11 +176,11 @@ namespace NDK.UI.Models
 
                     if (model.ConditionType == NDKConditionType.AND)
                     {
-                        result = result && ByFilter(item, model);
+                        result = result.HasValue ? result.Value && ByFilter(item, model): ByFilter(item, model);
                     }
                     else
                     {
-                        result = result || ByFilter(item, model);
+                        result = result.HasValue ? result.Value || ByFilter(item, model) : ByFilter(item, model);
                     }
                 }
                 else if (obj.Type == NDKFilterGroup.IdentifierType.FilterGroup && obj.Value is not null)
@@ -188,17 +189,17 @@ namespace NDK.UI.Models
 
                     if (model.ConditionType == NDKConditionType.AND)
                     {
-                        result = result && ByGroup(item, model);
+                        result = result.HasValue ? result.Value && ByGroup(item, model) : ByGroup(item, model);
                     }
                     else
                     {
-                        result = result || ByGroup(item, model);
+                        result = result.HasValue ? result.Value || ByGroup(item, model) : ByGroup(item, model);
                     }
                 }
             }
 
             
-            return result;
+            return !result.HasValue || result.Value;
         }
         private bool ByFilter(TOutput item, NDKFilter f)
         {
@@ -212,6 +213,10 @@ namespace NDK.UI.Models
 
             object? value = propertyToCheck.GetValue(item);
 
+            if (value is null)
+            {
+                return false;
+            }
 
             if ((value?.GetType().IsAssignableFrom(typeof(IComparable)) ?? false) &&
                 (f.Value?.GetType().IsAssignableFrom(typeof(IComparable)) ?? false) &&
@@ -248,8 +253,24 @@ namespace NDK.UI.Models
 
                     if (list.GetType().GetEnumUnderlyingType() == value?.GetType())
                     {
-                        return (f.OperatorType == NDKOperatorType.IN && list.Contains(value)) || (f.OperatorType == NDKOperatorType.NOTIN && list.Contains(value));
+                        return (f.OperatorType == NDKOperatorType.IN && list.Contains(value)) || (f.OperatorType == NDKOperatorType.NOTIN && !list.Contains(value));
                     }
+                }
+            }
+            else if (f.OperatorType is NDKOperatorType.STARTSWITH or NDKOperatorType.ENDSWITH or NDKOperatorType.CONTAINS)
+            {
+                if (f.Value?.GetType().IsAssignableFrom(typeof(string)) ?? false)
+                {
+                    var value1 = (string)value!;
+                    var value2 = (string)f.Value;
+
+                    return f.OperatorType switch
+                    {
+                        NDKOperatorType.STARTSWITH => value1.StartsWith(value2),
+                        NDKOperatorType.ENDSWITH => value1.EndsWith(value2),
+                        NDKOperatorType.CONTAINS => value1.Contains(value2),
+                        _ => true
+                    };
                 }
             }
 
