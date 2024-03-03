@@ -52,7 +52,7 @@ namespace NDK.UI.Components.Base
         /// The waiter time to debounce the task
         /// </summary>
         [Parameter]
-        public int SearchWaiterMS { get; set; } = 500;
+        public int DebounceTimeStampMS { get; set; } = 500;
 
         /// <summary>
         /// The Searching Text "Searching..."
@@ -150,7 +150,7 @@ namespace NDK.UI.Components.Base
                 }
 
 
-                await _waiter.Debounce(SearchWaiterMS, async () =>
+                await _waiter.Debounce(DebounceTimeStampMS, async () =>
                 {
                     var data = await Finder!.FindAsync(filter);
 
