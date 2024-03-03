@@ -87,8 +87,6 @@ namespace NDK.UI.Components.Base
         protected ObservableCollection<T> VisibleSource { get; set; }
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
 
-        private NDKWaiter _waiter = new NDKWaiter();
-
         protected bool ShowPopup { get; set; }
        
         protected bool Searching {  get; set; }
@@ -150,7 +148,7 @@ namespace NDK.UI.Components.Base
                 }
 
 
-                await _waiter.Debounce(DebounceTimeStampMS, async () =>
+                await NDKWaiter.Debounce("ndk_debounce_on_filter",DebounceTimeStampMS, async () =>
                 {
                     var data = await Finder!.FindAsync(filter);
 

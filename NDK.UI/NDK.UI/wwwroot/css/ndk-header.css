@@ -1,0 +1,32 @@
+﻿@import 'variables.css';
+
+.ndk-header{
+    width:100vw;
+    display:flex;
+    align-items:center;
+    min-height:60px;
+}
+
+.ndk-header-left-content {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    max-width: 20%;
+    width: 100%;
+}
+
+.ndk-header-middle-content {
+    max-width: 60%;
+    width:100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ndk-header-right-content {
+    max-width: 20%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+}

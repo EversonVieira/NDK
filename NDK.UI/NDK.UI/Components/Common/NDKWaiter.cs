@@ -7,27 +7,25 @@ using System.Threading.Tasks;
 
 namespace NDK.UI.Components.Common
 {
-    public class NDKWaiter
+    public static class NDKWaiter
     {
+        private static Dictionary<string, Action> Actions { get; set; } = new Dictionary<string, Action>();
 
-        private Dictionary<string, Action> Actions { get; set; } = new Dictionary<string, Action>();
-
-        public async Task Debounce(int ms, Action act, [CallerMemberName] string callerName = "")
+        public async static Task Debounce(string actionKey, int ms, Action act)
         {
-            if (Actions.ContainsKey(callerName))
+            if (Actions.ContainsKey(actionKey))
             {
-                Actions.Remove(callerName);
+                Actions.Remove(actionKey);
             }
 
-            
-            Actions.Add(callerName, act);
+            Actions.Add(actionKey, act);
             
             await Task.Delay(ms);
 
-
-            if (Actions.ContainsKey(callerName))
+            if (Actions.ContainsKey(actionKey))
             {
                 act();
+                Actions.Remove(actionKey);
             }
         }
     }
