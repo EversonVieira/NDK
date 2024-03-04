@@ -13,7 +13,8 @@ namespace NDK.Core.Utility
             StringBuilder sb = new StringBuilder();
 
             Random rdm = new Random();
-            for (int i = 0; i < length;)
+
+            for (int i = 0; i < length;i++)
             {
                sb.Append(rdm.Next(0,9));
             }
