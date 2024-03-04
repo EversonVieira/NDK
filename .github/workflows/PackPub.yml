@@ -1,5 +1,5 @@
 
-name: Publish NuGet Package to Local Folder
+name: Publish at nuget.org
 
 on:
   push:
