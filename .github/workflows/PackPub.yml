@@ -29,4 +29,4 @@ jobs:
         run: dotnet pack --configuration Release --output ./nuget-packages
 
       - name: Publish NuGet package to local folder
-        run: cp -R ./nuget-packages/*.nupkg ./path/to/local/folder/
+        run: dotnet nuget push ./YourPackage.1.0.0.nupkg --source https://api.nuget.org/v3/index.json --api-key oy2kkj6fzbef7tju3tnqj27topbdjtlufkqwn6riuyeg6m
