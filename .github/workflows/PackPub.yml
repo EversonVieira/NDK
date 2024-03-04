@@ -4,7 +4,7 @@ name: Publish NuGet Package to Local Folder
 on:
   push:
     branches:
-      - main
+      - master
 
 jobs:
   build:
