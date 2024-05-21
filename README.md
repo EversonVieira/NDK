@@ -13,7 +13,7 @@ Sandbox library, includes a bunch of personal functionality to many common thing
     Validation
   # FE
 
-    - Blazor components (Input, Tables, Cards...).
-    - Form creator (WIP).
-    - Blazor Auth (integrated with API).
+    Blazor components (Input, Tables, Cards...).
+    Form creator (WIP).
+    Blazor Auth (integrated with API).
     
