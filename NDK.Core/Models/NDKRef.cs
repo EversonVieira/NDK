@@ -8,7 +8,19 @@ namespace NDK.Core.Models
 {
     public class NDKRef<T>
     {
-        public T? Value { get; set; }
+        private T? _value = default;
+        
+        public T? Value
+        {
+            get
+            {
+                return _value;
+            }
+            set
+            {
+                _value = value;
+            }
+        }
 
         public NDKRef(T value)
         {
@@ -16,5 +28,16 @@ namespace NDK.Core.Models
         }
 
         public NDKRef() { }
+
+        public static implicit operator T?(NDKRef<T> value)
+        {
+            return value.Value;
+        }
+
+        public static implicit operator NDKRef<T?>(T? value)
+        {
+            return new NDKRef<T?>(value);
+        }
     }
+   
 }
